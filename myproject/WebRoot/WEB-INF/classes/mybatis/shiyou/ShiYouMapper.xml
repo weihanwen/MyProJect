@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ShiYouMapper">
+	
+	
+	<!-- 新增用户-->
+	<insert id="saveUser" parameterType="pd">
+		insert into tb_oiluser(
+			oiluser_id,	
+			wx_openid,	
+			access_token,	
+			createtime
+		) values (
+			#{oiluser_id},	
+			#{wx_openid},	
+			#{access_token},	
+			now()
+		)
+	</insert>
+ 	<!-- 更新用户信息 -->
+	<update id="editUser" parameterType="pd">
+			update  tb_oiluser
+			set 
+				<if test="access_token !=null and access_token != ''">access_token = #{access_token},</if>
+ 				oiluser_id = oiluser_id
+			where 
+				<choose>
+					<when test="wx_openid != null and wx_openid !='' ">wx_openid=#{wx_openid}</when>
+					<otherwise>oiluser_id = #{oiluser_id}</otherwise>
+				</choose>
+				
+	</update>
+	<!-- 查看用户详情 -->
+	<select id="findUserById" parameterType="pd" resultType="pd">
+		select 
+			oiluser_id,
+			wx_openid,	
+			access_token,
+			createtime
+		from 
+			tb_oiluser
+		where 
+			wx_openid = #{wx_openid}
+	</select>
+	
+	
+	
+	
+	<!-- 新增订单-->
+	<insert id="saveOrder" parameterType="pd">
+		insert into tb_oilorder(
+			oilorder_id,
+			oilcard_number,
+			money,
+			order_status,
+			remarks,
+			oiluser_id,
+ 			arsid,
+			createtime,
+			updatetime,
+			jiami_message
+ 		) values (
+			#{oilorder_id},	
+			#{oilcard_number},	
+			#{money},	
+			#{order_status},	
+			#{remarks},	
+			#{oiluser_id},	
+  			#{arsid},	
+			now(),
+			now(),
+			#{jiami_message}
+		)
+	</insert>
+	
+	<!-- 获取订单信息 -->
+	<select id="findOrderById" parameterType="pd" resultType="pd">
+		select 
+			a.oilorder_id,
+			a.oilcard_number,
+			a.money,
+			a.order_status,
+			a.remarks,
+			a.oiluser_id,
+			a.transaction_no,
+			a.createtime,
+			a.updatetime,
+			c.phone,
+			c.oilcard_number
+ 		from 
+			tb_oilorder a 
+			left join tb_oiluser b on a.oiluser_id=b.oiluser_id
+			left join tb_oilcard c on a.oilcard_number=c.oilcard_number
+		where 
+			a.oilorder_id = #{oilorder_id}
+	</select>
+	
+	<!-- 更新订单信息 -->
+	<update id="editOrder" parameterType="pd">
+			update  tb_oilorder
+			set 
+				<if test="remarks !=null and remarks != ''">remarks = #{remarks},</if>
+				<if test="order_status !=null and order_status != ''">order_status = #{order_status},</if>
+				<if test="transaction_no !=null and transaction_no != ''">transaction_no = #{transaction_no},</if>
+ 				<if test="channel !=null and channel != ''">channel = #{channel},</if>
+				<if test="timestamp !=null and timestamp != ''">timestamp = #{timestamp},</if>
+ 				oilorder_id = oilorder_id
+			where 
+				 oilorder_id=#{oilorder_id}
+ 	</update>
+	
+	
+	
+	
+	<!-- 新增订单-->
+	<insert id="saveCard" parameterType="pd">
+		insert into tb_oilcard(
+			phone,
+			oiluser_id,
+			oilcard_number 
+ 		) values (
+			#{phone},	
+			#{oiluser_id},	
+			#{oilcard_number} 
+		)
+	</insert>
+	
+	<!-- 获取卡号信息 -->
+	<select id="findCardById" parameterType="pd" resultType="pd">
+		select 
+			phone,
+			oiluser_id,
+			oilcard_number 
+ 		from 
+			tb_oilcard
+		where 
+			 oilcard_number = #{oilcard_number}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from TB_W
+		where 
+			W_ID = #{w_id}
+	</delete>
+	
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+		update  TB_W
+			set 
+				w = #{w},
+			W_ID = w_id
+			where 
+				W_ID = #{w_id}
+	</update>
+	
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			w,	
+			W_ID
+		from 
+			TB_W
+		where 
+			W_ID = #{w_id}
+	</select>
+	
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+				a.w,	
+				a.W_ID
+		from 
+				TB_W a
+		where  1=1
+		<if test="pd.content != null and pd.content != ''"><!-- 关键词检索 -->
+			and
+				(
+					 
+				)
+		</if>
+		
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+				a.w,	
+				a.w_id
+		from 
+				TB_W a
+	</select>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteAll" parameterType="String">
+		delete from TB_W
+		where 
+			W_ID in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                 #{item}
+		</foreach>
+	</delete>
+	
+</mapper>
