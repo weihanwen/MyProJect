@@ -87,17 +87,16 @@ public class ShiYouController extends BaseController {
  				wlogin.setWx_openid(wx_openid);
  				session.setAttribute(Const.SESSION_WXLOGIN, wlogin);
  				session.setAttribute(Const.SESSION_WXLOGIN_ID, wlogin);
-  				mv.setViewName("shiyou/shiyou_zhu");
-  				//设置订单的session
+   				//设置订单的session
   				if(session.getAttribute(Const.SESSION_ORDER ) == null ){
   					String session_orderid=BaseController.getTimeID();
   					session.setAttribute(Const.SESSION_ORDER, session_orderid);
   				} 
     		} catch (Exception e) {
 				// TODO: handle exception
-				System.out.println(e.toString());
-				logger.error(e.toString(), e);
+ 				logger.error(e.toString(), e);
  		}
+ 		mv.setViewName("shiyou/shiyou_zhu");
  		return mv;
 	}
 	

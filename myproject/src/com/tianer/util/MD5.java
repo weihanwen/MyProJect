@@ -31,7 +31,7 @@ public class MD5 {
 	}
 	public static void main(String[] args) {
 		try {
-			 
+			 System.out.println(md5("1"));
 		} catch (Exception e) {
 			// TODO: handle exception
 			

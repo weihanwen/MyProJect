@@ -77,7 +77,12 @@ public class ShiYouService {
 	
 	
 	
-	
+	/*
+	* 新增要充值油卡的人员信息
+	*/
+	public void saveInforemation(PageData pd)throws Exception{
+		dao.save("ShiYouMapper.saveInforemation", pd);
+	}
 	
 	
 	

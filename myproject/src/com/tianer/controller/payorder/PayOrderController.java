@@ -40,7 +40,7 @@ public class PayOrderController extends BaseController {
 	
 	
 	 /**
-	  * 获取微信支付的url.民生银行
+	  * 自主app---------获取微信支付的url========民生银行平台支付
 	  * @param request
 	  * @return
 	  * @throws Exception
@@ -59,9 +59,31 @@ public class PayOrderController extends BaseController {
 		PageData pd=new PageData();
 		try {
 			pd=this.getPageData();
+			String amount=pd.getString("money");//金额单位为：元
+			if(amount == null || amount.equals("") || Double.parseDouble(amount) < Const.minpay_shiyou_money ){
+				map.put("result", "0");
+				map.put("message", "石油最少充值"+ Const.minpay_shiyou_money);
+				map.put("data", "");
+		    	return map;
+			}
+ 			String phone =pd.getString("phone");//充值电话
+ 			if(phone == null || phone.equals("")){
+				map.put("result", "0");
+				map.put("message", "电话不能为空");
+				map.put("data", "");
+		    	return map;
+			}
+ 			String oilcard_number =pd.getString("oilcard_number");
+			if(oilcard_number == null || oilcard_number.equals("")){
+				map.put("result", "0");
+				map.put("message", "油卡不能为空");
+				map.put("data", "");
+		    	return map;
+			}
+			//开始====
  			String xtsession=(String) session.getAttribute(Const.SESSION_ORDER);
 			String session_orderid =pd.getString("session_orderid");
-			if(!xtsession.equals(session_orderid)){
+			if(xtsession != null && !xtsession.equals(session_orderid)){
 				map.put("result", "0");
 				map.put("message", "操作时间过长，请刷新重新操作");
 				map.put("data", "");
@@ -73,38 +95,19 @@ public class PayOrderController extends BaseController {
 				map.put("message", "请用微信端打开");
 				map.put("data", "");
 		    	return map;
+			}else{
+				pd.put("oiluser_id", String.valueOf(oiluser_id));
 			}
-			pd.put("oiluser_id", String.valueOf(oiluser_id));
-			String amount=pd.getString("money");//金额单位为：元
-			if(amount == null || amount.equals("") || Double.parseDouble(amount) < Const.minpay_shiyou_money ){
-				map.put("result", "0");
-				map.put("message", "石油最少充值"+ Const.minpay_shiyou_money);
-				map.put("data", "");
-		    	return map;
-			}
- 			String phone =pd.getString("phone");
- 			String oilcard_number =pd.getString("oilcard_number");
-			if(oilcard_number == null || oilcard_number.equals("")){
-				map.put("result", "0");
-				map.put("message", "油卡不能为空");
-				map.put("data", "");
-		    	return map;
-			}
-			//新增卡号
+ 			//新增充值卡号
 			if(shiYouService.findCardById(pd) == null){
 				shiYouService.saveCard(pd);
 			}
  			String arsid=pd.getString("arsid");
-//  			String remark=pd.getString("remark");//备注
-  			String remark="";//备注
- 			String orderInfo="油卡类型"+arsid+"卡号:"+oilcard_number+",支付金额："+amount;//商品信息
+ 			String remark=pd.getString("remark") == null?"":pd.getString("remark");//备注
+  			String orderInfo="油卡类型"+arsid+"卡号:"+oilcard_number+",支付金额："+amount;//商品信息
  			String merchantSeq=SignEncryptDncryptSignChk.platformId+Const.shiyou_pay+BaseController.getTimeID();//订单号
-			BigDecimal _amount = new BigDecimal(amount);
-			int usermoney = _amount.multiply(new BigDecimal("100")).intValue();
-			String notifyUrl=SignEncryptDncryptSignChk.nowip+"/myproject/payback/wxpayBackWayMinSheng.do";
-			String redirectUrl=SignEncryptDncryptSignChk.nowip+"/myproject/shiyou/toIndex.do";
-			//生成加密后的数据
-			String encryptContext=MingShengUtil.WxGoPayUrl(usermoney, merchantSeq, notifyUrl, redirectUrl, orderInfo, remark);
+  			//生成加密后的数据
+			String encryptContext=MingShengUtil.WxGoPayUrl(amount, merchantSeq, orderInfo, remark);
   			//生成一个订单
 			pd.put("oilorder_id", merchantSeq);
  			pd.put("oilcard_number", oilcard_number);
@@ -127,76 +130,7 @@ public class PayOrderController extends BaseController {
 		map.put("message", message);
 		return map;
 	 }
-//	
-//	/**
-//   	 * 充值石油订单交易支付接口p+++
-//   	 */
-//	@RequestMapping(value="/shiyouPay")
-//	@ResponseBody
-//	public Object shiyouPay(HttpServletRequest request) throws Exception{
-//		System.out.println("==============================充值石油订单交易支付接口");
-// 		Map<String, Object> map = new HashMap<String, Object>();
-// 		Subject currentUser = SecurityUtils.getSubject();  
-//		Session session = currentUser.getSession();	
-//  		String result="1";
-//		String message="支付成功";
-//  		PageData pd=new PageData();
-//		try{
-// 			pd = this.getPageData();
-// 			String xtsession=(String) session.getAttribute(Const.SESSION_ORDER);
-//			String session_orderid =pd.getString("session_orderid");
-//			if(!xtsession.equals(session_orderid)){
-//				map.put("result", "0");
-//				map.put("message", "操作时间过长，请刷新重新操作");
-//				map.put("data", "");
-//		    	return map;
-//			}
-//			String arsid =pd.getString("arsid");
-//			String money =pd.getString("money");
-//			if(money == null || money.equals("")){
-//				money="0";
-//			}
-//			if(Double.parseDouble(money) < Const.minpay_shiyou_money ){
-//				map.put("result", "0");
-//				map.put("message", "石油最少充值"+ Const.minpay_shiyou_money);
-//				map.put("data", "");
-//		    	return map;
-//			}
-//			String phone =pd.getString("phone");
-//			String channel =pd.getString("channel");
-//			String oilcard_id =pd.getString("oilcard_id");
-//			if(oilcard_id == null || oilcard_id.equals("")){
-//				map.put("result", "0");
-//				map.put("message", "油卡不能为空");
-//				map.put("data", "");
-//		    	return map;
-//			}
-//			String oilorder_id =BaseController.getTimeID();
-//			pd.put("oilcard_id", oilcard_id);
-//			shiYouService.saveOrder(pd);
-//			//2.获取charge对象
-//			System.out.println("油卡充值获取charge对象");
-//			Charge charge = ChargeExample.getPay(RSAConstants.md5macid+oilorder_id, Double.parseDouble(money)*100,getIp(request),channel,Const.shiyou_pay,"油卡消费");
-//			if(charge == null ){
-//				map.put("result", "0");
-//				map.put("message", "支付失败，charge出错");
-//				map.put("data", "");
-//		    	return map;
-//			}
-// 			map.put("data", charge);			 
-//   			System.out.println("生成订单结束");
-//  		}catch(Exception e){
-//			result="0";
-//			message="系统异常";
-//			map.put("data", e.toString());
-//			logger.error(e.toString(), e);
-//		}
-//		map.put("result", result);
-//		map.put("message", message);
-//    	return map;
-//	}
-	
-	
+
 	/*
 	 * 获取IP
 	 */
@@ -236,6 +170,62 @@ public class PayOrderController extends BaseController {
 		 }
 		return ipAddress;
 	}
+	
+	
+	
+	 /**
+	  * 充值油卡
+	  * payorder/chongzhiOilcar.do
+	  * 
+	  * 需要参数 
+	  * phone 充值电话
+	  * oilcard_number  充值卡号
+	  * prepaid_money 充值金额
+	  * three_id  第三方平台ID
+	  */
+	@RequestMapping(value="/chongzhiOilcar")
+	@ResponseBody
+	public Object chongzhiOilcar(HttpServletRequest request) throws Exception{
+ 		Map<String, Object> map = new HashMap<String, Object>();
+  		String result="1";
+		String message="支付成功";
+ 		PageData pd=new PageData();
+		try {
+			pd=this.getPageData();
+			String prepaid_money=pd.getString("prepaid_money");
+			if(prepaid_money == null || prepaid_money.equals("") || Double.parseDouble(prepaid_money) < Const.minpay_shiyou_money ){
+				map.put("result", "0");
+				map.put("message", "石油最少充值"+ Const.minpay_shiyou_money);
+				map.put("data", "");
+		    	return map;
+			}
+ 			String phone =pd.getString("phone");
+ 			if(phone == null || phone.equals("")){
+				map.put("result", "0");
+				map.put("message", "电话不能为空");
+				map.put("data", "");
+		    	return map;
+			}
+ 			String oilcard_number =pd.getString("oilcard_number");
+			if(oilcard_number == null || oilcard_number.equals("")){
+				map.put("result", "0");
+				map.put("message", "油卡不能为空");
+				map.put("data", "");
+		    	return map;
+			}
+			pd.put("rpi_id", BaseController.get32UUID());
+			shiYouService.saveInforemation(pd);
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error(e.toString(), e);
+			result="0";
+			message="系统错误";
+		}
+		map.put("result", result);
+		map.put("message", message);
+		return map;
+	 }
+	
 	
 	
 	

@@ -46,10 +46,8 @@ public class RSACoderTest {
     public RSACoderTest() throws Exception{
     	 keyMap = RSACoder.initKey();   
          privateKey = RSACoder.getPrivateKey(keyMap);  
-//         System.err.println("私钥： \n\r" + privateKey);   
          publicKey = RSACoder.getPublicKey(keyMap);   
-//         System.err.println("公钥: \n\r" + publicKey);  
-	}
+ 	}
     
 
 
@@ -274,6 +272,8 @@ public class RSACoderTest {
       * 		<sign>snJSsuKQLUVAUSCElMIJcjM4Er13T18JMt48j1omHDTSk67KLjOdU6jpnpIZwGa8sx+mMJKs3Oc/MvByO4GRUFoRqhhStAFbndMG5V1rzf5X0SHklacWMXO57gApfrCGYk5wHFiS+Kc4Bx6KEAPGT8kNpedycJ87HXc3fD3mChQ=</sign>
       *</result>
       */
+	 
+	 
  	 /**
 	  * 解析xml格式
 	  * @param xmlString
@@ -329,6 +329,60 @@ public class RSACoderTest {
 	        }
 	        return result;
 	    }
+	    
+	    
+	    //=======================================以下为自定义接口================================================
+	    
+	    
+	    /**
+	     * 充值油卡并返回数据，是否充值成功
+	     * money 金额
+	     * orderno 订单号
+	     * phone 电话
+	     * oilcard 油卡号码
+	     * timestamp 时间戳
+	     * arsid 油卡类型
+		 * 1----获取请求的sign
+		 * 2----拼接请求地址requestUrl
+		 * 3----开始请求返回xml数据
+		 * 4----xml转map
+		 * 使用MD5
+		 * @return
+		 */
+		 public static Map<String, Object>  toPayOil(String money,String orderno,String phone,String oilcard_number,String timestamp,String arsid) throws Exception {//
+			 	Map<String, Object> map=null;
+ 		        try {
+		        	//1.
+		        	StringBuffer sbReturn = new StringBuffer();
+		    		// 返回的数据进行组合
+		        	sbReturn.append("arsid").append(arsid)
+		        			.append("deno").append(money)
+		    			    .append("macid").append(RSAConstants.md5macid)
+		    			    .append("orderid").append(orderno)
+		    			    .append("phone").append(oilcard_number)
+	 	    			    .append("time").append(timestamp).append(RSAConstants.md5key);
+		       		String waitSignStr = sbReturn.toString();//待加密的字符串
+		       		String sign  = MD5.md5(waitSignStr); //签名
+		            System.out.println("私钥签名后的字符串: " + sign); 
+		            //2.
+		            String url="http://shop.test.bolext.cn:81/shop/buyunit/orderpayforjyk.do?";
+		            String requestUrl = url+"encryptType=MD5&deno="+money
+			            					+"&macid="+RSAConstants.md5macid
+			            					+"&orderid="+orderno
+			            					+"&phone="+oilcard_number
+			            					+"&arsid="+arsid
+			            					+"&sign="+URLEncoder.encode(sign,"UTF-8")
+			            					+"&time=" + timestamp;
+		            //3.
+		            String xml=httpGet(requestUrl);
+		            //4.
+		            map = getMapFromXML(xml);
+	 	 		} catch (Exception e) {
+					// TODO: handle exception
+		 			(new BaseController()).logger.error(e.toString(), e);
+				}
+		         return map;
+		    }  
     
 
 }

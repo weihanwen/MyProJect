@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 本地
-Source Server Version : 50173
+Source Server         : bendi
+Source Server Version : 50717
 Source Host           : localhost:3306
 Source Database       : glxt
 
 Target Server Type    : MYSQL
-Target Server Version : 50173
+Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-04-24 11:26:12
+Date: 2017-07-26 11:11:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -137,7 +137,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '天尔', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-03-21 16:13:38', '127.0.0.1', '0', '超级管理员', 'skin-2', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '天尔', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-26 09:54:49', '127.0.0.1', '0', '超级管理员', 'skin-2', 'admin@main.com', '123', '15757164376');
 INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '3e6a9c1a13824b0990d13739fcbc3b09', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
@@ -218,8 +218,9 @@ CREATE TABLE `tb_oilcard` (
   `oilcard_number` varchar(100) NOT NULL,
   `phone` varchar(11) DEFAULT NULL,
   `oiluser_id` varchar(100) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
   PRIMARY KEY (`onlycard_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_oilcard
@@ -265,7 +266,27 @@ CREATE TABLE `tb_oiluser` (
 -- ----------------------------
 -- Records of tb_oiluser
 -- ----------------------------
-INSERT INTO `tb_oiluser` VALUES ('d486caa871474e3091456c57a6f1125f', '', '', '2017-04-05 17:00:35');
+INSERT INTO `tb_oiluser` VALUES ('789a31746735487f9b805d2efb55efcf', '', '', '2017-07-26 10:19:24');
+
+-- ----------------------------
+-- Table structure for `tb_record_prepaid_information`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_record_prepaid_information`;
+CREATE TABLE `tb_record_prepaid_information` (
+  `only_id` int(11) NOT NULL AUTO_INCREMENT,
+  `rpi_id` varchar(32) DEFAULT NULL COMMENT '唯一标示ID 32位',
+  `phone` varchar(11) DEFAULT NULL COMMENT '充值油卡电话',
+  `oilcard_number` varchar(100) DEFAULT NULL COMMENT '充值油卡号码',
+  `prepaid_money` int(11) DEFAULT NULL COMMENT '充值金额',
+  `status` varchar(4) DEFAULT '0' COMMENT '状态',
+  `three_id` varchar(100) DEFAULT NULL COMMENT '第三方ID',
+  `createtime` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`only_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_record_prepaid_information
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `tb_w`
@@ -280,4 +301,3 @@ CREATE TABLE `tb_w` (
 -- ----------------------------
 -- Records of tb_w
 -- ----------------------------
-INSERT INTO `tb_w` VALUES ('', '1');

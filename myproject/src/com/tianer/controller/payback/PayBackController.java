@@ -46,6 +46,8 @@ public class PayBackController extends BaseController {
 	@Resource(name="wService")
 	private WService wService;
 	
+	
+	
 	/**
 	 * 第三方支付或者充值回调
 	* 方法名称:：payBackWay 
@@ -58,10 +60,8 @@ public class PayBackController extends BaseController {
 	@ResponseBody
 		public String wxpayBackWayMinSheng(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			 System.out.println("进来回调了=======================>>>>>>>");
-			 PageData ssspd=new PageData();
- 				 try{
- 					ssspd=this.getPageData();
-		 		    // 获得 http body 内容
+  			 try{
+ 		 		    // 获得 http body 内容
 	 		        BufferedReader reader = request.getReader();
 			        StringBuffer buffer = new StringBuffer();
 			        String string;
@@ -83,7 +83,7 @@ public class PayBackController extends BaseController {
 					String channel=jv.optString("channel");//支付方式
 					String trade=jv.optString("serialNo");//流水单号/序列号
 			 		Double price=jv.optDouble("amount");//支付金额（消费/充值金额）
-			 		wService.saveLog(orderno, dncryptContext,"minsheng");//log
+			 		wService.saveLog(orderno, dncryptContext,"民生银行支付");//log
  		  	        // 解析异步通知数据
  		 	        if (signChkResult.equals("true")) { //支付成功
 							System.out.println("进入支付成功=============>>>>>>>>>>>>>>>>>");
@@ -104,18 +104,12 @@ public class PayBackController extends BaseController {
 									    pd.put("channel", channel);
 									    pd.put("order_status", "2");
 									    shiYouService.editOrder(pd);
-									    //进行油卡的充值操作
+									    //进行油卡的充值操作=====================================
 									    try {
-										    	//订单号需叫上所提供的的前缀Const.TOP_UP_ORDER_PREFIX
-								 			String sign=tt.getSign(String.valueOf(money), orderno, phone, oilcard_number, timestamp, arsid);
-							 				System.out.println("签名："+sign);
-							 				//充值油卡
-							 				String requestUrl = "http://shop.test.bolext.cn:81/shop/buyunit/orderpayforjyk.do?encryptType=MD5&deno="+String.valueOf(money)+"&macid="+RSAConstants.md5macid+"&orderid="+orderno+"&phone="+oilcard_number+"&arsid="+arsid+"&sign="+URLEncoder.encode(sign,"UTF-8")+"&time=" + timestamp;
-							 	       		System.out.println("请求地址：" + requestUrl); 
-							 	 			String xml=tt.httpGet(requestUrl);
-							 	 			System.out.println("回调回来的数据："+xml);
-							 	  			Map<String, Object> map = tt.getMapFromXML(xml);
-									         String id=(String) map.get("id");
+										    //获取充值油卡的返回信息
+									    	Map<String, Object> map=tt.toPayOil(String.valueOf(money), orderno, phone, oilcard_number, timestamp, arsid);
+ 									        //======================
+									    	String id=(String) map.get("id");
 								            String orderid=(String)map.get("orderid");
 								            String deno=(String) map.get("deno");
 								            String successdeno=(String) map.get("successdeno");
@@ -178,145 +172,7 @@ public class PayBackController extends BaseController {
 		}
 	
 	
-	
-	
-//	
-//		/**
-//		 * 第三方支付或者充值回调
-//		* 方法名称:：payBackWay 
-//		* 方法描述：
-//		* 创建人：魏汉文 p++++
-//		* 创建时间：2016年7月5日 下午6:30:51
-//		 */
-//		@RequestMapping(value = "wxpayBackWayPing")
-//		@ResponseBody
-// 		public void wxpayBackWayPing(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//				 System.out.println("Ping++进来回调了=======================>>>>>>>");
-//				 request.setCharacterEncoding("UTF8");
-//  				 try{
-// 		 		        // 获得 http body 内容
-//		 		        BufferedReader reader = request.getReader();
-//				        StringBuffer buffer = new StringBuffer();
-//				        String string;
-//			 	        while ((string = reader.readLine()) != null) {
-//				            buffer.append(string);
-//				        }
-//				        reader.close();
-//			  	        // 解析异步通知数据
-//		 		        Event event = Webhooks.eventParse(buffer.toString());
-//			 	        if (event.getType() != null && !event.getType().equals("" ) && "charge.succeeded".equals(event.getType())) { //支付成功
-//								System.out.println("进入支付成功=============>>>>>>>>>>>>>>>>>"+event.getData().getObject());
-//								JSONObject s=new JSONObject(buffer.toString());
-//		 						JSONObject obj=s.optJSONObject("data");
-//								JSONObject jv=obj.optJSONObject("object");
-//								String body=jv.optString("body"); 
-// 								String orderno=jv.optString("order_no");//支付订单号
-//								String channel=jv.optString("channel");//支付方式
-//								String trade=jv.optString("transaction_no");//流水单号
-//						 		Double price=jv.optDouble("amount");//支付金额（消费/充值金额）
-// 						 		PageData pd=new PageData();
-// 						 		if(body.equals(Const.shiyou_pay)){ //body:1-充值油卡支付的糊掉
-// 						 			String oilorderid=orderno.substring(RSAConstants.md5macid.length());
-// 						 			wService.saveLog(oilorderid, jv.toString(),"11");//log
-//						 			int money=(int)(price/100);
-// 						 			pd.put("oilorder_id", oilorderid);
-//						 			PageData orderpd=shiYouService.findById(pd);
-//						 			if(orderpd != null && orderpd.getString("order_status").equals("0")){
-//						 				String phone=orderpd.getString("phone");
-//						 				String oilcard_number=orderpd.getString("oilcard_number");
-//						 				String arsid=orderpd.getString("arsid");
-//						 				RSACoderTest tt=new RSACoderTest();
-//						 				String timestamp=tt.getTimestampStr();
-//						 				pd.put("timestamp", timestamp);
-//									    pd.put("transaction_no", trade);
-//									    pd.put("channel", channel);
-//									    pd.put("order_status", "2");
-//									    shiYouService.editOrder(pd);
-//									    //进行油卡的充值操作
-//									    try {
-// 									    	//订单号需叫上所提供的的前缀Const.TOP_UP_ORDER_PREFIX
-//  							 				String sign=tt.getSign(String.valueOf(money), orderno, phone, oilcard_number, timestamp, arsid);
-//							 				System.out.println("签名："+sign);
-//							 				//充值油卡
-//							 				String requestUrl = "http://shop.test.bolext.cn:81/shop/buyunit/orderpayforjyk.do?encryptType=MD5&deno="+String.valueOf(money)+"&macid="+RSAConstants.md5macid+"&orderid="+orderno+"&phone="+oilcard_number+"&arsid="+arsid+"&sign="+URLEncoder.encode(sign,"UTF-8")+"&time=" + timestamp;
-//							 	       		System.out.println("请求地址：" + requestUrl); 
-//							 	 			String xml=tt.httpGet(requestUrl);
-//							 	 			System.out.println("回调回来的数据："+xml);
-//							 	  			Map<String, Object> map = tt.getMapFromXML(xml);
-// 								            String id=(String) map.get("id");
-//								            String orderid=(String)map.get("orderid");
-//								            String deno=(String) map.get("deno");
-//								            String successdeno=(String) map.get("successdeno");
-//								            String resultcode=(String) map.get("errcode");
-//								            String resultinfor=(String) map.get("errinfo");
-//								            PageData oilpd=new PageData();
-//								            String return_orderid= orderid.substring(RSAConstants.md5macid.length());
-//								            oilpd.put("oilorder_id", return_orderid);
-//										    if(resultcode.equals("AccountClosed")){//
-//										    	oilpd.put("order_status", "99");
-//	 									    }else if(resultcode.equals("AccountBalance")){
-//		 									    oilpd.put("order_status", "99");
-// 	 									    }else if(resultcode.equals("ProductClosed")){ 
-// 	 									    	oilpd.put("order_status", "99");
-//	 									    }else if(resultcode.equals("ProductError")){
-//	 									    	oilpd.put("order_status", "99");
-//	 									    }else{
-//	 									    	oilpd.put("order_status", "2");
-//	 									    }
-//										    if(oilpd.getString("order_status").equals("99")){
-//										    	//进行退款
-//	 									    	Charge ch = Charge.retrieve(orderno);//orderno 是已付款的订单号
-//	 									        Map<String, Object> refundMap = new HashMap<String, Object>();
-//	 									        refundMap.put("amount", price);
-//	 									        refundMap.put("description", resultinfor);
-//	 									        refundMap.put("refund_type", "1");
-//	 									        refundMap.put("cons_id", orderno);
-//	 									        Refund refund = ch.getRefunds().create(refundMap);
-//	 									        String refund_status=refund.getStatus();
-//	 									        if(refund_status.equals("pending")){
-//	 									        	oilpd.put("order_status", "97");
-//	 									        }else if(refund_status.equals("succeeded")){
-//	 									        	oilpd.put("order_status", "98");
-//	 									        }else if(refund_status.equals("failed")){
-//	 									        	oilpd.put("order_status", "99");//退款失败
-//	 									        }
-//	 									        wService.saveLog(oilorderid, refund.toString(),"3");//log
-//										    }
-// 	 									    oilpd.put("remarks", successdeno+"/"+resultinfor);
-//	  							    	    shiYouService.editOrder(oilpd);
-//	  							    	    oilpd=null;
-//										} catch (Exception e) {
-//											// TODO: handle exception
-//											logger.error(e.toString(), e);
-//										}
-// 						 			}
-//						 			//移除session
-//						 			Subject currentUser = SecurityUtils.getSubject();  
-//						 		    Session session = currentUser.getSession();
-//						 			session.removeAttribute(Const.SESSION_ORDER);
-//						 			//=====
-// 						 		} else if(body.equals(Const.liuliang_pay)){//充值流量支付的回调
-//						 			
-//						 		}
-//   					 	 	 	response.setStatus(200);
-// 		 	 	        }else if ("refund.succeeded".equals(event.getType())) {
-// 		 	 	        		response.setStatus(200);
-//					    } else {
-//					         	response.setStatus(500);
-//					    }
-//			   }catch(Exception e){
-//				   System.out.println("出错===============》》"+e.toString());
-//				   logger.error("出错===============》》"+e.toString(), e);
-// 			   }
-//			System.out.println("Ping++结束回调了=======================>>>>>>>");
-// 		}
-//		
-//		
-// 
-//	
-//	
-	
-	
+	 
 	/**
 	 * 油卡充值接收代充商充值结果回调通知
 	 * 

@@ -17,6 +17,7 @@
 			now()
 		)
 	</insert>
+	
  	<!-- 更新用户信息 -->
 	<update id="editUser" parameterType="pd">
 			update  tb_oiluser
@@ -117,11 +118,13 @@
 		insert into tb_oilcard(
 			phone,
 			oiluser_id,
-			oilcard_number 
+			oilcard_number,
+ 			createtime
  		) values (
 			#{phone},	
 			#{oiluser_id},	
-			#{oilcard_number} 
+			#{oilcard_number},
+ 			now()
 		)
 	</insert>
 	
@@ -213,5 +216,24 @@
                  #{item}
 		</foreach>
 	</delete>
+	
+	<!-- 新增要充值油卡人员的信息-->
+	<insert id="saveInforemation" parameterType="pd">
+		insert into tb_record_prepaid_information(
+			rpi_id,	
+			phone,	
+			oilcard_number,	
+			prepaid_money,	
+			three_id,	
+ 			createtime
+		) values (
+			#{rpi_id},	
+			#{phone},	
+			#{oilcard_number},	
+			#{prepaid_money},	
+			#{three_id},	
+ 			now()
+		)
+	</insert>
 	
 </mapper>

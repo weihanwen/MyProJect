@@ -1,5 +1,6 @@
 package com.tianer.util.bankpay;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class MingShengUtil extends BaseController {
 
 	
 	/**
-	 * 生成加密后的数据
+	 * 充值油卡----------------生成加密后的数据
 	 * @param usermoney
 	 * @param merchantSeq
 	 * @param notifyUrl
@@ -27,11 +28,7 @@ public class MingShengUtil extends BaseController {
 	 * @param orderInfo
 	 * @param remark
 	 * @return
-	 */
-	public static String WxGoPayUrl(int usermoney,String merchantSeq,String notifyUrl,String redirectUrl,String orderInfo,String remark){
-  		String encryptContext="";
-		try {
-			/*
+	 * /*
 			 * 格式
 			 * "{\"amount\":\"2\"," + "\"defaultTradeType\":\"API_WXQRCODE\","
 			+ "\"isConfirm\":\"0\"," + "\"isShowSuccess\":\"0\"," + "\"merchantName\":\"乐收银测试\","
@@ -40,8 +37,15 @@ public class MingShengUtil extends BaseController {
 			+ "\"platformId\":\"cust0001\"," + "\"printFlag\":\"0\"," + "\"remark\":\"\","
 			+ "\"selectTradeType\":\"API_WXQRCODE\"," + "\"transDate\":\"20160627\","
 			+ "\"transTime\":\"201606270900000\"}";
-			 */
-			Map<String, String> jsonpd=new LinkedHashMap<String,String>();
+	  */
+	public static String WxGoPayUrl(String amount,String merchantSeq,String orderInfo,String remark){
+  		String encryptContext="";
+		try {
+			BigDecimal _amount = new BigDecimal(amount);
+			int usermoney = _amount.multiply(new BigDecimal("100")).intValue();
+			String notifyUrl=SignEncryptDncryptSignChk.nowip+"/myproject/payback/wxpayBackWayMinSheng.do";
+			String redirectUrl=SignEncryptDncryptSignChk.nowip+"/myproject/shiyou/toIndex.do";
+ 			Map<String, String> jsonpd=new LinkedHashMap<String,String>();
  			jsonpd.put("amount", String.valueOf(usermoney));//金额，以分为单位
 			jsonpd.put("defaultTradeType", SignEncryptDncryptSignChk.defaultTradeType);//类型代码：H5_WXJSAPI
 			jsonpd.put("isConfirm", "0");
@@ -64,24 +68,24 @@ public class MingShengUtil extends BaseController {
 			System.out.println("json数据："+jsonObject.toString());
 			String context=jsonObject.toString();
  			String sign = SignEncryptDncryptSignChk.getSign(context);
- 			System.out.println("签名："+sign);
- 
-			String signContext = SignEncryptDncryptSignChk.sign(sign, context);
- 			System.out.println("加密前："+signContext);
- 
-			encryptContext = SignEncryptDncryptSignChk.encrypt(signContext);
+// 			System.out.println("签名："+sign);
+ 			String signContext = SignEncryptDncryptSignChk.sign(sign, context);
+// 			System.out.println("加密前："+signContext);
+ 			encryptContext = SignEncryptDncryptSignChk.encrypt(signContext);
  			System.out.println("加密后："+encryptContext);
- 			
- 			String dncryptContext =SignEncryptDncryptSignChk.dncrypt(encryptContext);
-  			System.out.println("解密后："+dncryptContext);
- 
-			System.out.println("验签："+SignEncryptDncryptSignChk.signCheck(dncryptContext));
+ // 		String dncryptContext =SignEncryptDncryptSignChk.dncrypt(encryptContext);
+//  		System.out.println("解密后："+dncryptContext);
+ //			System.out.println("验签："+SignEncryptDncryptSignChk.signCheck(dncryptContext));
 		} catch (Exception e) {
 			// TODO: handle exception
 			new BaseController().logger.error(e.toString(), e);
 		}
 		return encryptContext;
-		
-	}
+ 	}
+	
+	
+	
+	
+	
 	
 }
