@@ -180,14 +180,14 @@ public class LiCaiController extends BaseController {
 	
 
  
-	
+	//licai/goyuyueok.do
 	@RequestMapping(value="/goyuyueok")
 	public ModelAndView goyuyueok(HttpServletRequest request)throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		mv.setViewName("licai/yuyueok"); 
    		return mv;
 	}
-	
+	//licai/gogetcode.do
 	@RequestMapping(value="/gogetcode")
 	public ModelAndView gogetcode(HttpServletRequest request)throws Exception{
 		ModelAndView mv = this.getModelAndView();

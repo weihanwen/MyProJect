@@ -11,7 +11,7 @@ import com.tianer.entity.Page;
 import com.tianer.util.PageData;
 
 
-@Service("lLiCaiService")
+@Service("liCaiService")
 public class LiCaiService {
 
 	@Resource(name = "daoSupport")
