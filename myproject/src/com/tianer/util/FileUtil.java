@@ -1,11 +1,13 @@
 package com.tianer.util;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
@@ -15,8 +17,8 @@ import java.nio.channels.FileChannel.MapMode;
 public class FileUtil {
 
 	public static void main(String[] args) {
-		String dirName = "d:/tianer/topic/";// 创建目录
-		FileUtil.createDir(dirName);
+		String dirName = "c://ipxz.txt";// 创建目录
+ 		System.out.println(FileUtil.readTxtFile(dirName));
 	}
 
 	/**
@@ -211,4 +213,33 @@ public class FileUtil {
 		}
 	}
 
+	
+	   /**
+	    * 读取文件
+	    * @param filePath
+	    *    readTxtFile("e:/access_token.txt");
+	    */
+		public static String readTxtFile(String filePath) {
+			String message = "";
+			try {
+				String encoding = "utf-8";
+				File file = new File(filePath);
+				if (file.isFile() && file.exists()) { // 判断文件是否存在
+					InputStreamReader read = new InputStreamReader(
+					new FileInputStream(file), encoding);// 考虑到编码格式
+					BufferedReader bufferedReader = new BufferedReader(read);
+ 					String lineTxt = null;
+					while ((lineTxt = bufferedReader.readLine()) != null) {
+						message=message+lineTxt;
+  					}
+					read.close();
+ 				} else {
+					System.out.println("找不到指定的文件");
+				}
+			} catch (Exception e) {
+				System.out.println("读取文件内容出错");
+				e.printStackTrace();
+			}
+			return message;
+		}
 }

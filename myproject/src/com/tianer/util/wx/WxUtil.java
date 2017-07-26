@@ -10,5 +10,6 @@ package com.tianer.util.wx;
 public class WxUtil {
 	public static final String APP_ID = "wx62d81eec40f745b4";//微信公众号应用唯一标识
  	public static final String APP_SECRET = "982e0086749ae44c25825de2f1a3b083";//微信公众号应用密钥（注意保密）
-	public static final String HOST = "http://localhost/myproject/shiyou/getOpenid.do";
+	public static final String HOST = "http://localhost/";
+	public static final String HOSTThree = "http://localhost/";
 }

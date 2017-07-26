@@ -108,7 +108,7 @@ public class ShiYouController extends BaseController {
 	public void toLogin(HttpServletRequest request,HttpServletResponse response){
 		String code = "";
 		try {
-			code = WxpubOAuth.createOauthUrlForCode(WxUtil.APP_ID, WxUtil.HOST, true);
+			code = WxpubOAuth.createOauthUrlForCode(WxUtil.APP_ID, WxUtil.HOST+"shiyou/getOpenid.do", true);
 			System.out.println(code);
  			response.sendRedirect(code); 
 		} catch (UnsupportedEncodingException e) {
@@ -120,6 +120,65 @@ public class ShiYouController extends BaseController {
 	
 	
 	
+	//==========================================以下接口针对第三发用户
+	
+	
+	/**
+	 * 前往充值油卡
+	 * localhost/myproject/shiyou/toIndexForThree.do
+	 */
+	@RequestMapping(value="/toIndexForThree")
+	public void toIndexForThree(HttpServletRequest request,HttpServletResponse response){
+		String code = "";
+		try {
+			code = WxpubOAuth.createOauthUrlForCode(WxUtil.APP_ID, WxUtil.HOST+"shiyou/getOpenidThree.do", true);
+			System.out.println(code);
+ 			response.sendRedirect(code); 
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+
+	/**
+	 * 访问登录页
+	 * @return
+	 * shiyou/getOpenidThree.do
+	 */
+	@RequestMapping(value="/getOpenidThree")
+	public ModelAndView getOpenidThree()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		Subject currentUser = SecurityUtils.getSubject();  
+	    Session session = currentUser.getSession();
+	    Wx_login wlogin=new Wx_login();
+	    String wx_openid ="";
+	    String access_token="";
+ 		PageData pd = new PageData();
+ 		try {
+				//获取用户的openid
+				pd = this.getPageData();
+				try {
+					String code = pd.getString("code");
+					if(code != null){
+						wx_openid = WxpubOAuth.getOpenId(WxUtil.APP_ID, WxUtil.APP_SECRET, code);
+						access_token=WxpubOAuth.getAccess_token(WxUtil.APP_ID, WxUtil.APP_SECRET, code);
+					}
+ 				} catch (Exception e) {
+					// TODO: handle exception
+					wx_openid="";
+					access_token="";
+				}
+ 				 
+    		} catch (Exception e) {
+				// TODO: handle exception
+ 				logger.error(e.toString(), e);
+ 		}
+ 		mv.setViewName("shiyou/shiyou_zhu");
+ 		return mv;
+	}
 	
 	
 	

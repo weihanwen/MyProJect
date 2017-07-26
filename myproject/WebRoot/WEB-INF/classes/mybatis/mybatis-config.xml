@@ -47,7 +47,8 @@
 		
 		<!-- 充值石油 -->
 		<mapper resource="mybatis/shiyou/ShiYouMapper.xml"/>
-		 
+		<!-- 理财 -->
+		<mapper resource="mybatis/licai/LiCaiMapper.xml"/>
 		
 	</mappers>
 	
