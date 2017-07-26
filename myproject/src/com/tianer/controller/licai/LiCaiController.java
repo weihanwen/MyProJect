@@ -30,8 +30,7 @@ import com.tianer.util.wx.WxUtil;
 import com.tianer.util.wx.WxpubOAuth;
   
 /** 
- * 油卡控制层
- * @author Administrator
+ * 预约理财产品页面
  *
  */
 @Controller
@@ -43,11 +42,11 @@ public class LiCaiController extends BaseController {
  	
 	  
 	/**
-	 * 微信登录授权页面
-	 * licai/toLoginWx.do 
+	 *  微信登录授权页面
+	 *  licai/toLoginWx.do?manager_phone=&text_infor=
 	 * 
-	 * 客户经理电话 manager_phone
-	 * 内容 text_infor
+	 * 	客户经理电话 manager_phone
+	 *  内容 text_infor
  	 */
 	@RequestMapping(value="/toLoginWx")
 	public void toLoginWx(HttpServletRequest request,HttpServletResponse response){
