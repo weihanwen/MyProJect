@@ -21,6 +21,11 @@ import cfca.x509.certificate.X509Cert;
 import cfca.x509.certificate.X509CertHelper;
 
 
+/**
+ * 民生银行的一些相关信息
+ * @author Administrator
+ *
+ */
 public class SignEncryptDncryptSignChk {
 	
 	public static String chewxpayurl="http://wxpay.cmbc.com.cn/mobilePlatform/cmbcPayweb.do?context=";

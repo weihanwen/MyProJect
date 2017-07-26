@@ -2,7 +2,11 @@ package com.tianer.util.rsa;
 
 import com.tianer.util.StringUtil;
 
-
+/**
+ * 充值油卡的一些相关信息
+ * @author Administrator
+ *
+ */
 public class RSAConstants {
  
 	public static final String KEY_ALGORITHM = "RSA";   
