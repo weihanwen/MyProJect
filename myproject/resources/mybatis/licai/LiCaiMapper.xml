@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="LiCaiMapper">
+	
+	
+	<!-- 新增用户-->
+	<insert id="saveUser" parameterType="pd">
+		insert into tb_wx_user(
+			wx_user_openid,	
+			image_url,	
+			name,	
+			phone,	
+			createtime
+		) values (
+			#{wx_user_openid},	
+			#{image_url},	
+			#{name},	
+			#{phone},	
+			now()
+		)
+	</insert>
+	<!-- 查看用户详情 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			wx_user_openid,	
+			image_url,	
+			name,	
+			phone,	
+			createtime
+		from 
+			tb_wx_user
+		where 
+			wx_user_openid = #{wx_user_openid}
+	</select>
+	
+	
+	
+	<!-- 新增理财信息-->
+	<insert id="saveLiCaiInfor" parameterType="pd">
+		insert into tb_wx_licai(
+			text_infor,	
+			manager_phone,	
+			appointment_phone,	
+			phone,	
+			wx_user_openid,	
+			createtime
+		) values (
+			#{text_infor},	
+			#{manager_phone},	
+			#{appointment_phone},	
+			#{wx_user_openid},	
+ 			now()
+		)
+	</insert>
+	 
+	
+</mapper>
