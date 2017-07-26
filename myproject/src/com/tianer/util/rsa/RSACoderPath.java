@@ -35,7 +35,7 @@ import com.tianer.util.XMLParser;
  * 为：commons-codec-1.10.jar
  *
  */
-public class RSACoderTest {
+public class RSACoderPath {
 	
    
 	public static String publicKey;   
@@ -43,44 +43,14 @@ public class RSACoderTest {
 	public static Map<String, Object> keyMap = new HashMap<String, Object>();
     
     //初始化
-    public RSACoderTest() throws Exception{
+    public RSACoderPath() throws Exception{
     	 keyMap = RSACoder.initKey();   
          privateKey = RSACoder.getPrivateKey(keyMap);  
          publicKey = RSACoder.getPublicKey(keyMap);   
  	}
     
 
-
-     
-    
-    public void test() throws Exception { 
-         System.out.println("---------------------------私钥加密——公钥解密-----------------------------"); 
-        String timestamp = getTimestampStr();//获取时间戳
-		String waitSignStr = "deno100macidadminorderid20170329170000phone15925609210time" + timestamp;//待加密的字符串
-		System.out.println("要加密的字符串:\r" + waitSignStr); 
-        byte[] data = waitSignStr.getBytes("UTF-8");   
-
-//        byte[] encodedData = RSACoder.encryptByPrivateKey(data, privateKey);//私钥加密
-//        String outputEncodedDataStr = Base64.encodeBase64String(encodedData); 
-//        System.out.println("私钥加密后base64的字符串:\r" + outputEncodedDataStr); 
-//
-//		byte[] decodedData = RSACoder.decryptByPublicKey(encodedData, publicKey);//公钥加密
-//        String outputStr = new String(decodedData);   
-//        System.out.println("公钥解密后的字符串:\r" + outputStr); 
-          
-        System.out.println("---------------------------私钥签名——公钥验证签名---------------------------");   
-        String sign = RSACoder.sign(data, privateKey); //签名
-        System.out.println("私钥签名后的字符串:\r" + sign);   
-//        
-//        boolean status = RSACoder.verify(data, publicKey, sign);   // 验证签名   
-//        System.out.println("验证签名状态(true为验证签名通过, false为验证签名失败):\r" + status);   
-        
-        //测试地址，直接复制到浏览器中运行
-		String requestUrl = "http://shop.test.bolext.cn:81/shop/buyunit/orderpayforflow.do?arsid=4400&deno=100&macid=admin&orderid=20170329170000&phone=15925609210&sign="+URLEncoder.encode(sign,"UTF-8")+"&time=" + timestamp;
-        System.out.println("请求地址:\r" + requestUrl);   
-    }   
-    
-    
+ 
     
     /**
      * 获取油卡充值的调用接口
@@ -203,7 +173,7 @@ public class RSACoderTest {
 
 	public  static void main(String[] args) {
   		try {
-  			RSACoderTest tt=new RSACoderTest();
+  			RSACoderPath tt=new RSACoderPath();
   			String timestamp=tt.getTimestampStr();
 			String sign=getSign("100", "201703300968", "15925609210", "1000113200005437747", timestamp, "4400");
 			System.out.println("签名："+sign);

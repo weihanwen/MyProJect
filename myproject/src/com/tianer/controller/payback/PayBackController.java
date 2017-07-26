@@ -3,24 +3,18 @@ package com.tianer.controller.payback;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
- 
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
- 
 import com.tianer.controller.base.BaseController;
 import com.tianer.service.business.w.WService;
 import com.tianer.service.shiyou.ShiYouService;
@@ -29,7 +23,7 @@ import com.tianer.util.MD5;
 import com.tianer.util.PageData;
 import com.tianer.util.SmsUtil;
 import com.tianer.util.bankpay.SignEncryptDncryptSignChk;
-import com.tianer.util.rsa.RSACoderTest;
+import com.tianer.util.rsa.RSACoderPath;
 import com.tianer.util.rsa.RSAConstants;
  
   
@@ -97,7 +91,7 @@ public class PayBackController extends BaseController {
 						 				String phone=orderpd.getString("phone");
 						 				String oilcard_number=orderpd.getString("oilcard_number");
 						 				String arsid=orderpd.getString("arsid");
-						 				RSACoderTest tt=new RSACoderTest();
+						 				RSACoderPath tt=new RSACoderPath();
 						 				String timestamp=tt.getTimestampStr();
 						 				pd.put("timestamp", timestamp);
 									    pd.put("transaction_no", trade);
