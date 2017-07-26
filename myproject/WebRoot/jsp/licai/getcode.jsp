@@ -8,33 +8,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>绑定手机号码</title>
     <base href="<%=basePath%>">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 </head>
 <style>
-    li{
-        padding: 0;
-    }
     body{
-        position: relative;
+        
     }
     ul{
         width:90%;
         display: block;
-        background: #fcdccd;
+    }
+     li{
+        padding: 0;
+        list-style-type:none;
     }
     .inf_box{
-        position: absolute;
-        margin: auto;
-        top: 26%;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        padding: 6% 12%;
-        height: 17.6rem;
-        border-radius: 4px;
-        box-sizing: border-box;
+       position: absolute;
+	    margin: auto;
+	    top: 26%;
+	    padding: 6% 12%;
+	    height: 17.6rem;
+	    border-radius: 4px;
+	    box-sizing: border-box;
     }
     .bd1_li{
         border-radius: 4px;
@@ -69,12 +66,17 @@
         height: 80%;
         padding: 10% 0;
         font-size: 0;
-
     }
+    .sure {
+      	background: #ffa31b;
+	    color: #fff;
+	     padding: 5px;
+	    display: block;
+	    width: 13%;
+	    margin: 0 auto;
+	}
 </style>
-<body style="background-color: #fff"> 
-<div class="neirong"  style="display:none;">
-<img src="img/bangding.jpg" alt="" style="width: 100%;height: 94%;">
+<body> 
 <ul class="inf_box clf">
     <li class=" bd1_li mg_b">
         <span class="fwb li_span"><img class="li_img" src="img/shouji.png" style="left: 0.5rem;" alt=""></span>
@@ -82,16 +84,15 @@
     </li>
     <li class="  bd1_li  mg_b li2">
         <span class="fwb li_span"><img class="li_img" src="img/yanzhengma.png" style="left: 0.5rem;" alt=""></span>
-        <input type="text" maxlength="" style="background: rgba(0,0,0,0);width: 50%" id="messagecode">
+        <input type="text" placeholder="请输入验证码"style="background: rgba(0,0,0,0);width: 50%" id="messagecode">
         <div class="li_div bd1_li">
             <span class="txr  code " >获取验证码</span>
         </div>
     </li>
      <li class="txc  pd2 mg_b">
-        <span class="act btn pd2" onclick="submitLogin()">确认</span>
+        <span class="sure" onclick="submitLogin()">确认</span>
     </li>
 </ul>
-</div>
 </body>
 <script src="js/jquery-1.8.0.min.js"></script>
 <script>
