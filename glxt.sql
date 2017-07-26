@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-07-26 11:11:36
+Date: 2017-07-26 16:08:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -300,4 +300,39 @@ CREATE TABLE `tb_w` (
 
 -- ----------------------------
 -- Records of tb_w
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tb_wx_licai`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_wx_licai`;
+CREATE TABLE `tb_wx_licai` (
+  `only_id` int(11) NOT NULL AUTO_INCREMENT,
+  `wx_user_openid` varchar(100) DEFAULT NULL,
+  `text_infor` text,
+  `manager_phone` varchar(11) DEFAULT NULL,
+  `appointment_phone` varchar(11) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  PRIMARY KEY (`only_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_wx_licai
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tb_wx_user`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_wx_user`;
+CREATE TABLE `tb_wx_user` (
+  `wx_user_openid` varchar(100) NOT NULL COMMENT '微信的openid',
+  `image_url` varchar(100) DEFAULT NULL COMMENT '头像',
+  `name` varchar(100) DEFAULT NULL COMMENT '姓名',
+  `phone` varchar(100) DEFAULT NULL COMMENT '绑定的电话',
+  `createtime` datetime DEFAULT NULL,
+  PRIMARY KEY (`wx_user_openid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_wx_user
 -- ----------------------------
