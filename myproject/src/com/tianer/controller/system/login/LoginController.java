@@ -83,7 +83,7 @@ public class LoginController extends BaseController {
 			map.put("dels", pd.getString("DEL_QX"));
 			map.put("edits", pd.getString("EDIT_QX"));
 			map.put("chas", pd.getString("CHA_QX"));
- 			//System.out.println(map);
+ 			System.out.println(map);
  			this.getRemortIP(USERNAME);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Carousel_figureMapper">
+
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into tb_carousel_figure(
+			title,	
+			image_url,	
+			startdate,	
+			enddate,	
+			click_number,	
+			link_type,	
+			link_content,	
+			createtime,
+			updatetime,	
+			address_id 
+		) values (
+			#{title},	
+			#{image_url},	
+			#{startdate},	
+			#{enddate},	
+			0,	
+			#{link_type},	
+			#{link_content},	
+			now(),	
+			now(),	
+			address_id 
+		)
+	</insert>
+	
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from tb_carousel_figure
+		where 
+			carousel_figure_id = #{carousel_figure_id}
+	</delete>
+ 
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+			update  tb_carousel_figure
+			set 
+				title = #{title},
+				image_url = #{image_url},
+				startdate = #{startdate},
+				enddate = #{enddate},
+				link_type = #{link_type},
+				link_content = #{link_content},
+ 				carousel_figure_id = carousel_figure_id
+			where 
+				carousel_figure_id = #{carousel_figure_id}
+	</update>
+	
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			title,	
+			image_url,	
+			startdate,	
+			enddate,	
+			click_number,	
+			link_type,	
+			link_content,	
+			createtime,
+			updatetime,	
+			address_id,
+			carousel_figure_id
+		from 
+			tb_carousel_figure
+		where 
+			carousel_figure_id = #{carousel_figure_id}
+	</select>
+	
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select 
+			title,	
+			image_url,	
+			startdate,	
+			enddate,	
+			click_number,	
+			link_type,	
+			link_content,
+			carousel_figure_id
+		from 
+			tb_carousel_figure
+  	</select>
+ 
+	
+	
+</mapper>

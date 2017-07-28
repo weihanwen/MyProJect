@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>	
+<bean id="aa">
+	<field id="test" required="true" maxlength="32" minlength="2" min="" max="">  
+		<enumerations>  
+			<enumeration>1</enumeration>  
+			<enumeration>2</enumeration>  
+        </enumerations>
+		<default>aa</default>
+	</field>	
+	<field id="test1" required="true" maxlength="22" minlength="11" min="" max="">  
+		<enumerations>  
+			<enumeration>11</enumeration>  
+			<enumeration>22</enumeration>  
+        </enumerations>
+		<default>adfadsfadfa</default>
+	</field>
+</bean>	
+<bean id="bb">
+	<field id="test" required="true" maxlength="32" minlength="2" min="" max="">  
+		<enumerations>  
+			<enumeration>1</enumeration>  
+			<enumeration>2</enumeration>  
+        </enumerations>
+		<default>aa</default>
+	</field>	
+	<field id="test1" required="true" maxlength="22" minlength="11" min="" max="">  
+		<enumerations>  
+			<enumeration>11</enumeration>  
+			<enumeration>22</enumeration>  
+        </enumerations>
+		<default>adfadsfadfa</default>
+	</field>
+</bean>	
+</beans>
+
+
