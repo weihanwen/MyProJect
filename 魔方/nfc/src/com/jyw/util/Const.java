@@ -12,6 +12,20 @@ import com.jyw.entity.system.AppValidation;
  * 
 */
 public class Const {
+	
+	//模板
+		/*
+		 * cast(cast((ifnull(a.sale_money,'0')) as decimal(10,2)) as char)  sale_money
+		 * date_format(a.createtime ,'%Y-%m-%d %H:%i:%s') as createtime,
+		 * ServiceHelper.getAppPcdService().saveLog(order_id, message,"10");
+		 * onkeyup="value=value.replace(/[^\d\.]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" 
+		 * (cast(round( 6378.138 * 2 * asin( sqrt( pow( sin(( abs(b.latitude  * pi() / 180 - #{latitude} * pi() / 180) ) / 2 ), 2 ) + cos(b.latitude  * pi() / 180) * cos( #{latitude} * pi() / 180) * pow( sin(( abs(b.longitude * pi() / 180 - #{longitude}  * pi() / 180) ) / 2 ), 2 ))) ,3) as  decimal(10,1))) as char 
+		 * 手机验证码用shiro-seesion，图形验证码用http-session存储
+		 * 
+		 * to_days(now()) &gt; to_days(endtime) 
+		 * 
+		 */
+	
 	public static final String SESSION_SECURITY_CODE = "sessionSecCode";
 	public static final String SESSION_USER = "sessionUser";
 	public static final String SESSION_ROLE_RIGHTS = "sessionRoleRights";

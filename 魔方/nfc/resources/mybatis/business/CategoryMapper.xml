@@ -78,6 +78,21 @@
 			tb_category
 		order by sort
    	</select>
+	
+	<!-- 列表 -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select 
+			title,	
+			image_url,	
+			sort,	
+			createtime,
+			updatetime,	
+			address_id,
+			category_id
+		from 
+			tb_category
+		order by sort
+   	</select>
  
 	
 	

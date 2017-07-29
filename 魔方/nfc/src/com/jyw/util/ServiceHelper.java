@@ -1,5 +1,6 @@
 package com.jyw.util;
 
+import com.jyw.service.business.CategoryService;
 import com.jyw.service.system.menu.MenuService;
 import com.jyw.service.system.role.RoleService;
 import com.jyw.service.system.user.UserService;
@@ -26,5 +27,9 @@ public final class ServiceHelper {
 	
 	public static MenuService getMenuService(){
 		return (MenuService) getService("menuService");
+	}
+	//属性类别服务层
+	public static CategoryService getCategoryService(){
+		return (CategoryService) getService("categoryService");
 	}
 }

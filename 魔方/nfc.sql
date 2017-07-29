@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-07-29 11:23:41
+Date: 2017-07-29 16:13:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -59,8 +59,8 @@ CREATE TABLE `sys_gl_qx` (
 INSERT INTO `sys_gl_qx` VALUES ('040c44bcf58745ce951d9b2b7f56be82', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_gl_qx` VALUES ('1', '2', '1', '1', '1', '1', '1', '1');
 INSERT INTO `sys_gl_qx` VALUES ('2', '1', '0', '1', '1', '1', '1', '1');
-INSERT INTO `sys_gl_qx` VALUES ('3e6a9c1a13824b0990d13739fcbc3b09', '1', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_gl_qx` VALUES ('767a57ff070a40e3935439d73d6a76cd', '1', '0', '0', '0', '0', '0', '0');
+INSERT INTO `sys_gl_qx` VALUES ('8a87afcba102444dacd90c1151fcf29b', '1', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_gl_qx` VALUES ('92bda15b69024fe0a2ed8e1b4785364a', '7', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_gl_qx` VALUES ('b221d366ba5a45feaa82d3dc49c5f2f4', '040c44bcf58745ce951d9b2b7f56be82', '0', '0', '0', '0', '0', '0');
 
@@ -89,6 +89,14 @@ INSERT INTO `sys_menu` VALUES ('6', '基础配置', '#', '0', '1', null, '');
 INSERT INTO `sys_menu` VALUES ('7', '轮播图列表', 'carousel_figure/list.do', '6', '1', null, '');
 INSERT INTO `sys_menu` VALUES ('8', '类别列表', 'category/list.do', '6', '2', null, '');
 INSERT INTO `sys_menu` VALUES ('9', '配送点列表', 'address/list.do', '6', '3', null, '');
+INSERT INTO `sys_menu` VALUES ('10', '配送费列表', 'delivery_fee/list.do', '6', '4', null, '');
+INSERT INTO `sys_menu` VALUES ('11', '便当管理', '#', '0', '2', null, '');
+INSERT INTO `sys_menu` VALUES ('12', '订单管理', '#', '0', '3', null, '');
+INSERT INTO `sys_menu` VALUES ('13', '财务管理', '#', '0', '4', null, '');
+INSERT INTO `sys_menu` VALUES ('14', '便当列表', 'lunch/list.do', '11', '1', null, '');
+INSERT INTO `sys_menu` VALUES ('15', '劵/红包管理', '#', '0', '5', null, '');
+INSERT INTO `sys_menu` VALUES ('16', '红包列表', 'redpackage/list.do', '15', '1', null, '');
+INSERT INTO `sys_menu` VALUES ('17', '每日菜谱', 'daily_menu/list.do', '11', '2', null, '');
 
 -- ----------------------------
 -- Table structure for `sys_role`
@@ -110,9 +118,9 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', '系统管理员', '998', '0', '1', '1', '1', '1', '1');
-INSERT INTO `sys_role` VALUES ('2', '超级管理员', '998', '1', '238943974', '238943974', '238943974', '238943974', '2');
-INSERT INTO `sys_role` VALUES ('3e6a9c1a13824b0990d13739fcbc3b09', '信息管理成员', '960', '1', '', '', '192', '192', '3e6a9c1a13824b0990d13739fcbc3b09');
+INSERT INTO `sys_role` VALUES ('1', '系统管理员', '262118', '0', '1', '1', '1', '1', '1');
+INSERT INTO `sys_role` VALUES ('2', '超级管理员', '262118', '1', '238943974', '238943974', '238943974', '238943974', '2');
+INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '262118', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
 
 -- ----------------------------
 -- Table structure for `sys_user`
@@ -139,8 +147,8 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-29 11:19:13', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
-INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '3e6a9c1a13824b0990d13739fcbc3b09', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-29 14:20:45', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '8a87afcba102444dacd90c1151fcf29b', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
 -- Table structure for `sys_user_qx`
@@ -165,8 +173,8 @@ CREATE TABLE `sys_user_qx` (
 INSERT INTO `sys_user_qx` VALUES ('040c44bcf58745ce951d9b2b7f56be82', '0', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_user_qx` VALUES ('1', '1', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_user_qx` VALUES ('2', '1', '1', '1', '1', '1', '1', '1', '1');
-INSERT INTO `sys_user_qx` VALUES ('3e6a9c1a13824b0990d13739fcbc3b09', '0', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_user_qx` VALUES ('767a57ff070a40e3935439d73d6a76cd', '0', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `sys_user_qx` VALUES ('8a87afcba102444dacd90c1151fcf29b', '0', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_user_qx` VALUES ('92bda15b69024fe0a2ed8e1b4785364a', '0', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_user_qx` VALUES ('b221d366ba5a45feaa82d3dc49c5f2f4', '0', '0', '0', '0', '0', '0', '0', '0');
 
@@ -257,6 +265,33 @@ CREATE TABLE `tb_category` (
 INSERT INTO `tb_category` VALUES ('9', '菜单', 'http://localhost/FileSave//category/866e1683952b41cc8aca59dd90836df7.gif', '0', '2017-07-29 11:01:30', '2017-07-29 11:02:18', null);
 
 -- ----------------------------
+-- Table structure for `tb_delivery_fee`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_delivery_fee`;
+CREATE TABLE `tb_delivery_fee` (
+  `delivery_fee_id` int(11) NOT NULL AUTO_INCREMENT,
+  `number` int(11) DEFAULT NULL,
+  `money` int(11) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`delivery_fee_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_delivery_fee
+-- ----------------------------
+INSERT INTO `tb_delivery_fee` VALUES ('1', '1', '5', '2017-07-29 14:09:52', '2017-07-29 14:12:53');
+INSERT INTO `tb_delivery_fee` VALUES ('2', '2', '6', '2017-07-29 14:09:57', '2017-07-29 14:12:55');
+INSERT INTO `tb_delivery_fee` VALUES ('3', '3', '7', '2017-07-29 14:09:52', '2017-07-29 14:12:56');
+INSERT INTO `tb_delivery_fee` VALUES ('4', '4', '8', '2017-07-29 14:09:52', '2017-07-29 14:12:56');
+INSERT INTO `tb_delivery_fee` VALUES ('5', '5', '9', '2017-07-29 14:09:52', '2017-07-29 14:12:59');
+INSERT INTO `tb_delivery_fee` VALUES ('6', '6', '8', '2017-07-29 14:09:52', '2017-07-29 14:13:00');
+INSERT INTO `tb_delivery_fee` VALUES ('7', '7', '7', '2017-07-29 14:09:52', '2017-07-29 14:13:01');
+INSERT INTO `tb_delivery_fee` VALUES ('8', '8', '6', '2017-07-29 14:09:52', '2017-07-29 14:13:02');
+INSERT INTO `tb_delivery_fee` VALUES ('9', '9', '5', '2017-07-29 14:09:52', '2017-07-29 14:13:03');
+INSERT INTO `tb_delivery_fee` VALUES ('10', '10', '4', '2017-07-29 14:09:52', '2017-07-29 14:13:04');
+
+-- ----------------------------
 -- Table structure for `tb_log`
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_log`;
@@ -271,6 +306,33 @@ CREATE TABLE `tb_log` (
 
 -- ----------------------------
 -- Records of tb_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tb_lunch`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_lunch`;
+CREATE TABLE `tb_lunch` (
+  `lunch_id` int(11) NOT NULL AUTO_INCREMENT,
+  `lunch_name` varchar(100) DEFAULT NULL,
+  `sale_money` double(10,2) DEFAULT NULL,
+  `product_cover` varchar(100) DEFAULT NULL,
+  `inside_banner` varchar(100) DEFAULT NULL,
+  `graphic_description` varchar(11) DEFAULT NULL,
+  `is_shelves` varchar(4) DEFAULT NULL,
+  `is_reservation` varchar(4) DEFAULT NULL,
+  `inventory_number` int(11) DEFAULT NULL,
+  `have_salenumber` int(11) DEFAULT NULL,
+  `lunch_description` text,
+  `sort` varchar(4) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `category_id` int(100) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`lunch_id`,`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_lunch
 -- ----------------------------
 
 -- ----------------------------
