@@ -34,23 +34,18 @@
 		<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
 	</head>
 <body>
-	<form action="category/edit.do" name="Form" id="Form" method="post">
-		<input type="hidden" name="category_id" id="category_id" value="${pd.category_id}"/>
+	<form action="address/save.do" name="Form" id="Form" method="post">
 		<div id="zhongxin" style="width: 60%;margin: 5% auto;">
 		<table>
 			<tr>
-				<td>类别标题 ：</td>
-				<td><input  type="text" name="title" id="title" value="${pd.title}" maxlength="32" placeholder="这里输入标题" title="标题"  style="width:208px;"/></td>
+				<td>配送地址 ：</td>
+				<td><input  type="text" name="address_name" id="address_name" value="" maxlength="32" placeholder="这里输入配送地址 " title="标题"  style="width:208px;"/></td>
 			</tr>
 			<tr>
-				<td>icon ：</td>
-				<td>
-					<span style="display:inline-block;border:1px solid #999;max-width: 300px;height: 100px;text-align: center;" onclick="upload('image_url')">
-	 					<img  class="image_url" src="${empty pd.image_url ?'img/sjht_add.png':pd.image_url}"  style="height: 100%;">	
-						<input type="text" name="image_url" id="image_url" value="${pd.image_url}" style="display:none;width:1px;height:1px;"/>
- 					</span>
-				</td>
-  			</tr>
+				<td>配送详细地址 ：</td>
+				<td><input  type="text" name="detail_address" id="detail_address" value="" maxlength="32" placeholder="这里输入详细地址" title="标题"  style="width:208px;"/></td>
+			</tr>
+			 
  		</table>
 		</div>
 		<div style="width:40%;padding-top:5%;margin:0 auto;">
@@ -59,9 +54,7 @@
 		</div>
  		<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
  	</form>
-	  <form action="" method="post" name="imageForm" id="imageForm"  enctype="multipart/form-data"> 
-         	<input type="file" style="display:none;"    name="upImage" class="upImage" onchange="fileType(this)"/>
-      </form>
+ 
  		<script type="text/javascript">window.jQuery || document.write("<script src='js/jquery-1.9.1.min.js'>\x3C/script>");</script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/ace-elements.min.js"></script>
@@ -77,88 +70,38 @@
  			//单选框
 			$(".chzn-select").chosen(); 
 			$(".chzn-select-deselect").chosen({allow_single_deselect:true}); 
-			
-			//日期框
+ 			//日期框
 			$('.date-picker').datepicker();
-			 
-			
+ 			
     	});
-		
-		
-		
-		
-		
-		var classId="";//class的唯一标示
-	 	//上传按钮点击
-		function upload(value){
-			classId=value;
-			$(".upImage").click();
-		}
-
-	   //上传图片
-		function fileType(obj){
-	  	    var d=/\.[^\.]+$/.exec(obj.value); 
-	  		if(!validaImage(d)){
-				alert("请上传照片gif,png,jpg,jpeg格式");
-			}else{
-				var url="<%=basePath%>imgChange/editCate.do";
-  				$("#imageForm").ajaxSubmit({  
-				  	url :url ,
-			        type: "POST",//提交类型  
-			      	dataType:"json",
-			      	cache:false,
-			      	ifModified :true,
-			   		success:function(data){
-			   			 var url=data.data;
-	 				     $("#"+classId).val("");
-	    				 $("."+classId).attr("src","");
-	 				     $("#"+classId).val(url);
-	    				 $("."+classId).attr("src",url+"?timestamp=" + new Date().getTime() );
-						 classId="";   
- 	 				}
-				}); 
-	  		}
-	 	}	 
-
-		//判断图片是否符合格式
-		function validaImage(filename){
-			if('.gif.png.jpg.jpeg'.indexOf(filename)<0&&'.GIF.PNG.JPG.JPEG'.indexOf(filename)<0){
-				return false;
-			}
-	 		return true;
-		}
-		
-		 
-		
-		
+  		 
 		
 		//保存
 		function save(){
-			if($("#title").val()==""){
-				$("#title").tips({
+			if($("#address_name").val()==""){
+				$("#address_name").tips({
 					side:3,
-		            msg:'请输入标题',
+		            msg:'请输入配送地址',
 		            bg:'#AE81FF',
 		            time:1
 		        });
-				$("#title").focus();
+				$("#address_name").focus();
 				return false;
 			}
-			if($("#image_url").val()==""){
-				$(".image_url").tips({
+			if($("#detail_address").val()==""){
+				$("#detail_address").tips({
 					side:3,
-		            msg:'请上传照片',
+		            msg:'请输入详细地址',
 		            bg:'#AE81FF',
 		            time:1
 		        });
-				$("#image_url").focus();
+				$("#detail_address").focus();
 				return false;
 			}
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
-			
-		}
+ 		}
 		
 		 
 		

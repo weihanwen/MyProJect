@@ -46,6 +46,7 @@
 		<mapper resource="mybatis/business/WMapper.xml"/>
 		<mapper resource="mybatis/business/Carousel_figureMapper.xml"/><!-- 轮播图 -->
 		<mapper resource="mybatis/business/CategoryMapper.xml"/><!-- 类别 -->
+		<mapper resource="mybatis/business/AddressMapper.xml"/><!-- 大厦坐标地点 -->
 		 
 		
 	</mappers>

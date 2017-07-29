@@ -79,8 +79,7 @@
 			
 			//日期框
 			$('.date-picker').datepicker();
-			//
-			changeLinkType("${pd.link_type}");
+			 
 			
     	});
 		

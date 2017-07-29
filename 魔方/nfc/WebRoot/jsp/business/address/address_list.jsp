@@ -21,7 +21,7 @@
 	
 	<ul class="breadcrumb">
 		<li><i class="icon-home"></i> <a href="login_index.do" target="self">首页</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-		<li class="active">分类管理</li>
+		<li class="active">地址管理</li>
 	</ul><!--.breadcrumb-->
 	
 	<div id="nav-search">
@@ -36,14 +36,14 @@
 	<div class="row-fluid">
 	
 			<!-- 检索  -->
-			<form action="category/list.do" method="post" name="Form" id="Form">
+			<form action="address/list.do" method="post" name="Form" id="Form">
 			<!-- 检索  -->
  			<table id="table_report" class="table table-striped table-bordered table-hover">
  				<thead>
 					<tr>
 						<th>序号</th>
-						<th>分类名称</th>
-						<th>调整位置</th>
+						<th>配送点名称</th>
+						<th>详细地址</th>
  						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -55,21 +55,18 @@
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
-								<td>${var.title}</td>
- 								<td category_id="${var.category_id}">
-									<a style="display: block; float: left; margin-left: 3%;cursor: pointer; " title="上移" onclick="move(this,1)"> <img src="images/up.png" style="width: 18px;"></a>
-									<a style=" display: block; float: left; margin-left: 3%;cursor: pointer; " title="下移" onclick="move(this,-1)"> <img src="images/down.png" style="width: 18px;"></a>
-								</td>
-								<td style="width: 30px;" class="center">
+								<td>${var.address_name}</td>
+								<td>${var.detail_address}</td>
+ 								<td style="width: 30px;" class="center">
 										 <div class='hidden-phone visible-desktop btn-group'>
 	 										<c:if test="${QX.edit != 1 && QX.del != 1 }">
 											<span class="label label-large label-grey arrowed-in-right arrowed-in">无权限</span>
 											</c:if>
 											<c:if test="${QX.edit == 1 }">
-												<a   title="编辑" onclick="edit('${var.category_id}');"  class="btn btn-mini btn-info"  >编辑</a>
+												<a   title="编辑" onclick="edit('${var.address_id}');"  class="btn btn-mini btn-info"  >编辑</a>
 											</c:if>
 											<c:if test="${QX.del == 1 }">
-												<a   title="删除" onclick="del('${var.category_id}');"  class="btn btn-mini btn-info"  >删除</a>
+												<a   title="删除" onclick="del('${var.address_id}');"  class="btn btn-mini btn-info"  >删除</a>
 											</c:if>
 											</div> 
  								</td>
@@ -98,7 +95,7 @@
 			<tr>
 				<td style="vertical-align:top;">
 					<c:if test="${QX.add == 1 }">
-						<a class="btn btn-small btn-success" onclick="add();">新增类别</a>
+						<a class="btn btn-small btn-success" onclick="add();">新增配送点</a>
 					</c:if>
  				</td>
 				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
@@ -144,8 +141,8 @@
 			 window.parent.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="新增类别";
-			 diag.URL = '<%=basePath%>/category/goAdd.do';
+			 diag.Title ="新增配送点";
+			 diag.URL = '<%=basePath%>/address/goAdd.do';
 			 diag.Width = 600;
 			 diag.Height = 500;
 			 diag.CancelEvent = function(){ //关闭事件
@@ -166,7 +163,7 @@
 		function del(Id){
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
-					var url = "<%=basePath%>/category/delete.do?category_id="+Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>/address/delete.do?address_id="+Id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
 						if(data=="success"){
 							nextPage(${page.currentPage});
@@ -176,36 +173,15 @@
 			});
 		}
 		
-		//修改排序
-		function move(obj,number){
-			var category_id_one=$(obj).parent().attr("category_id");
-			var category_id_two="";
- 			if(number == "1"){
-				if($(obj).parent().parent().prev() == null ){
-					return;
-				}
- 				category_id_two=$(obj).parent().parent().prev().children("td").eq(2).attr("category_id");
-			}else{
-				if( $(obj).parent().parent().next() == null ){
-					return;
-				}
- 				category_id_two=$(obj).parent().parent().next().children("td").eq(2).attr("category_id");
-			}
-			var url = "<%=basePath%>/category/updateSort.do?category_id_one="+category_id_one+"&category_id_two="+category_id_two;
-			$.get(url,function(data){
-				if(data=="success"){
-					nextPage(${page.currentPage});
-				}
-			});
-		}
+	 
 		
 		//修改
 		function edit(Id){
 			 window.parent.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="编辑类别";
-			 diag.URL = '<%=basePath%>/category/goEdit.do?category_id='+Id;
+			 diag.Title ="编辑配送点";
+			 diag.URL = '<%=basePath%>/address/goEdit.do?address_id='+Id;
 			 diag.Width = 600;
 			 diag.Height = 500;
 			 diag.CancelEvent = function(){ //关闭事件
