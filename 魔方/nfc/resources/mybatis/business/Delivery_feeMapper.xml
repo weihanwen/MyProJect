@@ -62,7 +62,7 @@
 			delivery_fee_id 
  		from 
 			tb_delivery_fee
-		order by number desc
+		order by number 
    	</select>
  
 	

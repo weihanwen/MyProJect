@@ -43,7 +43,7 @@
 					<tr>
 						<!-- <th>序号</th> -->
 						<th>数量（份）</th>
-						<th>配送费</th>
+						<th>配送费 （元）</th>
  						<th class="center">操作</th>
 					</tr>
 				</thead>
