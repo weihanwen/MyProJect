@@ -55,10 +55,10 @@ public class LunchService {
 	}
 	
 	/*
-	*列表(全部)
+	*列表(全部)上架商品
 	*/
-	public List<PageData> listAll(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("LunchMapper.listAll", pd);
+	public List<PageData> listAllUpShelves(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("LunchMapper.listAllUpShelves", pd);
 	}
 	
 	/*

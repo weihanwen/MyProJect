@@ -45,8 +45,8 @@
 			<tr>
 				<td>轮播图 ：</td>
 				<td>
-					<span style="display:inline-block;border:1px solid #999;max-width: 300px;height: 100px;text-align: center;" onclick="upload('image_url')">
-	 					<img  class="image_url" src="${empty pd.image_url ?'img/sjht_add.png':pd.image_url}"  style="height: 100%;">	
+					<span style="display:inline-block;border:1px solid #999; width: 300px; text-align: center;" onclick="upload('image_url')">
+	 					<img  class="image_url" src="${empty pd.image_url ?'img/sjht_add.png':pd.image_url}"   style="width: 100%;">	
 						<input type="text" name="image_url" id="image_url" value="${pd.image_url}" style="display:none;width:1px;height:1px;"/>
  					</span>
 				</td>
@@ -77,11 +77,13 @@
 			<tr class="h5_url link_content">
 				<td>外部H5链接 :</td><td><input type="text"  value="${pd.link_content}" placeholder="请输入外部H5链接"  id="h5_url" ></td>
 			</tr>
-			<tr class="goods_id link_content">
+			<tr class="lunch_id link_content">
 				<td>菜品链接 ：</td>
 				<td>
-					<select class="chzn-select" id="goods_id"   >
-	            		<option value="" >请选择菜品</option>
+					<select class="chzn-select" id="lunch_id"   >
+  	            		<c:forEach items="${lunchList }" var="var">
+ 	            			<option value="${var.lunch_id }" ${pd.link_content eq var.lunch_id?'selected':''}>${var.lunch_name }</option>
+ 	            		</c:forEach>
  	            	</select>
 				</td>
 			</tr>
@@ -167,13 +169,13 @@
 		function changeLinkType(value){
 			if(value=="1"){
 				$(".h5_url").hide();
-				$(".goods_id").hide();
+				$(".lunch_id").hide();
 			}else if(value=="2"){
 				$(".h5_url").show();
-				$(".goods_id").hide();
+				$(".lunch_id").hide();
 			}else{
 				$(".h5_url").hide();
-				$(".goods_id").show();
+				$(".lunch_id").show();
 			}
 		}
 		
@@ -217,18 +219,18 @@
 					 
 					 $("#link_content").val($("#h5_url").val())
 				 }else if(link_type == "3"){
-					 if($("#goods_id").val() == ""){
-							$("#goods_id").tips({
+					 if($("#lunch_id").val() == ""){
+							$("#lunch_id").tips({
 								side:3,
 					            msg:'请选择菜品',
 					            bg:'#AE81FF',
 					            time:1
 					        });
-							$("#goods_id").focus();
+							$("#lunch_id").focus();
 							return false;
 						}
 					 
-					 $("#link_content").val($("#goods_id").val())
+					 $("#link_content").val($("#lunch_id").val())
 				 }
  				 $("#Form").submit();
 				 $("#zhongxin").hide();

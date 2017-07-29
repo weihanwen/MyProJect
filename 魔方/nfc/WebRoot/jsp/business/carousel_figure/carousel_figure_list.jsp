@@ -154,7 +154,7 @@
 			 diag.Title ="新增轮播图";
 			 diag.URL = '<%=basePath%>/carousel_figure/goAdd.do';
 			 diag.Width = 600;
-			 diag.Height = 500;
+			 diag.Height = 700;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 if('${page.currentPage}' == '0'){
@@ -191,7 +191,7 @@
 			 diag.Title ="编辑";
 			 diag.URL = '<%=basePath%>/carousel_figure/goEdit.do?carousel_figure_id='+Id;
 			 diag.Width = 600;
-			 diag.Height = 500;
+			 diag.Height = 700;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 nextPage(${page.currentPage});

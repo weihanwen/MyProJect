@@ -114,6 +114,18 @@
 		order by a.createtime desc
   	</select>
  
+ 
+ 
+	<!-- 获取所有上架商品 -->
+	<select id="listAllUpShelves" parameterType="pd" resultType="pd">
+		select 
+			cast(a.lunch_id as char) as lunch_id,
+			a.lunch_name 
+		from 
+			tb_lunch a  
+  		where 
+ 			a.is_shelves='1'
+  	</select>
 	
 	
 </mapper>

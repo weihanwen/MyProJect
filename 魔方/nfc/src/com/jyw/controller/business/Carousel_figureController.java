@@ -27,6 +27,7 @@ import com.jyw.service.business.Carousel_figureService;
 import com.jyw.util.AppUtil;
 import com.jyw.util.Const;
 import com.jyw.util.PageData;
+import com.jyw.util.ServiceHelper;
 import com.jyw.util.file.ObjectExcelView;
 
 /** 
@@ -130,6 +131,9 @@ public class Carousel_figureController extends BaseController {
 		PageData pd = new PageData();
  		try {
  			pd = this.getPageData();
+ 			//获取所有上架商品
+ 			List<PageData> lunchList=ServiceHelper.getLunchService().listAllUpShelves(pd);
+ 			mv.addObject("lunchList", lunchList);
 			mv.setViewName("business/carousel_figure/carousel_figure_save");
  			mv.addObject("pd", pd);
 		} catch (Exception e) {
@@ -145,8 +149,11 @@ public class Carousel_figureController extends BaseController {
 	public ModelAndView goEdit(){
  		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
-		pd = this.getPageData();
-		try {
+ 		try {
+ 			pd = this.getPageData();
+			//获取所有上架商品
+ 			List<PageData> lunchList=ServiceHelper.getLunchService().listAllUpShelves(pd);
+ 			mv.addObject("lunchList", lunchList);
 			pd = carousel_figureService.findById(pd);	//根据ID读取
 			mv.setViewName("business/carousel_figure/carousel_figure_edit");
 			mv.addObject("msg", "edit");
