@@ -251,7 +251,7 @@
 				return false;
 			}
 			if($("#product_cover").val()==""){
-				$("#product_cover").tips({
+				$(".product_cover").tips({
 					side:3,
 		            msg:'请选择产品封面',
 		            bg:'#AE81FF',
@@ -261,7 +261,7 @@
 				return false;
 			}
 			if($("#inside_banner").val()==""){
-				$("#inside_banner").tips({
+				$(".inside_banner").tips({
 					side:3,
 		            msg:'请选择内部banner',
 		            bg:'#AE81FF',
@@ -271,7 +271,7 @@
 				return false;
 			}
 			if($("#graphic_description").val()==""){
-				$("#graphic_description").tips({
+				$(".graphic_description").tips({
 					side:3,
 		            msg:'请选择图文描述',
 		            bg:'#AE81FF',

@@ -104,7 +104,7 @@
 			a.sale_money,
  			a.inside_banner,
  			a.is_shelves,
- 			a.have_salenumber,
+ 			ifnull(a.have_salenumber,'0' ) as have_salenumber,
  			b.title
 		from 
 			tb_lunch a left join tb_category b on a.category_id=b.category_id

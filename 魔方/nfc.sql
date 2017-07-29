@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-07-29 16:13:21
+Date: 2017-07-29 16:34:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -147,7 +147,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-29 14:20:45', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-29 16:25:22', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
 INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '8a87afcba102444dacd90c1151fcf29b', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
@@ -315,10 +315,10 @@ DROP TABLE IF EXISTS `tb_lunch`;
 CREATE TABLE `tb_lunch` (
   `lunch_id` int(11) NOT NULL AUTO_INCREMENT,
   `lunch_name` varchar(100) DEFAULT NULL,
-  `sale_money` double(10,2) DEFAULT NULL,
+  `sale_money` int(10) DEFAULT NULL,
   `product_cover` varchar(100) DEFAULT NULL,
   `inside_banner` varchar(100) DEFAULT NULL,
-  `graphic_description` varchar(11) DEFAULT NULL,
+  `graphic_description` text,
   `is_shelves` varchar(4) DEFAULT NULL,
   `is_reservation` varchar(4) DEFAULT NULL,
   `inventory_number` int(11) DEFAULT NULL,
@@ -329,11 +329,12 @@ CREATE TABLE `tb_lunch` (
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `category_id` int(100) NOT NULL DEFAULT '0',
   PRIMARY KEY (`lunch_id`,`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_lunch
 -- ----------------------------
+INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunch/93a86392d06d444fa315ee76afb66fdf.jpg', 'http://localhost/FileSave//lunch/3ff9a1dacd4c49feb5c8ca90a0bad0cf.jpg', 'http://localhost/FileSave//lunch/e1724d1115fd4851b0f5cf8710e2c0cb.gif', '99', '99', '12', null, '12sda', '0', '2017-07-29 16:28:35', '2017-07-29 16:32:30', '9');
 
 -- ----------------------------
 -- Table structure for `tb_w`

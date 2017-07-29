@@ -60,7 +60,7 @@
 							<tr>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 								<td>
-									<img src="${var.inside_banner}" style="width: 100px;"/>
+									<img src="${var.inside_banner}" style="width: 35px;"/>
 									${var.lunch_name}
 								</td>
 								<td>
@@ -70,7 +70,7 @@
 									${var.title}
 								</td>
 								<td>
-									<c:if test="${var.is_shelves eq '1'}"><span style="color:red;">已上架</span></c:if>
+									<c:if test="${var.is_shelves eq '1'}"><span style="color:green;">已上架</span></c:if>
 									<c:if test="${var.is_shelves eq '99'}"><span style="color:red;">已下架</span></c:if>
 								</td>
 								<td>
@@ -88,9 +88,9 @@
 											<c:if test="${QX.edit == 1 }">
 												<a   title="编辑" onclick="edit('${var.lunch_id}');"  class="btn btn-mini btn-info"  >编辑</a>
 											</c:if>
-											<c:if test="${QX.del == 1 }">
+											<%-- <c:if test="${QX.del == 1 }">
 												<a   title="删除" onclick="del('${var.lunch_id}');"  class="btn btn-mini btn-info"  >删除</a>
-											</c:if>
+											</c:if> --%>
 											</div> 
  								</td>
 							</tr>

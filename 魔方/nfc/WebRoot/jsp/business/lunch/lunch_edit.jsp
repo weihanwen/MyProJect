@@ -21,8 +21,7 @@
 		<!--[if IE 7]><link rel="stylesheet" href="css/font-awesome-ie7.min.css" /><![endif]-->
 		<!--[if lt IE 9]><link rel="stylesheet" href="css/ace-ie.min.css" /><![endif]-->
  		<link rel="stylesheet" href="css/chosen.css" /><!-- 下拉框 -->
- 		<link rel="stylesheet" href="css/ace.min.css" />
-		<link rel="stylesheet" href="css/ace-responsive.min.css" />
+ 		<link rel="stylesheet" href="css/ace-responsive.min.css" />
 		<link rel="stylesheet" href="css/ace-skins.min.css" />
  		<link rel="stylesheet" href="css/datepicker.css" /><!-- 日期框 -->
  		<!-- 引入 -->
@@ -58,9 +57,9 @@
 			<tr>
 				<td>便当价格 ：</td>
 				<td>
-					<input  class="chzn-select"  type="radio" name="_money" class="_money"   ${pd.sale_money eq '25'?'checked':''} onclick="changeSaleMoney('25')"/>25元 
-					<input  class="chzn-select"  type="radio" name="_money"  class="_money" ${pd.sale_money eq '28'?'checked':''} onclick="changeSaleMoney('28')"/>28元
-					<input  class="chzn-select"  type="radio" name="_money"  class="_money" ${pd.sale_money eq '38'?'checked':''} onclick="changeSaleMoney('38')" />38元 
+					<input    type="radio" name="_money" class="_money"   ${pd.sale_money eq '25'?'checked':''} onclick="changeSaleMoney('25')"/>25元 
+					<input    type="radio" name="_money"  class="_money" ${pd.sale_money eq '28'?'checked':''} onclick="changeSaleMoney('28')"/>28元
+					<input     type="radio" name="_money"  class="_money" ${pd.sale_money eq '38'?'checked':''} onclick="changeSaleMoney('38')" />38元 
 					<input  type="hidden" name="sale_money" id="sale_money" value="${pd.sale_money}" />
 				</td>
 			</tr>
@@ -73,16 +72,16 @@
 			<tr>
 				<td>是否可以预定 ：</td>
 				<td>
-					<input  class="chzn-select"  type="radio" name="_yd"  class="_yd"  ${pd.is_reservation eq '1'?'checked':''} onclick="changeReservation('1')"/>当天可以预定 
-					<input  class="chzn-select"  type="radio" name="_yd"  class="_yd"  ${pd.is_reservation eq '1'?'':'checked'} onclick="changeReservation('99')"/>当天不可预定
+					<input      type="radio" name="_yd"  class="_yd"  ${pd.is_reservation eq '1'?'checked':''} onclick="changeReservation('1')"/>当天可以预定 
+					<input     type="radio" name="_yd"  class="_yd"  ${pd.is_reservation eq '1'?'':'checked'} onclick="changeReservation('99')"/>当天不可预定
  					<input  type="hidden" name="is_reservation" id="is_reservation" value="${pd.is_reservation eq '1'?'1':'99'}" />
 				</td>
 			</tr>
 			<tr>
 				<td>是否上架 ：</td>
 				<td>
-					<input  class="chzn-select"  type="radio" name="_shelves"  class="_shelves"  ${pd.is_shelves eq '1'?'checked':''} onclick="changeShelves('1')"/>是
-					<input  class="chzn-select"  type="radio" name="_shelves"  class="_shelves"  ${pd.is_shelves eq '1'?'':'checked'} onclick="changeShelves('99')"/>否
+					<input    type="radio" name="_shelves"  class="_shelves"  ${pd.is_shelves eq '1'?'checked':''} onclick="changeShelves('1')"/>是
+					<input     type="radio" name="_shelves"  class="_shelves"  ${pd.is_shelves eq '1'?'':'checked'} onclick="changeShelves('99')"/>否
  					<input  type="hidden" name="is_shelves" id="is_shelves" value="${pd.is_shelves eq '1'?'1':'99'}" />
 				</td>
 			</tr>
@@ -252,7 +251,7 @@
 				return false;
 			}
 			if($("#product_cover").val()==""){
-				$("#product_cover").tips({
+				$(".product_cover").tips({
 					side:3,
 		            msg:'请选择产品封面',
 		            bg:'#AE81FF',
@@ -262,7 +261,7 @@
 				return false;
 			}
 			if($("#inside_banner").val()==""){
-				$("#inside_banner").tips({
+				$(".inside_banner").tips({
 					side:3,
 		            msg:'请选择内部banner',
 		            bg:'#AE81FF',
@@ -272,7 +271,7 @@
 				return false;
 			}
 			if($("#graphic_description").val()==""){
-				$("#graphic_description").tips({
+				$(".graphic_description").tips({
 					side:3,
 		            msg:'请选择图文描述',
 		            bg:'#AE81FF',
