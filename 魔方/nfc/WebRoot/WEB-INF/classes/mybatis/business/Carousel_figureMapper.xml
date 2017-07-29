@@ -25,7 +25,7 @@
 			#{link_content},	
 			now(),	
 			now(),	
-			address_id 
+			#{address_id} 
 		)
 	</insert>
 	

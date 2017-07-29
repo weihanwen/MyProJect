@@ -57,6 +57,39 @@ public class ImageChangeController extends BaseController {
  		return map;
 	}
 	
+	/**
+	 * 修改类别
+	 * imgChange/editCate.do
+ 	 */
+	@RequestMapping(value="/editCate")
+	@ResponseBody
+	public Object editCate(
+			@RequestParam(value="upImage",required=false) MultipartFile file
+  			){
+ 		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "1";
+		String message="新增成功";
+ 		try{
+ 			String logourl="";
+			if(file != null){
+ 					String currentPath = AppUtil.getuploadRootUrl(); //获取文件跟补录
+					String filePath = "/category";//文件上传路径
+ 					String cityFilename =  FileUpload.fileUp(file, currentPath+filePath,this.get32UUID());//字符拼接，上传到服务器上
+ 					logourl = AppUtil.getuploadRootUrlIp()+filePath+"/"+cityFilename;
+    	 	 }else{
+   	 			result="0";
+   	 			message="上传失败[file]不能为空";
+   	 		}
+			map.put("data", logourl);
+		} catch(Exception e){
+			result = "0";
+			logger.error(e.toString(), e);
+		}
+		map.put("result", result);
+		map.put("message", message);
+ 		return map;
+	}
+	
 	
 }
 
