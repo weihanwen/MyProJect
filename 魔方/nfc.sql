@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-07-28 17:31:03
+Date: 2017-07-29 11:23:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -87,6 +87,8 @@ INSERT INTO `sys_menu` VALUES ('2', '组织管理', 'role.do', '1', '2', null, '
 INSERT INTO `sys_menu` VALUES ('5', '系统用户', 'user/listUsers.do', '1', '3', null, '1');
 INSERT INTO `sys_menu` VALUES ('6', '基础配置', '#', '0', '1', null, '');
 INSERT INTO `sys_menu` VALUES ('7', '轮播图列表', 'carousel_figure/list.do', '6', '1', null, '');
+INSERT INTO `sys_menu` VALUES ('8', '类别列表', 'category/list.do', '6', '2', null, '');
+INSERT INTO `sys_menu` VALUES ('9', '配送点列表', 'address/list.do', '6', '3', null, '');
 
 -- ----------------------------
 -- Table structure for `sys_role`
@@ -108,9 +110,9 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', '系统管理员', '230', '0', '1', '1', '1', '1', '1');
-INSERT INTO `sys_role` VALUES ('2', '超级管理员', '230', '1', '238943974', '238943974', '238943974', '238943974', '2');
-INSERT INTO `sys_role` VALUES ('3e6a9c1a13824b0990d13739fcbc3b09', '信息管理成员', '192', '1', '', '', '192', '192', '3e6a9c1a13824b0990d13739fcbc3b09');
+INSERT INTO `sys_role` VALUES ('1', '系统管理员', '998', '0', '1', '1', '1', '1', '1');
+INSERT INTO `sys_role` VALUES ('2', '超级管理员', '998', '1', '238943974', '238943974', '238943974', '238943974', '2');
+INSERT INTO `sys_role` VALUES ('3e6a9c1a13824b0990d13739fcbc3b09', '信息管理成员', '960', '1', '', '', '192', '192', '3e6a9c1a13824b0990d13739fcbc3b09');
 
 -- ----------------------------
 -- Table structure for `sys_user`
@@ -137,7 +139,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-28 17:28:00', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-29 11:19:13', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
 INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '3e6a9c1a13824b0990d13739fcbc3b09', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
@@ -193,6 +195,24 @@ INSERT INTO `sys_zidian` VALUES ('ebf64019f3844ad98f16f890fb382306', '用户分�
 INSERT INTO `sys_zidian` VALUES ('f937550dd3ca4c5bad65a3b3d18d9fed', '管理员', 'A_D', '4', 'ebf64019f3844ad98f16f890fb382306', '2', 'A_A_D');
 
 -- ----------------------------
+-- Table structure for `tb_address`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_address`;
+CREATE TABLE `tb_address` (
+  `address_id` int(11) NOT NULL AUTO_INCREMENT,
+  `address_name` varchar(100) DEFAULT NULL,
+  `detail_address` varchar(100) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`address_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_address
+-- ----------------------------
+INSERT INTO `tb_address` VALUES ('10', '国泰科技大厦', '名河路了撒大大啊', '2017-07-29 11:19:55', '2017-07-29 11:19:55');
+
+-- ----------------------------
 -- Table structure for `tb_carousel_figure`
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_carousel_figure`;
@@ -207,7 +227,7 @@ CREATE TABLE `tb_carousel_figure` (
   `link_content` varchar(100) DEFAULT NULL,
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `address_id` varchar(100) DEFAULT NULL,
+  `address_id` varchar(100) DEFAULT '0',
   PRIMARY KEY (`carousel_figure_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
@@ -215,6 +235,26 @@ CREATE TABLE `tb_carousel_figure` (
 -- Records of tb_carousel_figure
 -- ----------------------------
 INSERT INTO `tb_carousel_figure` VALUES ('2', ' q', 'http://localhost/FileSave//carousel/3dc32847d7e94ffbb84fd7c6e664b022.jpg', '2017-07-29', '2017-07-29', '0', '2', 'ssss', '2017-07-28 17:30:31', '2017-07-28 17:30:46', null);
+
+-- ----------------------------
+-- Table structure for `tb_category`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_category`;
+CREATE TABLE `tb_category` (
+  `category_id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) DEFAULT NULL,
+  `image_url` varchar(100) DEFAULT NULL,
+  `sort` varchar(4) DEFAULT '10',
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `address_id` varchar(100) DEFAULT '0',
+  PRIMARY KEY (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_category
+-- ----------------------------
+INSERT INTO `tb_category` VALUES ('9', '菜单', 'http://localhost/FileSave//category/866e1683952b41cc8aca59dd90836df7.gif', '0', '2017-07-29 11:01:30', '2017-07-29 11:02:18', null);
 
 -- ----------------------------
 -- Table structure for `tb_log`
