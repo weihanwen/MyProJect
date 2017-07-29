@@ -11,8 +11,8 @@ import com.jyw.entity.Page;
 import com.jyw.util.PageData;
 
 
-@Service("addressService")
-public class AddressService {
+@Service("delivery_feeService")
+public class Delivery_feeService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
@@ -21,50 +21,50 @@ public class AddressService {
 	* 新增
 	*/
 	public void save(PageData pd)throws Exception{
-		dao.save("AddressMapper.save", pd);
+		dao.save("Delivery_feeMapper.save", pd);
 	}
 	
 	/*
 	* 删除
 	*/
 	public void delete(PageData pd)throws Exception{
-		dao.delete("AddressMapper.delete", pd);
+		dao.delete("Delivery_feeMapper.delete", pd);
 	}
 	
 	/*
 	* 修改
 	*/
 	public void edit(PageData pd)throws Exception{
-		dao.update("AddressMapper.edit", pd);
+		dao.update("Delivery_feeMapper.edit", pd);
 	}
 	
-	
+ 
 	/*
 	*列表
 	*/
 	public List<PageData> list(Page page)throws Exception{
-		return (List<PageData>)dao.findForList("AddressMapper.datalistPage", page);
+		return (List<PageData>)dao.findForList("Delivery_feeMapper.datalistPage", page);
 	}
 	
 	/*
 	*列表(全部)
 	*/
 	public List<PageData> listAll(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("AddressMapper.listAll", pd);
+		return (List<PageData>)dao.findForList("Delivery_feeMapper.listAll", pd);
 	}
 	
 	/*
 	* 通过id获取数据
 	*/
 	public PageData findById(PageData pd)throws Exception{
-		return (PageData)dao.findForObject("AddressMapper.findById", pd);
+		return (PageData)dao.findForObject("Delivery_feeMapper.findById", pd);
 	}
 	
 	/*
 	* 批量删除
 	*/
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
-		dao.delete("AddressMapper.deleteAll", ArrayDATA_IDS);
+		dao.delete("Delivery_feeMapper.deleteAll", ArrayDATA_IDS);
 	}
 	
 }
