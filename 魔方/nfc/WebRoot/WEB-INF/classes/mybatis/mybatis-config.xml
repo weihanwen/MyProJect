@@ -49,6 +49,7 @@
 		<mapper resource="mybatis/business/AddressMapper.xml"/><!-- 大厦坐标地点 -->
 		<mapper resource="mybatis/business/Delivery_feeMapper.xml"/><!-- 配送费用设置 -->
 		<mapper resource="mybatis/business/LunchMapper.xml"/><!-- 便当管理 -->
+		<mapper resource="mybatis/business/Daily_menuMapper.xml"/><!-- 每天便当管理 -->
 		 
 		
 	</mappers>
