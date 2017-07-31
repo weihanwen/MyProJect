@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Weekmeal_cardMapper">
+
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into tb_weekmeal_card(
+ 			sale_money,
+			twenty_five_number,
+			twenty_eight_number,
+			thirty_five_number,
+			thirty_eight_number,
+ 			createtime,
+			create_oprator_id
+   		) values (
+ 			#{sale_money}, 
+			#{twenty_five_number}, 
+			#{twenty_eight_number}, 
+			#{thirty_five_number}, 
+			#{thirty_eight_number}, 
+			now(),	
+			#{create_oprator_id} 
+		)
+	</insert>
+	
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from tb_weekmeal_card
+		where 
+			weekmeal_card_id = #{weekmeal_card_id}
+	</delete>
+ 
+	<!-- 修改 -->
+	<update id="changeStatus" parameterType="pd">
+			update  tb_weekmeal_card
+			set 
+ 				isservice= #{isservice}  
+			where 
+				weekmeal_card_id = #{weekmeal_card_id}
+	</update>
+	
+ 
+	
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			weekmeal_card_id,
+			sale_money,
+			twenty_five_number,
+			twenty_eight_number,
+			thirty_five_number,
+			thirty_eight_number,
+ 			createtime,
+			create_oprator_id 
+		from 
+			tb_weekmeal_card
+		where 
+			weekmeal_card_id = #{weekmeal_card_id}
+	</select>
+	
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select 
+			a.weekmeal_card_id,
+			a.sale_money,
+			a.twenty_five_number,
+			a.twenty_eight_number,
+			a.thirty_five_number,
+			a.thirty_eight_number,
+ 			a.createtime,
+			a.create_oprator_id,
+			b.username
+		from 
+			tb_weekmeal_card a  
+ 			left join sys_user b on b.user_id=a.create_oprator_id
+ 			
+ 			
+ 		order by a.createtime desc
+  	</select>
+
+</mapper>
