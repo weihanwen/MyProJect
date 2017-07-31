@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-07-31 12:00:53
+Date: 2017-07-31 15:09:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -99,6 +99,7 @@ INSERT INTO `sys_menu` VALUES ('16', '红包列表', 'redpackage/list.do', '15',
 INSERT INTO `sys_menu` VALUES ('17', '每日菜谱', 'daily_menu/list.do', '11', '2', null, '');
 INSERT INTO `sys_menu` VALUES ('18', '会员管理 ', '#', '0', '6', null, '2');
 INSERT INTO `sys_menu` VALUES ('19', '会员列表', 'wxmember/list.do', '18', '1', null, '2');
+INSERT INTO `sys_menu` VALUES ('20', '预定时间以及菜谱列表', 'scheduled_time/list.do', '11', '3', null, '');
 
 -- ----------------------------
 -- Table structure for `sys_role`
@@ -120,9 +121,9 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', '系统管理员', '1048550', '0', '1', '1', '1', '1', '1');
-INSERT INTO `sys_role` VALUES ('2', '超级管理员', '1048550', '1', '238943974', '238943974', '238943974', '238943974', '2');
-INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '1048512', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
+INSERT INTO `sys_role` VALUES ('1', '系统管理员', '2097126', '0', '1', '1', '1', '1', '1');
+INSERT INTO `sys_role` VALUES ('2', '超级管理员', '2097126', '1', '238943974', '238943974', '238943974', '238943974', '2');
+INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '2097126', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
 
 -- ----------------------------
 -- Table structure for `sys_user`
@@ -149,7 +150,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-31 11:51:16', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-31 15:09:01', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
 INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '8a87afcba102444dacd90c1151fcf29b', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
@@ -343,6 +344,7 @@ CREATE TABLE `tb_lunch` (
   `graphic_description` text,
   `is_shelves` varchar(4) DEFAULT NULL,
   `is_reservation` varchar(4) DEFAULT NULL,
+  `reservation_number` int(11) DEFAULT NULL,
   `inventory_number` int(11) DEFAULT NULL,
   `have_salenumber` int(11) DEFAULT NULL,
   `lunch_description` text,
@@ -356,8 +358,8 @@ CREATE TABLE `tb_lunch` (
 -- ----------------------------
 -- Records of tb_lunch
 -- ----------------------------
-INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunch/93a86392d06d444fa315ee76afb66fdf.jpg', 'http://localhost/FileSave//lunch/3ff9a1dacd4c49feb5c8ca90a0bad0cf.jpg', 'http://localhost/FileSave//lunch/e1724d1115fd4851b0f5cf8710e2c0cb.gif', '1', '99', '12', null, '12sda', '0', '2017-07-29 16:28:35', '2017-07-29 16:45:55', '9');
-INSERT INTO `tb_lunch` VALUES ('4', '啦啦', '25', 'http://localhost/FileSave//lunch/1c75fc81681f444ea52b89c9c38abb94.jpg', 'http://localhost/FileSave//lunch/775737c9860f4679845828dfa8daf579.gif', 'http://localhost/FileSave//lunch/bd95fff9343c4740bd895a345c2bd8c5.gif', '1', '1', '2', null, '1', '1', '2017-07-29 16:45:47', '2017-07-29 16:45:47', '9');
+INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunch/93a86392d06d444fa315ee76afb66fdf.jpg', 'http://localhost/FileSave//lunch/3ff9a1dacd4c49feb5c8ca90a0bad0cf.jpg', 'http://localhost/FileSave//lunch/e1724d1115fd4851b0f5cf8710e2c0cb.gif', '1', '99', null, '12', null, '12sda', '0', '2017-07-29 16:28:35', '2017-07-29 16:45:55', '9');
+INSERT INTO `tb_lunch` VALUES ('4', '啦啦', '25', 'http://localhost/FileSave//lunch/1c75fc81681f444ea52b89c9c38abb94.jpg', 'http://localhost/FileSave//lunch/775737c9860f4679845828dfa8daf579.gif', 'http://localhost/FileSave//lunch/bd95fff9343c4740bd895a345c2bd8c5.gif', '1', '1', null, '2', null, '1', '1', '2017-07-29 16:45:47', '2017-07-29 16:45:47', '9');
 
 -- ----------------------------
 -- Table structure for `tb_receive_condition`
@@ -397,6 +399,26 @@ CREATE TABLE `tb_redpackage` (
 INSERT INTO `tb_redpackage` VALUES ('1', '2', '10', '1,2,3,', '1', '2017-07-31 11:05:19', '2017-07-31 11:05:19');
 
 -- ----------------------------
+-- Table structure for `tb_scheduled_time`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_scheduled_time`;
+CREATE TABLE `tb_scheduled_time` (
+  `scheduled_time_id` int(11) NOT NULL,
+  `day` date DEFAULT NULL,
+  `starttime_slot` time DEFAULT NULL,
+  `endtime_slot` time DEFAULT NULL,
+  `lunch_idstr` varchar(100) DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `update_oprator_id` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`scheduled_time_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_scheduled_time
+-- ----------------------------
+INSERT INTO `tb_scheduled_time` VALUES ('1', '2017-07-31', '14:39:00', '16:39:03', null, '2017-07-31 14:39:09', 'admin');
+
+-- ----------------------------
 -- Table structure for `tb_w`
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_w`;
@@ -410,6 +432,45 @@ CREATE TABLE `tb_w` (
 -- Records of tb_w
 -- ----------------------------
 INSERT INTO `tb_w` VALUES ('', '1');
+
+-- ----------------------------
+-- Table structure for `tb_weekmeal_card`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_weekmeal_card`;
+CREATE TABLE `tb_weekmeal_card` (
+  `weekmeal_card_id` int(11) NOT NULL AUTO_INCREMENT,
+  `sale_money` int(11) DEFAULT NULL,
+  `twenty_five_number` int(11) DEFAULT NULL COMMENT '25元用餐劵个数',
+  `twenty_eight_number` int(11) DEFAULT NULL,
+  `thirty_five_number` int(11) DEFAULT NULL,
+  `thirty_eight_number` int(11) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `create_oprator_id` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`weekmeal_card_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_weekmeal_card
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tb_weekmeal_card_buy_wxmember`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_weekmeal_card_buy_wxmember`;
+CREATE TABLE `tb_weekmeal_card_buy_wxmember` (
+  `only_id` varchar(100) NOT NULL,
+  `wxmember_id` varchar(100) DEFAULT NULL,
+  `weekmeal_card_id` int(11) DEFAULT NULL,
+  `pay_status` varchar(4) DEFAULT NULL,
+  `serial_number` varchar(100) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `overtime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`only_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_weekmeal_card_buy_wxmember
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `tb_wxmember`
@@ -431,6 +492,7 @@ CREATE TABLE `tb_wxmember` (
 -- ----------------------------
 -- Records of tb_wxmember
 -- ----------------------------
+INSERT INTO `tb_wxmember` VALUES ('1', '2222', null, '2222', '1', '2123131', null, '2017-07-31 12:01:09', '2017-07-31 12:01:09');
 
 -- ----------------------------
 -- Table structure for `tb_wxmember_address`
@@ -452,6 +514,44 @@ CREATE TABLE `tb_wxmember_address` (
 
 -- ----------------------------
 -- Records of tb_wxmember_address
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tb_wxmember_redpackage`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_wxmember_redpackage`;
+CREATE TABLE `tb_wxmember_redpackage` (
+  `wxmember_redpackage_id` int(11) NOT NULL,
+  `wxmember_id` varchar(100) DEFAULT NULL,
+  `money` int(11) DEFAULT NULL,
+  `isuse` varchar(4) DEFAULT NULL,
+  `redpackage_id` int(11) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`wxmember_redpackage_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_wxmember_redpackage
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tb_wxmember_tihuojuan`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_wxmember_tihuojuan`;
+CREATE TABLE `tb_wxmember_tihuojuan` (
+  `wxmember_tihuojuan_id` int(11) NOT NULL,
+  `wxmember_id` varchar(100) DEFAULT NULL,
+  `money` int(11) DEFAULT NULL,
+  `isuse` varchar(4) DEFAULT NULL,
+  `weekmeal_card_id` int(11) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`wxmember_tihuojuan_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_wxmember_tihuojuan
 -- ----------------------------
 
 -- ----------------------------

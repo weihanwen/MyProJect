@@ -12,6 +12,7 @@
 			graphic_description,
 			is_shelves,
 			is_reservation,
+			reservation_number,
 			inventory_number,
 			have_salenumber,
 			lunch_description,
@@ -27,6 +28,7 @@
 			#{graphic_description},	
  			#{is_shelves},	
 			#{is_reservation},	
+			#{reservation_number},	
 			#{inventory_number},	
 			#{have_salenumber},	
 			#{lunch_description},
@@ -56,6 +58,7 @@
 				graphic_description= #{graphic_description},
 				is_shelves= #{is_shelves},
 				is_reservation= #{is_reservation},
+				reservation_number= #{reservation_number},
 				inventory_number= #{inventory_number},
 				have_salenumber= #{have_salenumber},
 				lunch_description= #{lunch_description},
@@ -83,6 +86,7 @@
 			graphic_description,
 			is_shelves,
 			is_reservation,
+			reservation_number,
 			inventory_number,
 			have_salenumber,
 			lunch_description,
@@ -116,7 +120,20 @@
  
  
  
-	<!-- 获取所有上架商品 -->
+	<!-- 获取所有上架并且可预订的商品 -->
+	<select id="listAllUpReservation" parameterType="pd" resultType="pd">
+		select 
+			cast(a.lunch_id as char) as lunch_id,
+			a.lunch_name,
+			ifnull(a.reservation_number,'0') as a.reservation_number
+		from 
+			tb_lunch a  
+  		where 
+ 			a.is_shelves='1' and a.is_reservation='1'
+  	</select>
+  	
+  	
+  	<!-- 获取所有上架商品 -->
 	<select id="listAllUpShelves" parameterType="pd" resultType="pd">
 		select 
 			cast(a.lunch_id as char) as lunch_id,

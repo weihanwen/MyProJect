@@ -69,12 +69,18 @@
 					<input  type="number" name="inventory_number" id="inventory_number" value=""  placeholder="这里输入库存" title="便当名称"  style="width:208px;"/>
 				</td>
 			</tr>
-			<tr>
+ 			<tr>
 				<td>是否可以预定 ：</td>
 				<td>
 					<input     type="radio" name="_yd"  class="_yd"  checked  onclick="changeReservation('1')"/>当天可以预定 
 					<input     type="radio" name="_yd"  class="_yd"    onclick="changeReservation('99')"/>当天不可预定
  					<input  type="hidden" name="is_reservation" id="is_reservation" value="1" />
+				</td>
+			</tr>
+			<tr>
+				<td>设置可以预定的数量 ：</td>
+				<td>
+					<input  type="number" name="reservation_number" id="reservation_number" value=""  placeholder="这里输入预定的数量" title="预定的数量"  style="width:208px;"/>
 				</td>
 			</tr>
 			<tr>

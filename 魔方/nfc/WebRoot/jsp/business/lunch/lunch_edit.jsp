@@ -72,9 +72,15 @@
 			<tr>
 				<td>是否可以预定 ：</td>
 				<td>
-					<input      type="radio" name="_yd"  class="_yd"  ${pd.is_reservation eq '1'?'checked':''} onclick="changeReservation('1')"/>当天可以预定 
-					<input     type="radio" name="_yd"  class="_yd"  ${pd.is_reservation eq '1'?'':'checked'} onclick="changeReservation('99')"/>当天不可预定
+					<input  type="radio" name="_yd"  class="_yd"  ${pd.is_reservation eq '1'?'checked':''} onclick="changeReservation('1')"/>当天可以预定 
+					<input  type="radio" name="_yd"  class="_yd"  ${pd.is_reservation eq '1'?'':'checked'} onclick="changeReservation('99')"/>当天不可预定
  					<input  type="hidden" name="is_reservation" id="is_reservation" value="${pd.is_reservation eq '1'?'1':'99'}" />
+				</td>
+			</tr>
+			<tr>
+				<td>设置可以预定的数量 ：</td>
+				<td>
+					<input  type="number" name="reservation_number" id="reservation_number" value="${pd.reservation_number}"  placeholder="这里输入预定的数量" title="预定的数量"  style="width:208px;"/>
 				</td>
 			</tr>
 			<tr>

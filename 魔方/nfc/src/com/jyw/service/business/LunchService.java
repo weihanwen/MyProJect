@@ -62,6 +62,13 @@ public class LunchService {
 	}
 	
 	/*
+	 *列表(全部)上架并且是可预订的商品
+	 */
+	public List<PageData> listAllUpReservation(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("LunchMapper.listAllUpReservation", pd);
+	}
+	
+	/*
 	* 通过id获取数据
 	*/
 	public PageData findById(PageData pd)throws Exception{
