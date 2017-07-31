@@ -43,6 +43,7 @@
 					<tr>
  						<th>预定日期</th>
 						<th>送餐时间段</th>
+						<th>可预订便当</th>
   						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -55,6 +56,7 @@
 							<tr>
  								<td>${var.day}</td>
 								<td>${var.starttime_slot}--${var.endtime_slot}</td>
+								<td>${var.lunch_namestr}</td>
  								<td style="width: 30px;" class="center">
 										 <div class='hidden-phone visible-desktop btn-group'>
 	 										<c:if test="${QX.edit != 1 && QX.del != 1 }">

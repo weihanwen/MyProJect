@@ -11,7 +11,7 @@ import com.jyw.entity.Page;
 import com.jyw.util.PageData;
 
 
-@Service("Scheduled_timeService")
+@Service("scheduled_timeService")
 public class  Scheduled_timeService {
 
 	@Resource(name = "daoSupport")

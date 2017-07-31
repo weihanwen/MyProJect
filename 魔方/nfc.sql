@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-07-31 15:09:34
+Date: 2017-07-31 16:06:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -150,7 +150,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-31 15:09:01', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-31 15:48:07', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
 INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '8a87afcba102444dacd90c1151fcf29b', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
@@ -403,7 +403,7 @@ INSERT INTO `tb_redpackage` VALUES ('1', '2', '10', '1,2,3,', '1', '2017-07-31 1
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_scheduled_time`;
 CREATE TABLE `tb_scheduled_time` (
-  `scheduled_time_id` int(11) NOT NULL,
+  `scheduled_time_id` int(11) NOT NULL AUTO_INCREMENT,
   `day` date DEFAULT NULL,
   `starttime_slot` time DEFAULT NULL,
   `endtime_slot` time DEFAULT NULL,
@@ -411,12 +411,12 @@ CREATE TABLE `tb_scheduled_time` (
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `update_oprator_id` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`scheduled_time_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_scheduled_time
 -- ----------------------------
-INSERT INTO `tb_scheduled_time` VALUES ('1', '2017-07-31', '14:39:00', '16:39:03', null, '2017-07-31 14:39:09', 'admin');
+INSERT INTO `tb_scheduled_time` VALUES ('1', '2017-08-01', '12:22:00', '14:03:00', '4,', '2017-07-31 16:04:45', '1');
 
 -- ----------------------------
 -- Table structure for `tb_w`

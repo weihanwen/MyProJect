@@ -7,6 +7,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,8 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.jyw.controller.base.BaseController;
 import com.jyw.entity.Page;
 import com.jyw.entity.system.Menu;
+import com.jyw.entity.system.User;
 import com.jyw.service.business.Scheduled_timeService;
- import com.jyw.util.Const;
+import com.jyw.util.Const;
 import com.jyw.util.PageData;
 import com.jyw.util.ServiceHelper;
 
@@ -38,11 +42,18 @@ public class Scheduled_timeController extends BaseController {
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
  		ModelAndView mv = this.getModelAndView();
+  		//shiro管理的session
+ 		Subject currentUser = SecurityUtils.getSubject();  
+ 		Session session = currentUser.getSession();
+ 		User user=(User) session.getAttribute(Const.SESSION_USER);
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			scheduled_timeService.save(pd);
-		} catch (Exception e) {
+			if(user != null ){
+				pd.put("update_oprator_id", user.getUSER_ID());
+				scheduled_timeService.save(pd);
+			}
+ 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -79,11 +90,18 @@ public class Scheduled_timeController extends BaseController {
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
  		ModelAndView mv = this.getModelAndView();
+ 		//shiro管理的session
+ 		Subject currentUser = SecurityUtils.getSubject();  
+ 		Session session = currentUser.getSession();
+ 		User user=(User) session.getAttribute(Const.SESSION_USER);
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			scheduled_timeService.edit(pd);
-		} catch (Exception e) {
+			if(user != null ){
+				pd.put("update_oprator_id", user.getUSER_ID());
+				scheduled_timeService.edit(pd);
+			}
+ 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -104,6 +122,16 @@ public class Scheduled_timeController extends BaseController {
 			pd = this.getPageData();
 			page.setPd(pd);
 			List<PageData>	varList = scheduled_timeService.list(page);	//列出W列表
+			for (PageData e : varList) {
+				String lunch_namestr="";
+				String lunch_idstr=e.getString("lunch_idstr");
+				String[] str=lunch_idstr.split(",");
+				for (int i = 0; i < str.length; i++) {
+					pd.put("lunch_id", str[i]);
+					lunch_namestr+=ServiceHelper.getLunchService().findById(pd).getString("lunch_name")+",";
+ 				}
+				e.put("lunch_namestr", lunch_namestr);
+			}
  			this.getHC(); //调用权限
 			mv.setViewName("business/scheduled_time/scheduled_time_list");
 			mv.addObject("varList", varList);

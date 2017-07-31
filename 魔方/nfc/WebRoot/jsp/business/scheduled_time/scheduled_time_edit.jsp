@@ -35,21 +35,32 @@
 		<div id="zhongxin" style="width: 60%;margin: 5% auto;">
 		<table>
 			<tr>
-				<td>日期 ：</td>
+				<td>预定日期 ：</td>
 				<td>
 					<input class="span10 date-picker" name="day"  id="day" value="${pd.day }" type="text" data-date-format="yyyy-mm-dd"   placeholder="便当日期" style="width:208px;" >
 				</td>
 			</tr>
 			<tr>
-				<td>便当列表 ：</td>
+				<td>送餐开始段 ：</td>
+				<td>
+					<input class="span10" name="starttime_slot"  id="starttime_slot" value="${pd.starttime_slot }" type="time"       >
+ 			</tr>
+			<tr>
+				<td>送餐结束段 ：</td>
+				<td>
+ 					<input class="span10" name="endtime_slot"  id="endtime_slot" value="${pd.endtime_slot }" type="time"       >
+				</td>
+			</tr> 
+			<tr>
+				<td>预定便当列表 ：</td>
 				<td>
 					<c:forEach items="${lunchList}" var="var">
 						<c:choose>
 							<c:when test="${fn:contains(pd.lunch_idstr,var.lunch_id )}">
- 								<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" checked />${var.lunch_name }
+ 								<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" checked />${var.lunch_name }商品${var.reservation_number}份可以预定
 							</c:when>
 							<c:otherwise>
- 								<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }
+ 								<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }商品${var.reservation_number}份可以预定
 							</c:otherwise>
 						</c:choose>
    	            	</c:forEach>
@@ -85,33 +96,64 @@
  			
     	});
   		 
-		
+
 		//保存
 		function save(){
-			if($("#day").val()==""){
-				$("#day").tips({
-					side:3,
-		            msg:'日期不能为空',
-		            bg:'#AE81FF',
-		            time:1
-		        });
-				$("#day").focus();
-				return false;
-			}
-			//
-			var lunch_idstr="";
-			$(".lunch").each(function(n,obj){
-				if($(obj).is(":checked")){
-					lunch_idstr+=$(obj).val()+",";
-				}
-			});
-			$("#lunch_idstr").val(lunch_idstr);
- 			
-			$("#Form").submit();
-			$("#zhongxin").hide();
-			$("#zhongxin2").show();
+			 if(isokTime()){
+				 if($("#starttime_slot").val()==""){
+						$("#starttime_slot").tips({
+							side:3,
+				            msg:'送餐时间不能为空',
+				            bg:'#AE81FF',
+				            time:1
+				        });
+						$("#starttime_slot").focus();
+						return false;
+					}
+					if($("#endtime_slot").val()==""){
+						$("#endtime_slot").tips({
+							side:3,
+				            msg:'送餐时间不能为空',
+				            bg:'#AE81FF',
+				            time:1
+				        });
+						$("#endtime_slot").focus();
+						return false;
+					}
+					//
+					var lunch_idstr="";
+					$(".lunch").each(function(n,obj){
+						if($(obj).is(":checked")){
+							lunch_idstr+=$(obj).val()+",";
+						}
+					});
+					$("#lunch_idstr").val(lunch_idstr);
+					 
+					
+					$("#Form").submit();
+					$("#zhongxin").hide();
+					$("#zhongxin2").show();
+			 }
+			
  		}
 		
+		function isokTime(){
+			  var start=$("#day").val();
+			  start=start.split('-');  
+			  var start1=new Date(start[0],start[1]-1,start[2]);    //因为当前时间的月份需要+1，故在此-1，不然和当前时间做比较会判断错误
+			  var nowday=new Date();
+			  if(nowday > start1 ){ 
+			    	$("#day").tips({
+						side:3,
+			            msg:'开始排期要从明天开始',
+			            bg:'#AE81FF',
+			            time:1
+			        });
+					$("#day").focus();
+			     	return false;
+			 }
+			 return true;
+		}
 		 
 		
 </script>

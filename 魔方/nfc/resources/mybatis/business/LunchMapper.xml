@@ -125,7 +125,7 @@
 		select 
 			cast(a.lunch_id as char) as lunch_id,
 			a.lunch_name,
-			ifnull(a.reservation_number,'0') as a.reservation_number
+			ifnull(a.reservation_number,'0') as  reservation_number
 		from 
 			tb_lunch a  
   		where 
