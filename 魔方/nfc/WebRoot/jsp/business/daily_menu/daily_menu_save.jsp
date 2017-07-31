@@ -92,9 +92,11 @@
 			//
 			var lunch_idstr="";
 			$(".lunch").each(function(n,obj){
-				
+				if($(obj).is(":checked")){
+					lunch_idstr+=$(obj).val()+",";
+				}
 			});
-			
+			$("#lunch_idstr").val(lunch_idstr);
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

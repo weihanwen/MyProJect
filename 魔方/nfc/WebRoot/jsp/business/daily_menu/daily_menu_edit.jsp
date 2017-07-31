@@ -22,7 +22,6 @@
 		<!--[if IE 7]><link rel="stylesheet" href="css/font-awesome-ie7.min.css" /><![endif]-->
 		<!--[if lt IE 9]><link rel="stylesheet" href="css/ace-ie.min.css" /><![endif]-->
  		<link rel="stylesheet" href="css/chosen.css" /><!-- 下拉框 -->
- 		<link rel="stylesheet" href="css/ace.min.css" />
 		<link rel="stylesheet" href="css/ace-responsive.min.css" />
 		<link rel="stylesheet" href="css/ace-skins.min.css" />
  		<link rel="stylesheet" href="css/datepicker.css" /><!-- 日期框 -->
@@ -44,10 +43,14 @@
 			<tr>
 				<td>便当列表 ：</td>
 				<td>
-					<c:forEach items="${lunchList }" var="var">
+					<c:forEach items="${lunchList}" var="var">
 						<c:choose>
-							<c:when test="${fn:contains(pd.lunch_idstr,var.lunch_id )}"><input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" checked />${var.lunch_name }</c:when>
-							<c:otherwise><input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }</c:otherwise>
+							<c:when test="${fn:contains(pd.lunch_idstr,var.lunch_id )}">
+ 								<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" checked />${var.lunch_name }
+							</c:when>
+							<c:otherwise>
+ 								<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }
+							</c:otherwise>
 						</c:choose>
    	            	</c:forEach>
 				</td>
@@ -96,8 +99,14 @@
 				return false;
 			}
 			//
-			
-			
+			var lunch_idstr="";
+			$(".lunch").each(function(n,obj){
+				if($(obj).is(":checked")){
+					lunch_idstr+=$(obj).val()+",";
+				}
+			});
+			$("#lunch_idstr").val(lunch_idstr);
+ 			
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

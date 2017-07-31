@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-07-29 16:34:07
+Date: 2017-07-31 09:31:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -147,7 +147,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-29 16:25:22', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-31 09:29:45', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
 INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '8a87afcba102444dacd90c1151fcf29b', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
@@ -237,12 +237,13 @@ CREATE TABLE `tb_carousel_figure` (
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `address_id` varchar(100) DEFAULT '0',
   PRIMARY KEY (`carousel_figure_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_carousel_figure
 -- ----------------------------
-INSERT INTO `tb_carousel_figure` VALUES ('2', ' q', 'http://localhost/FileSave//carousel/3dc32847d7e94ffbb84fd7c6e664b022.jpg', '2017-07-29', '2017-07-29', '0', '2', 'ssss', '2017-07-28 17:30:31', '2017-07-28 17:30:46', null);
+INSERT INTO `tb_carousel_figure` VALUES ('2', '打打', 'http://localhost/FileSave//carousel/3dc32847d7e94ffbb84fd7c6e664b022.jpg', '2017-07-30', '2017-07-31', '0', '2', 'ssss', '2017-07-28 17:30:31', '2017-07-29 16:46:26', null);
+INSERT INTO `tb_carousel_figure` VALUES ('3', ' 瓦达', 'http://localhost/FileSave//carousel/3712a5a6d0fd4afe9349f62e7cd1a9a0.gif', '2017-07-30', '2017-07-31', '0', '3', '4', '2017-07-29 16:52:01', '2017-07-29 16:52:01', null);
 
 -- ----------------------------
 -- Table structure for `tb_category`
@@ -265,6 +266,25 @@ CREATE TABLE `tb_category` (
 INSERT INTO `tb_category` VALUES ('9', '菜单', 'http://localhost/FileSave//category/866e1683952b41cc8aca59dd90836df7.gif', '0', '2017-07-29 11:01:30', '2017-07-29 11:02:18', null);
 
 -- ----------------------------
+-- Table structure for `tb_daily_menu`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_daily_menu`;
+CREATE TABLE `tb_daily_menu` (
+  `daily_menu_id` int(11) NOT NULL AUTO_INCREMENT,
+  `day` date DEFAULT NULL,
+  `lunch_idstr` varchar(100) DEFAULT NULL,
+  `address_id` int(11) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`daily_menu_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_daily_menu
+-- ----------------------------
+INSERT INTO `tb_daily_menu` VALUES ('1', '2017-07-31', '3,', null, '2017-07-31 09:24:06', '2017-07-31 09:30:52');
+
+-- ----------------------------
 -- Table structure for `tb_delivery_fee`
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_delivery_fee`;
@@ -275,7 +295,7 @@ CREATE TABLE `tb_delivery_fee` (
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`delivery_fee_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_delivery_fee
@@ -329,12 +349,13 @@ CREATE TABLE `tb_lunch` (
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `category_id` int(100) NOT NULL DEFAULT '0',
   PRIMARY KEY (`lunch_id`,`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_lunch
 -- ----------------------------
-INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunch/93a86392d06d444fa315ee76afb66fdf.jpg', 'http://localhost/FileSave//lunch/3ff9a1dacd4c49feb5c8ca90a0bad0cf.jpg', 'http://localhost/FileSave//lunch/e1724d1115fd4851b0f5cf8710e2c0cb.gif', '99', '99', '12', null, '12sda', '0', '2017-07-29 16:28:35', '2017-07-29 16:32:30', '9');
+INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunch/93a86392d06d444fa315ee76afb66fdf.jpg', 'http://localhost/FileSave//lunch/3ff9a1dacd4c49feb5c8ca90a0bad0cf.jpg', 'http://localhost/FileSave//lunch/e1724d1115fd4851b0f5cf8710e2c0cb.gif', '1', '99', '12', null, '12sda', '0', '2017-07-29 16:28:35', '2017-07-29 16:45:55', '9');
+INSERT INTO `tb_lunch` VALUES ('4', '啦啦', '25', 'http://localhost/FileSave//lunch/1c75fc81681f444ea52b89c9c38abb94.jpg', 'http://localhost/FileSave//lunch/775737c9860f4679845828dfa8daf579.gif', 'http://localhost/FileSave//lunch/bd95fff9343c4740bd895a345c2bd8c5.gif', '1', '1', '2', null, '1', '1', '2017-07-29 16:45:47', '2017-07-29 16:45:47', '9');
 
 -- ----------------------------
 -- Table structure for `tb_w`

@@ -6,12 +6,14 @@
 	<insert id="save" parameterType="pd">
 		insert into tb_daily_menu(
  			day,
-			lunch_idstr 
+			lunch_idstr,
+			address_id,
 			createtime,
 			updatetime 
  		) values (
 			#{day},	
 			#{lunch_idstr}, 
+			#{address_id}, 
 			now(),	
 			now() 
 		)
@@ -42,7 +44,7 @@
 		select 
 			daily_menu_id,
 			day,
-			lunch_idstr 
+			lunch_idstr,
 			createtime,
 			updatetime 
 		from 
@@ -57,7 +59,8 @@
 		select 
 			a.daily_menu_id,
 			a.day,
-			a.lunch_idstr 
+			a.lunch_idstr ,
+			a.address_id,
 			a.createtime,
 			a.updatetime 
 		from 
