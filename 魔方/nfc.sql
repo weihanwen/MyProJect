@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-07-31 09:31:31
+Date: 2017-07-31 12:00:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -97,6 +97,8 @@ INSERT INTO `sys_menu` VALUES ('14', '便当列表', 'lunch/list.do', '11', '1',
 INSERT INTO `sys_menu` VALUES ('15', '劵/红包管理', '#', '0', '5', null, '');
 INSERT INTO `sys_menu` VALUES ('16', '红包列表', 'redpackage/list.do', '15', '1', null, '');
 INSERT INTO `sys_menu` VALUES ('17', '每日菜谱', 'daily_menu/list.do', '11', '2', null, '');
+INSERT INTO `sys_menu` VALUES ('18', '会员管理 ', '#', '0', '6', null, '2');
+INSERT INTO `sys_menu` VALUES ('19', '会员列表', 'wxmember/list.do', '18', '1', null, '2');
 
 -- ----------------------------
 -- Table structure for `sys_role`
@@ -118,9 +120,9 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', '系统管理员', '262118', '0', '1', '1', '1', '1', '1');
-INSERT INTO `sys_role` VALUES ('2', '超级管理员', '262118', '1', '238943974', '238943974', '238943974', '238943974', '2');
-INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '262118', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
+INSERT INTO `sys_role` VALUES ('1', '系统管理员', '1048550', '0', '1', '1', '1', '1', '1');
+INSERT INTO `sys_role` VALUES ('2', '超级管理员', '1048550', '1', '238943974', '238943974', '238943974', '238943974', '2');
+INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '1048512', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
 
 -- ----------------------------
 -- Table structure for `sys_user`
@@ -147,7 +149,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-31 09:29:45', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-31 11:51:16', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
 INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '8a87afcba102444dacd90c1151fcf29b', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
@@ -358,6 +360,43 @@ INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunc
 INSERT INTO `tb_lunch` VALUES ('4', '啦啦', '25', 'http://localhost/FileSave//lunch/1c75fc81681f444ea52b89c9c38abb94.jpg', 'http://localhost/FileSave//lunch/775737c9860f4679845828dfa8daf579.gif', 'http://localhost/FileSave//lunch/bd95fff9343c4740bd895a345c2bd8c5.gif', '1', '1', '2', null, '1', '1', '2017-07-29 16:45:47', '2017-07-29 16:45:47', '9');
 
 -- ----------------------------
+-- Table structure for `tb_receive_condition`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_receive_condition`;
+CREATE TABLE `tb_receive_condition` (
+  `receive_condition_id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`receive_condition_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_receive_condition
+-- ----------------------------
+INSERT INTO `tb_receive_condition` VALUES ('1', '消费一单');
+INSERT INTO `tb_receive_condition` VALUES ('2', '消费金额超过100');
+INSERT INTO `tb_receive_condition` VALUES ('3', '消费单数超过10单');
+
+-- ----------------------------
+-- Table structure for `tb_redpackage`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_redpackage`;
+CREATE TABLE `tb_redpackage` (
+  `redpackage_id` int(11) NOT NULL AUTO_INCREMENT,
+  `money` int(11) DEFAULT NULL,
+  `address_id` int(11) DEFAULT NULL,
+  `receive_condition_idstr` varchar(100) DEFAULT NULL,
+  `send_oprator_id` varchar(100) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`redpackage_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_redpackage
+-- ----------------------------
+INSERT INTO `tb_redpackage` VALUES ('1', '2', '10', '1,2,3,', '1', '2017-07-31 11:05:19', '2017-07-31 11:05:19');
+
+-- ----------------------------
 -- Table structure for `tb_w`
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_w`;
@@ -371,3 +410,83 @@ CREATE TABLE `tb_w` (
 -- Records of tb_w
 -- ----------------------------
 INSERT INTO `tb_w` VALUES ('', '1');
+
+-- ----------------------------
+-- Table structure for `tb_wxmember`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_wxmember`;
+CREATE TABLE `tb_wxmember` (
+  `wxmember_id` varchar(100) NOT NULL,
+  `showlook_id` varchar(100) DEFAULT NULL,
+  `image_url` varchar(100) DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `sex` varchar(4) DEFAULT NULL,
+  `open_id` varchar(100) DEFAULT NULL,
+  `phone` varchar(11) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`wxmember_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_wxmember
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tb_wxmember_address`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_wxmember_address`;
+CREATE TABLE `tb_wxmember_address` (
+  `wxmember_address_id` int(11) NOT NULL AUTO_INCREMENT,
+  `contacts` varchar(100) DEFAULT NULL,
+  `sex` varchar(4) DEFAULT NULL,
+  `contacts_number` varchar(11) DEFAULT NULL,
+  `corporate_name` varchar(100) DEFAULT NULL,
+  `address_id` int(11) DEFAULT NULL,
+  `floor_numbe` varchar(100) DEFAULT NULL,
+  `wxmember_id` varchar(100) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`wxmember_address_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_wxmember_address
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tb_wxmember_wealth`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_wxmember_wealth`;
+CREATE TABLE `tb_wxmember_wealth` (
+  `wxmember_wealth_id` int(11) NOT NULL AUTO_INCREMENT,
+  `wxmember_id` varchar(100) DEFAULT NULL,
+  `now_integral` int(11) DEFAULT NULL,
+  `before_integral` int(11) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`wxmember_wealth_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_wxmember_wealth
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tb_wxmember_wealthhistory`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_wxmember_wealthhistory`;
+CREATE TABLE `tb_wxmember_wealthhistory` (
+  `wxmember_wealthhistory_id` varchar(100) NOT NULL,
+  `wxmember_id` varchar(100) DEFAULT NULL,
+  `money` int(11) DEFAULT NULL,
+  `isincome` varchar(4) DEFAULT NULL,
+  `order_id` varchar(100) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`wxmember_wealthhistory_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_wxmember_wealthhistory
+-- ----------------------------
