@@ -24,68 +24,21 @@ import com.jyw.util.PageData;
 import com.jyw.util.ServiceHelper;
 
 /** 
- * 类名称：weekmeal_cardController
+ * 类名称：Weekmeal_card_buy_wxmemberController
  * 创建人：魏汉文
  * 创建时间：2017-07-28
  */
 @Controller
-@RequestMapping(value="/weekmeal_card")
-public class Weekmeal_cardController extends BaseController {
+@RequestMapping(value="/weekmeal_card_buy_wxmember")
+public class Weekmeal_card_buy_wxmemberController extends BaseController {
 	
 	@Resource(name="weekmeal_cardService")
 	private Weekmeal_cardService weekmeal_cardService;
 	
-	/**
-	 * 新增
-	 * weekmeal_card/save.do
-	 */
-	@RequestMapping(value="/save")
-	public ModelAndView save() throws Exception{
- 		ModelAndView mv = this.getModelAndView();
- 		//shiro管理的session
- 		Subject currentUser = SecurityUtils.getSubject();  
- 		Session session = currentUser.getSession();
- 		User user=(User) session.getAttribute(Const.SESSION_USER);
-		PageData pd = new PageData();
-		try {
-			pd = this.getPageData();
-			if(user != null){
-				String send_oprator_id=user.getUSER_ID();
-				pd.put("create_oprator_id", send_oprator_id);
-				weekmeal_cardService.save(pd);
- 			}
- 		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
- 		mv.addObject("msg","success");
-		mv.setViewName("save_result");
-		return mv;
-	}
-	
-	/**
-	 * 改变是否启用状态
-	 * weekmeal_card/changeStatus.do
-	 */
-	@RequestMapping(value="/changeStatus")
-	public void changeStatus(PrintWriter out){
- 		PageData pd = new PageData();
-		try{
-			pd = this.getPageData();
-			weekmeal_cardService.changeStatus(pd);
-			out.write("success");
-			out.close();
-		} catch(Exception e){
-			logger.error(e.toString(), e);
-		}
-		
-	}
-	
-	
 	 
 	/**
-	 * 提货券列表
-	 * weekmeal_card/list.do
+	 * 购买周卡的会员列表
+	 * weekmeal_card_buy_wxmember/list.do
 	 */
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page){
@@ -94,9 +47,9 @@ public class Weekmeal_cardController extends BaseController {
 		try{
 			pd = this.getPageData();
 			page.setPd(pd);
-			List<PageData>	varList = weekmeal_cardService.list(page);	//列出W列表
+			List<PageData>	varList = weekmeal_cardService.listByBuyWeekmeldatalistPage(page);	//列出W列表
  			this.getHC(); //调用权限
-			mv.setViewName("business/weekmeal_card/weekmeal_card_list");
+			mv.setViewName("business/weekmeal_card_buy_wxmember/weekmeal_card_buy_wxmember_list");
 			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
 		} catch(Exception e){
@@ -105,24 +58,7 @@ public class Weekmeal_cardController extends BaseController {
 		return mv;
 	}
 	
-	/**
-	 * 去新增页面
-	 * weekmeal_card/goAdd.do
-	 */
-	@RequestMapping(value="/goAdd")
-	public ModelAndView goAdd(){
- 		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
- 		try {
- 			pd = this.getPageData();
- 			mv.setViewName("business/weekmeal_card/weekmeal_card_save");
- 			mv.addObject("pd", pd);
-		} catch (Exception e) {
-			logger.error(e.toString(), e);
-		}						
-		return mv;
-	}	
-	
+	 
 	 
 	/* ===============================权限================================== */
 	public void getHC(){

@@ -29,8 +29,8 @@
 		<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
 	</head>
 <body>
-	<form action="delivery_fee/save.do" name="Form" id="Form" method="post">
-		<div id="zhongxin" style="width: 60%;margin: 5% auto;">
+	<form action="weekmeal_card/save.do" name="Form" id="Form" method="post">
+		<div id="zhongxin" style="width: 70%;margin: 5% auto;">
 		<table>
  			<tr>
 				<td>金额（元） ：</td>

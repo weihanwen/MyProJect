@@ -11,7 +11,7 @@ import com.jyw.entity.Page;
 import com.jyw.util.PageData;
 
 
-@Service("Weekmeal_cardService")
+@Service("weekmeal_cardService")
 public class   Weekmeal_cardService {
 
 	@Resource(name = "daoSupport")
@@ -48,6 +48,7 @@ public class   Weekmeal_cardService {
 	}
 	 
 	
+	
 	/*
 	* 通过id获取数据
 	*/
@@ -55,21 +56,16 @@ public class   Weekmeal_cardService {
 		return (PageData)dao.findForObject("Weekmeal_cardMapper.findById", pd);
 	}
 	
- 
+  
 	
+
 	/*
-	 * 红包的条件详情 
+	 *已购买的月票的列表
 	 */
-	public PageData findByIdCondition(PageData pd)throws Exception{
-		return (PageData)dao.findForObject("Weekmeal_cardMapper.findByIdCondition", pd);
+	public List<PageData> listByBuyWeekmeldatalistPage(Page page)throws Exception{
+		return (List<PageData>)dao.findForList("Weekmeal_cardMapper.listByBuyWeekmeldatalistPage", page);
 	}
- 	/*
-	*红包的条件 列表
-	*/
-	public List<PageData> listReceiveCondition(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("Weekmeal_cardMapper.listReceiveCondition", pd);
-	}
-	 
+	
 	
 	 
 	

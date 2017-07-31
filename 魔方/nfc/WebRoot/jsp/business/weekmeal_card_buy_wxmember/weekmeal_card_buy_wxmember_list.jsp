@@ -21,7 +21,7 @@
 	
 	<ul class="breadcrumb">
 		<li><i class="icon-home"></i> <a href="login_index.do" target="self">首页</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-		<li class="active">地址管理</li>
+		<li class="active">用户管理</li>
 	</ul><!--.breadcrumb-->
 	
 	<div id="nav-search">
@@ -36,19 +36,17 @@
 	<div class="row-fluid">
 	
 			<!-- 检索  -->
-			<form action="weekmeal_card/list.do" method="post" name="Form" id="Form">
+			<form action="wxmember/list.do" method="post" name="Form" id="Form">
 			<!-- 检索  -->
  			<table id="table_report" class="table table-striped table-bordered table-hover">
  				<thead>
 					<tr>
-						<th>序号</th>
-						<th>销售金额（元）</th>
-						<th>25元用餐卷（张）</th>
-						<th>28元用餐卷（张）</th>
-						<th>35元用餐卷（张）</th>
-						<th>38元用餐卷（张）</th>
- 						<th class="center">操作</th>
-					</tr>
+ 						<th>月票ID</th>
+ 						<th>会员ID</th>
+						<th>会员名称</th>
+ 						<th>购买时间</th>
+  						<th>当前状态</th>
+ 					</tr>
 				</thead>
  				<tbody>
  				<!-- 开始循环 -->	
@@ -57,25 +55,12 @@
 						<c:if test="${QX.cha == 1 }">
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
-								<td class='center' style="width: 30px;">${vs.index+1}</td>
-								<td>${var.sale_money}</td>
-								<td>${var.twenty_five_number}</td>
-								<td>${var.twenty_eight_number}</td>
-								<td>${var.thirty_five_number}</td>
-								<td>${var.thirty_eight_number}</td>
- 								<td style="width: 30px;" class="center">
-										 <div class='hidden-phone visible-desktop btn-group'>
-	 										<c:if test="${QX.edit != 1 && QX.del != 1 }">
-											<span class="label label-large label-grey arrowed-in-right arrowed-in">无权限</span>
-											</c:if>
-											 <c:if test="${QX.del == 1 }">
-											 	<c:if test="${var.isservice eq '0'}"><a   title="开启当前周卡" onclick="changeStatus('${var.weekmeal_card_id}','1');"  class="btn btn-mini btn-danger"   >开启当前周卡</a></c:if>
-											 	<c:if test="${var.isservice eq '1'}"><a   title="关闭当前周卡" onclick="changeStatus('${var.weekmeal_card_id}','0');"  class="btn btn-mini btn-info"    >关闭当前周卡</a></c:if>
-												
-											</c:if> 
-											</div> 
- 								</td>
-							</tr>
+ 								<td>${var.weekmeal_card_id}</td>
+								<td>${var.wxmember_id}</td>
+								<td>${var.name}</td>
+								<td>${var.createtime}</td>
+ 								<td>${var.pay_status eq '0'?'未支付':'已支付'}</td>
+  							</tr>
  						</c:forEach>
 						</c:if>
 						<c:if test="${QX.cha == 0 }">
@@ -90,20 +75,13 @@
 						</tr>
 					</c:otherwise>
 				</c:choose>
-					
-				
-				</tbody>
+ 				</tbody>
 			</table>
 			
 		<div class="page-header position-relative">
 		<table style="width:100%;">
 			<tr>
-				<td style="vertical-align:top;">
-					<c:if test="${QX.add == 1 }">
-						<a class="btn btn-small btn-success" onclick="add();">新增周卡</a>
-					</c:if>
- 				</td> 
-				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
+ 				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 			</tr>
 		</table>
 		</div>
@@ -141,44 +119,6 @@
 			$("#Form").submit();
 		}
 		
-		//新增
-		function add(){
-			 window.parent.jzts();
-			 var diag = new top.Dialog();
-			 diag.Drag=true;
-			 diag.Title ="新增 ";
-			 diag.URL = '<%=basePath%>/weekmeal_card/goAdd.do';
-			 diag.Width = 600;
-			 diag.Height = 500;
-			 diag.CancelEvent = function(){ //关闭事件
-				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 if('${page.currentPage}' == '0'){
-						 window.parent.jzts();
-						 setTimeout("self.location.reload()",100);
-					 }else{
-						 nextPage(${page.currentPage});
-					 }
-				}
-				diag.close();
-			 };
-			 diag.show();
-		}
-		
-		//修改状态
-		function changeStatus(Id,status){
-			bootbox.confirm("确定吗?", function(result) {
-				if(result) {
-					var url = "<%=basePath%>/weekmeal_card/changeStatus.do?weekmeal_card_id="+Id+"&isservice="+status;
-					$.get(url,function(data){
-						if(data=="success"){
-							nextPage(${page.currentPage});
-						}
-					});
-				}
-			});
-		}
-		
-	 
 		 
 		</script>
 		<script type="text/javascript" src="js/jquery.cookie.js"></script>

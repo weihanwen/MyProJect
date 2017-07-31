@@ -70,6 +70,7 @@
 			a.twenty_eight_number,
 			a.thirty_five_number,
 			a.thirty_eight_number,
+			a.isservice,
  			a.createtime,
 			a.create_oprator_id,
 			b.username
@@ -79,6 +80,27 @@
  			
  			
  		order by a.createtime desc
+  	</select>
+  	
+  	
+	<!-- 已购买月票的历史记录 -->
+	<select id="listByBuyWeekmeldatalistPage" parameterType="page" resultType="pd">
+		select 
+			a.only_id,
+			a.wxmember_id,
+			a.weekmeal_card_id,
+			a.pay_status,
+			a.serial_number,
+			a.createtime,
+			a.overtime,
+			b.name,
+			b.showlook_id
+ 		from 
+			tb_weekmeal_card_buy_wxmember a  
+ 			left join tb_wxmember b on b.wxmember_id=a.wxmember_id
+ 			
+ 			
+ 		order by a.overtime desc
   	</select>
 
 </mapper>

@@ -54,7 +54,12 @@
 		<mapper resource="mybatis/business/WxmemberMapper.xml"/><!-- 会员管理 -->
 		<mapper resource="mybatis/business/Scheduled_timeMapper.xml"/><!-- 预定便当管理 -->
 		<mapper resource="mybatis/business/Weekmeal_cardMapper.xml"/><!-- 周饭卡管理 -->
+		
 		 
+		 
+		 <!-- wx端 -->
+		<mapper resource="mybatis/wx/Wxmember_redpackageMapper.xml"/><!-- 会员红包 -->
+		
 		
 	</mappers>
 	
