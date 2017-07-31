@@ -1,4 +1,4 @@
-package com.jyw.controller.htmlpc;
+package com.jyw.controller.wx;
 
 
 import java.io.IOException;
@@ -31,9 +31,9 @@ import com.jyw.util.wxpay.WxpubOAuth;
 * 创建人：魏汉文  
 * 创建时间：2016年5月26日 下午3:46:49
  */
-@Controller("htmlMemberController")
-@RequestMapping(value="/html_member")
-public class HtmlMemberController extends BaseController {
+@Controller("wxMemberController")
+@RequestMapping(value="/wxmember")
+public class WxMemberController extends BaseController {
 	
 	
 	
