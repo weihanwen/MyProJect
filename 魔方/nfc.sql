@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-07-31 16:06:31
+Date: 2017-07-31 16:57:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -100,6 +100,8 @@ INSERT INTO `sys_menu` VALUES ('17', '每日菜谱', 'daily_menu/list.do', '11',
 INSERT INTO `sys_menu` VALUES ('18', '会员管理 ', '#', '0', '6', null, '2');
 INSERT INTO `sys_menu` VALUES ('19', '会员列表', 'wxmember/list.do', '18', '1', null, '2');
 INSERT INTO `sys_menu` VALUES ('20', '预定时间以及菜谱列表', 'scheduled_time/list.do', '11', '3', null, '');
+INSERT INTO `sys_menu` VALUES ('21', '周卡列表', 'weekmeal_card/list.do', '15', '2', null, '');
+INSERT INTO `sys_menu` VALUES ('22', '周卡购买记录', 'weekmeal_card_buy_wxmember/list.do', '13', '1', null, '');
 
 -- ----------------------------
 -- Table structure for `sys_role`
@@ -121,9 +123,9 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', '系统管理员', '2097126', '0', '1', '1', '1', '1', '1');
-INSERT INTO `sys_role` VALUES ('2', '超级管理员', '2097126', '1', '238943974', '238943974', '238943974', '238943974', '2');
-INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '2097126', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
+INSERT INTO `sys_role` VALUES ('1', '系统管理员', '8388582', '0', '1', '1', '1', '1', '1');
+INSERT INTO `sys_role` VALUES ('2', '超级管理员', '8388582', '1', '238943974', '238943974', '238943974', '238943974', '2');
+INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '8388582', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
 
 -- ----------------------------
 -- Table structure for `sys_user`
@@ -150,7 +152,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-31 15:48:07', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-31 16:49:14', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
 INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '8a87afcba102444dacd90c1151fcf29b', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
@@ -298,7 +300,7 @@ CREATE TABLE `tb_delivery_fee` (
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`delivery_fee_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_delivery_fee
@@ -313,6 +315,7 @@ INSERT INTO `tb_delivery_fee` VALUES ('7', '7', '7', '2017-07-29 14:09:52', '201
 INSERT INTO `tb_delivery_fee` VALUES ('8', '8', '6', '2017-07-29 14:09:52', '2017-07-29 14:13:02');
 INSERT INTO `tb_delivery_fee` VALUES ('9', '9', '5', '2017-07-29 14:09:52', '2017-07-29 14:13:03');
 INSERT INTO `tb_delivery_fee` VALUES ('10', '10', '4', '2017-07-29 14:09:52', '2017-07-29 14:13:04');
+INSERT INTO `tb_delivery_fee` VALUES ('11', null, null, '2017-07-31 16:30:23', '2017-07-31 16:30:23');
 
 -- ----------------------------
 -- Table structure for `tb_log`
@@ -444,14 +447,16 @@ CREATE TABLE `tb_weekmeal_card` (
   `twenty_eight_number` int(11) DEFAULT NULL,
   `thirty_five_number` int(11) DEFAULT NULL,
   `thirty_eight_number` int(11) DEFAULT NULL,
+  `isservice` varchar(4) DEFAULT '0',
   `createtime` datetime DEFAULT NULL,
   `create_oprator_id` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`weekmeal_card_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_weekmeal_card
 -- ----------------------------
+INSERT INTO `tb_weekmeal_card` VALUES ('1', '2', '2', '1', '1', '1', '1', '2017-07-31 16:31:16', '1');
 
 -- ----------------------------
 -- Table structure for `tb_weekmeal_card_buy_wxmember`
@@ -471,6 +476,7 @@ CREATE TABLE `tb_weekmeal_card_buy_wxmember` (
 -- ----------------------------
 -- Records of tb_weekmeal_card_buy_wxmember
 -- ----------------------------
+INSERT INTO `tb_weekmeal_card_buy_wxmember` VALUES ('1', '1', '1', '0', '1111', '2017-07-31 16:49:38', '2017-07-31 16:49:41');
 
 -- ----------------------------
 -- Table structure for `tb_wxmember`
@@ -524,7 +530,7 @@ CREATE TABLE `tb_wxmember_redpackage` (
   `wxmember_redpackage_id` int(11) NOT NULL,
   `wxmember_id` varchar(100) DEFAULT NULL,
   `money` int(11) DEFAULT NULL,
-  `isuse` varchar(4) DEFAULT NULL,
+  `isuse` varchar(4) DEFAULT '0',
   `redpackage_id` int(11) DEFAULT NULL,
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
