@@ -1,5 +1,6 @@
 package com.jyw.util;
 
+import com.jyw.service.business.AddressService;
 import com.jyw.service.business.CategoryService;
 import com.jyw.service.business.LunchService;
 import com.jyw.service.system.menu.MenuService;
@@ -33,9 +34,13 @@ public final class ServiceHelper {
 	public static CategoryService getCategoryService(){
 		return (CategoryService) getService("categoryService");
 	}
-	//属性类别服务层
+	//属性商品服务层
 	public static LunchService getLunchService(){
 		return (LunchService) getService("lunchService");
+	}
+	//属性地址服务层
+	public static AddressService getAddressService(){
+		return (AddressService) getService("addressService");
 	}
 	
 	

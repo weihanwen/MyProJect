@@ -29,28 +29,39 @@
 		<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
 	</head>
 <body>
-	<form action="daily_menu/save.do" name="Form" id="Form" method="post">
-		<input type="hidden" name="lunch_idstr" id="lunch_idstr"  value=""/>
-		<div id="zhongxin" style="width: 60%;margin: 5% auto;">
+	<form action="redpackage/save.do" name="Form" id="Form" method="post">
+		<input type="hidden" name="receive_condition_idstr" id="receive_condition_idstr"  value=""/>
+		<div id="zhongxin" style="width: 70%;margin: 5% auto;">
 		<table>
 			<tr>
-				<td>日期 ：</td>
+				<td>红包金额 ：</td>
 				<td>
-					<input class="span10 date-picker" name="day"  id="day" value="" type="text" data-date-format="yyyy-mm-dd"   placeholder="便当日期" style="width:208px;" >
+					<input  name="money"  id="money" value="" type="text" >
 				</td>
 			</tr>
 			<tr>
-				<td>便当列表 ：</td>
+				<td id="dz">发送地址：</td>
 				<td>
-					<c:forEach items="${lunchList }" var="var">
-						<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }
+					<select class="chzn-select" id="address_id"  name="address_id"  >
+ 	            		<option value="">请选择地址</option>
+ 	            		<c:forEach items="${addressList }" var="var">
+ 	            			<option value="${var.address_id }">${var.address_name }</option>
+ 	            		</c:forEach>
+ 	            	</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="tj">条件列表 ：</td>
+				<td>
+					<c:forEach items="${conditionList }" var="var">
+						<input type="checkbox" name="receive_condition" class="receive_condition" value="${var.receive_condition_id }" />${var.content }
    	            	</c:forEach>
 				</td>
 			</tr>
   		</table>
 		</div>
 		<div style="width:40%;padding-top:5%;margin:0 auto;">
-					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
+					<a class="btn btn-mini btn-primary" onclick="save();">保存并发送</a>
 					<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
 		</div>
  		<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
@@ -79,24 +90,44 @@
 		
 		//保存
 		function save(){
-			if($("#day").val()==""){
-				$("#day").tips({
+			if($("#money").val()==""){
+				$("#money").tips({
 					side:3,
-		            msg:'日期不能为空',
+		            msg:'金额不能为空',
 		            bg:'#AE81FF',
 		            time:1
 		        });
-				$("#day").focus();
+				$("#money").focus();
+				return false;
+			}
+			if($("#address_id").val()==""){
+				$("#dz").tips({
+					side:3,
+		            msg:'地址不能为空',
+		            bg:'#AE81FF',
+		            time:1
+		        });
+				$("#dz").focus();
 				return false;
 			}
 			//
-			var lunch_idstr="";
-			$(".lunch").each(function(n,obj){
+			var receive_condition_idstr="";
+			$(".receive_condition").each(function(n,obj){
 				if($(obj).is(":checked")){
-					lunch_idstr+=$(obj).val()+",";
+					receive_condition_idstr+=$(obj).val()+",";
 				}
 			});
- 			$("#lunch_idstr").val(lunch_idstr);
+			$("#receive_condition_idstr").val(receive_condition_idstr);
+			if(receive_condition_idstr == ""){
+				$(".tj").tips({
+					side:3,
+		            msg:'条件不能为空',
+		            bg:'#AE81FF',
+		            time:1
+		        });
+				$(".tj").focus();
+				return false;
+			}
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

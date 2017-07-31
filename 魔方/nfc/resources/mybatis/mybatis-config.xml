@@ -50,6 +50,7 @@
 		<mapper resource="mybatis/business/Delivery_feeMapper.xml"/><!-- 配送费用设置 -->
 		<mapper resource="mybatis/business/LunchMapper.xml"/><!-- 便当管理 -->
 		<mapper resource="mybatis/business/Daily_menuMapper.xml"/><!-- 每天便当管理 -->
+		<mapper resource="mybatis/business/RedpackageMapper.xml"/><!-- 发送红包管理 -->
 		 
 		
 	</mappers>

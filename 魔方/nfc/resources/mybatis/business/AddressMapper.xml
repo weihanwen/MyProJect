@@ -66,6 +66,18 @@
 			tb_address
 		order by createtime desc
    	</select>
+	
+	<!-- 列表 -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select 
+			address_name,	
+			detail_address,	
+ 			createtime,
+			updatetime,	
+			address_id 
+ 		from 
+			tb_address
+    </select>
  
 	
 	
