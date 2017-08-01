@@ -52,12 +52,6 @@ public class CategoryService {
 		return (List<PageData>)dao.findForList("CategoryMapper.datalistPage", page);
 	}
 	
-	/*
-	*列表(全部)
-	*/
-	public List<PageData> listAll(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("CategoryMapper.listAll", pd);
-	}
 	
 	/*
 	* 通过id获取数据
@@ -71,6 +65,15 @@ public class CategoryService {
 	*/
 	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
 		dao.delete("CategoryMapper.deleteAll", ArrayDATA_IDS);
+	}
+	
+	//微信端开始使用的接口
+
+	/*
+	*获取所有标签
+	*/
+	public List<PageData> listAll(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("CategoryMapper.listAll", pd);
 	}
 	
 }

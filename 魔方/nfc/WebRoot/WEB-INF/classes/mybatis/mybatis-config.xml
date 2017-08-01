@@ -60,6 +60,7 @@
 		 
 		 <!-- wx端 -->
 		<mapper resource="mybatis/wx/Wxmember_redpackageMapper.xml"/><!-- 会员红包 -->
+		<mapper resource="mybatis/wx/WxmemberMapper.xml"/><!-- 会员 -->
 		
 		
 	</mappers>

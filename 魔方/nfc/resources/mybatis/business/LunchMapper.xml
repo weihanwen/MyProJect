@@ -17,6 +17,7 @@
 			have_salenumber,
 			lunch_description,
 			sort,
+			send_integral,
 			createtime,
 			updatetime,
 			category_id
@@ -33,6 +34,7 @@
 			#{have_salenumber},	
 			#{lunch_description},
 			(select ifnull(max(a.sort),'-1')+1  from tb_lunch a where a.category_id=#{category_id} ) ,	
+			#{send_integral},
 			now(),	
 			now(),	
 			#{category_id} 
@@ -63,6 +65,7 @@
 				have_salenumber= #{have_salenumber},
 				lunch_description= #{lunch_description},
  				category_id= #{category_id},
+ 				send_integral= #{send_integral},
   				lunch_id = lunch_id
 			where 
 				lunch_id = #{lunch_id}
@@ -90,6 +93,7 @@
 			inventory_number,
 			have_salenumber,
 			lunch_description,
+			send_integral,
 			createtime,
 			updatetime,
 			category_id

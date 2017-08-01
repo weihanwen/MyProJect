@@ -17,6 +17,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.jyw.util.Const;
 import com.jyw.util.PageData;
 import com.jyw.util.ServiceHelper;
 import com.jyw.util.file.FileUtil;
@@ -203,66 +204,68 @@ public class WxpubOAuth {
 	         String jsapi_ticket=ticket.get("ticket").getAsString();
  	         pd.put("access_token", access_token);
 	         pd.put("jsapi_ticket", jsapi_ticket);
-	 			  
-		} catch (Exception e) {
+	         //复制存储
+	         Const.access_token=access_token;
+	         Const.jsapi_ticket=jsapi_ticket;
+ 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
          return pd;
      }
     
-    private static int n=0;
+//    private static int n=0;
      
-    /**
-     * 获取用户的基本信息
-     * @param openid     微信公众号应用唯一标识
-     * @param access_token 微信公众号应用密钥（注意保密）
-      */
-    public static PageData getWxInformation(PageData pd,String openid) throws UnsupportedEncodingException {
-     	try { 
-     		 String access_token=  setJiChuAccess_token().getString("access_token");
-      		 Map<String, String> data = new HashMap<String, String>();
- 	    	 data.put("access_token",access_token);
-	         data.put("openid", openid);
-	         data.put("lang", "zh_CN");
- 	         String queryString = WxpubOAuth.httpBuildQuery(data);
-	         String accessTokenUrl = "https://api.weixin.qq.com/cgi-bin/user/info?" + queryString;
-	         String resp = httpGet(accessTokenUrl);
-	         JsonParser jp = new JsonParser();
-	         JsonObject respJson = jp.parse(resp).getAsJsonObject();
-   	         if(respJson.has("errcode")) {//access_token 为空41001 过期40001 42001,40003
-    	         if(n < 10){
-   	        		 ++n;
-   	        		 access_token=  setJiChuAccess_token().getString("access_token");
-	        		 return  getWxInformation(pd, openid);
-   	        	 }else{
-   	        		 n=0;
-	        		 pd.put("result", "0");
-	        		 return pd;
-	        	 }
- 	         }
-   	         n=0;
- 	        String subscribe=respJson.get("subscribe").getAsString();
- 	        pd.put("subscribe", subscribe);
- 	        if(subscribe.equals("0")){
- 	        	pd.put("wxunionid", respJson.get("unionid").getAsString());
- 		        pd.put("wxopen_id", openid);
-  	        	return pd;
- 	        }
-	        pd.put("sex", respJson.get("sex").getAsString());
-  	        pd.put("image_url", respJson.get("headimgurl").getAsString());
-	        pd.put("name", respJson.get("nickname").getAsString());
-	        pd.put("province_name", respJson.get("province").getAsString());
-	        pd.put("city_name", respJson.get("city").getAsString());
-	        pd.put("unionid", respJson.get("unionid").getAsString());
-	        pd.put("open_id", openid);
- 		} catch (Exception e) {
-			// TODO Auto-generated catch block
- 			e.printStackTrace();
- 		}
-         return pd;
-     }
-    
+//    /**
+//     * 获取用户的基本信息
+//     * @param openid     微信公众号应用唯一标识
+//     * @param access_token 微信公众号应用密钥（注意保密）
+//      */
+//    public static PageData getWxInformation(PageData pd,String openid) throws UnsupportedEncodingException {
+//     	try { 
+//     		 String access_token=  setJiChuAccess_token().getString("access_token");
+//      		 Map<String, String> data = new HashMap<String, String>();
+// 	    	 data.put("access_token",access_token);
+//	         data.put("openid", openid);
+//	         data.put("lang", "zh_CN");
+// 	         String queryString = WxpubOAuth.httpBuildQuery(data);
+//	         String accessTokenUrl = "https://api.weixin.qq.com/cgi-bin/user/info?" + queryString;
+//	         String resp = httpGet(accessTokenUrl);
+//	         JsonParser jp = new JsonParser();
+//	         JsonObject respJson = jp.parse(resp).getAsJsonObject();
+//   	         if(respJson.has("errcode")) {//access_token 为空41001 过期40001 42001,40003
+//    	         if(n < 10){
+//   	        		 ++n;
+//   	        		 access_token=  setJiChuAccess_token().getString("access_token");
+//	        		 return  getWxInformation(pd, openid);
+//   	        	 }else{
+//   	        		 n=0;
+//	        		 pd.put("result", "0");
+//	        		 return pd;
+//	        	 }
+// 	         }
+//   	         n=0;
+// 	        String subscribe=respJson.get("subscribe").getAsString();
+// 	        pd.put("subscribe", subscribe);
+// 	        if(subscribe.equals("0")){
+// 	        	pd.put("wxunionid", respJson.get("unionid").getAsString());
+// 		        pd.put("wxopen_id", openid);
+//  	        	return pd;
+// 	        }
+//	        pd.put("sex", respJson.get("sex").getAsString());
+//  	        pd.put("image_url", respJson.get("headimgurl").getAsString());
+//	        pd.put("name", respJson.get("nickname").getAsString());
+//	        pd.put("province_name", respJson.get("province").getAsString());
+//	        pd.put("city_name", respJson.get("city").getAsString());
+//	        pd.put("unionid", respJson.get("unionid").getAsString());
+//	        pd.put("open_id", openid);
+// 		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+// 			e.printStackTrace();
+// 		}
+//         return pd;
+//     }
+//    
     
     /**
      * 获取未关注的用户的基本信息
@@ -295,7 +298,7 @@ public class WxpubOAuth {
     
     public static void main(String[] args) {
     	try {
-     		System.err.println(getUserInforForNotGuanZhu(new PageData(),"owD2DwsxdygwHXxNV75kjGT7Wvlw","KDCJ86w43GjInA9NmjTmQ3fC6dyyDwEpyW_XbVbTpA8A6KSl3N6v96Kz3-YA9MX6hyAxfZFesdZCGu0rixWFNsQ4edUVHiACxAusc_uGxvQ"));
+
 		} catch ( Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

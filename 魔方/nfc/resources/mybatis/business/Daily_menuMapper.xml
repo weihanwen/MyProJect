@@ -67,6 +67,27 @@
 			tb_daily_menu a  
  		order by a.day desc
   	</select>
+	
+	<!-- 微信端开始使用的接口 -->
+	
+	<!-- 今天的便当列表 -->
+	<select id="listAllNowDay" parameterType="pd" resultType="pd">
+		select 
+			a.`day`,
+			b.lunch_id,
+			b.lunch_name,
+			b.product_cover,
+			b.sale_money,
+			b.inventory_number,
+			IFNULL(b.send_integral,0) as send_integral,
+			(b.sale_money-IFNULL(b.send_integral,0)) as daoshoumoney
+		from 
+			tb_daily_menu a  left join tb_lunch b on a.lunch_idstr like concat(concat('%',b.lunch_id),'%')
+ 		where
+ 			a.day=#{day}
+  	</select>
+  	
+  	
  
 	
 </mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="WxmemberMapper">
+
+	<!-- 新增会员  -->
+	<insert id="save" parameterType="pd">
+		insert into tb_wxmember(
+ 			wxmember_id,
+			showlook_id,
+			image_url,
+			name,
+			sex,
+			open_id,
+			phone,
+			province_name,
+			city_name,
+			area_name,
+ 			createtime,
+			updatetime 
+  		) values (
+			#{wxmember_id},	
+			#{showlook_id}, 
+			#{image_url}, 
+			#{name}, 
+			#{sex}, 
+			#{open_id}, 
+			#{phone}, 
+			#{province_name}, 
+			#{city_name}, 
+			#{area_name}, 
+ 			now(),	
+			now() 
+		)
+	</insert>
+	 <!-- 新增会员财富  -->
+	<insert id="saveWealth" parameterType="pd">
+		insert into tb_wxmember_wealth(
+ 			wxmember_id,
+			now_integral,
+			before_integral,
+			createtime,
+			updatetime
+   		) values (
+			#{wxmember_id},	
+			0, 
+			0, 
+  			now(),	
+			now() 
+		)
+	</insert>
+	
+	
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			wxmember_id,
+			showlook_id,
+			image_url,
+			name,
+			sex,
+			open_id,
+			phone 
+		from 
+			tb_wxmember
+		where 
+			<choose>
+				<when test="open_id != null and open_id != ''">open_id=#{open_id}</when>
+				<otherwise>wxmember_id = #{wxmember_id}</otherwise>
+			</choose>
+ 	</select>
+	
+	
+	 
+	 
+	
+</mapper>

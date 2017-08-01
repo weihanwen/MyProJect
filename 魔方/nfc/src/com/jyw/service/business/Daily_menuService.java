@@ -55,6 +55,18 @@ public class  Daily_menuService {
 		return (PageData)dao.findForObject("Daily_menuMapper.findById", pd);
 	}
 	
+	
+	//微信端开始使用的接口-====================================================================================
+	
+	/*
+	*获取今天的便当菜谱列表
+	*/
+	public List<PageData> listAllNowDay(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("Daily_menuMapper.listAllNowDay", pd);
+	}
+	
+	
+	
 	 
 	
 }

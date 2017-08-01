@@ -88,6 +88,27 @@
 		from 
 			tb_carousel_figure
   	</select>
+  	
+  	
+  	<!-- 微信端sql -->
+  	
+	<!-- 获取未过期的轮播图-->
+	<select id="listAllOk" parameterType="pd" resultType="pd">
+		select 
+			title,	
+			image_url,	
+			startdate,	
+			enddate,	
+			click_number,	
+			link_type,	
+			link_content,
+			carousel_figure_id
+		from 
+			tb_carousel_figure
+		where
+			 to_days(now()) &gt;= to_days(a.startdate) 
+             and to_days(now()) &lt;= to_days(a.enddate) 
+  	</select>
  
 	
 	

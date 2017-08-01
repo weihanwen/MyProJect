@@ -45,12 +45,7 @@ public class Carousel_figureService {
 		return (List<PageData>)dao.findForList("Carousel_figureMapper.datalistPage", page);
 	}
 	
-	/*
-	*列表(全部)
-	*/
-	public List<PageData> listAll(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("Carousel_figureMapper.listAll", pd);
-	}
+	
 	
 	/*
 	* 通过id获取数据
@@ -60,11 +55,13 @@ public class Carousel_figureService {
 	}
 	
 	/*
-	* 批量删除
+	*获取全部未过期的轮播图
 	*/
-	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
-		dao.delete("Carousel_figureMapper.deleteAll", ArrayDATA_IDS);
+	public List<PageData> listAllOk(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("Carousel_figureMapper.listAllOk", pd);
 	}
+	
+	 
 	
 }
 

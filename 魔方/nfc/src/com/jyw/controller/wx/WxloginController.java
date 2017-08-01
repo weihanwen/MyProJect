@@ -3,23 +3,31 @@ package com.jyw.controller.wx;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jyw.controller.base.BaseController;
+import com.jyw.entity.wx.WxLogin;
+import com.jyw.service.business.Carousel_figureService;
+import com.jyw.service.business.CategoryService;
+import com.jyw.service.business.Daily_menuService;
+import com.jyw.service.wx.WxmemberService;
+import com.jyw.util.Const;
+import com.jyw.util.DateUtil;
 import com.jyw.util.PageData;
-import com.jyw.util.wxpay.WXPayConstants;
-import com.jyw.util.wxpay.WXPayPath;
-import com.jyw.util.wxpay.WXPayUtil;
 import com.jyw.util.wxpay.WxUtil;
 import com.jyw.util.wxpay.WxpubOAuth;
  
@@ -35,7 +43,15 @@ import com.jyw.util.wxpay.WxpubOAuth;
 @RequestMapping(value="/wxlogin")
 public class WxloginController extends BaseController {
 	
-	
+
+	@Resource(name="wxmemberService")
+	private WxmemberService wxmemberService;
+	@Resource(name="carousel_figureService")
+	private Carousel_figureService carousel_figureService;//轮播图
+ 	@Resource(name="categoryService")
+	private CategoryService categoryService;//类别集合
+ 	@Resource(name="daily_menuService")
+	private Daily_menuService daily_menuService;
 	
 	/**
 	 * 微信登录授权页面
@@ -55,7 +71,6 @@ public class WxloginController extends BaseController {
 	}
 	
 	
-	
 	/**
 	 * wxlogin/htmlWxLogin.do?code=
 	 *  授权完直接登录
@@ -63,134 +78,110 @@ public class WxloginController extends BaseController {
 	 *  2：已注册直接前往首页
 	 *  
 	 *  返回值：用户信息  
-	 *  session存储 wxlogin_id   shiro存储 HtmlUser
+	 *  session存储 Wxlogin   shiro存储 HtmlUser
 	 *  
 	 */
 	@RequestMapping(value="/htmlWxLogin")
 	public ModelAndView HtmlWxLogin(HttpServletRequest request)throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		//shiro管理的session
+ 		Subject currentUser = SecurityUtils.getSubject();  
+ 		Session session = currentUser.getSession();
   		PageData pd = new PageData();
- 		String member_id="";
-   		try {
+    	try {
    				pd=this.getPageData();
    				String code=pd.getString("code");
       			pd = WxpubOAuth.getOpenId(pd,WxUtil.APP_ID, WxUtil.APP_SECRET, code);
-    			if(pd.getString("wxopen_id") == null || pd.getString("wxopen_id").equals("")){
+    			if(pd.getString("open_id") == null || pd.getString("open_id").equals("")){
     				mv.setViewName("redirect:toLoginWx.do");
    			 		return mv;
    				} 
 //   			String wxopen_id ="owD2DwsxdygwHXxNV75kjGT7Wvlw";
-   				//获取用户的一些信息
-    			pd=WxpubOAuth.getUserInforForNotGuanZhu(pd,pd.getString("open_id"),pd.getString("access_token"));//获取未关注的用户信息
-  				pd=WxpubOAuth.getWxInformation(pd,pd.getString("wxopen_id"));//对于已经关注所获取的信息
-   				 
-  				
-    	} catch (Exception e) {
+     			WxLogin login=new WxLogin();
+     			PageData mpd=wxmemberService.findById(pd);
+     			if( mpd == null){
+    				//获取用户的一些信息
+        			pd=WxpubOAuth.getUserInforForNotGuanZhu(pd,pd.getString("open_id"),pd.getString("access_token"));//获取未关注的用户信息
+        			String wxmember_id=BaseController.getTimeID();
+        			String showlook_id=BaseController.get8UID();
+        			pd.put("wxmember_id", wxmember_id);
+        			pd.put("showlook_id", showlook_id);
+        			wxmemberService.save(pd);
+        			login.setIMAGE_URL(pd.getString("image_url"));
+        			login.setNAME(pd.getString("name"));
+        			login.setOPEN_ID(pd.getString("open_id"));
+        			login.setSEX(pd.getString("sex"));
+        			login.setSHOWLOOK_ID(showlook_id);
+        			login.setWXMEMBER_ID(wxmember_id);
+     			}else{
+     				login.setIMAGE_URL(mpd.getString("image_url"));
+        			login.setNAME(mpd.getString("name"));
+        			login.setOPEN_ID(mpd.getString("open_id"));
+        			login.setSEX(mpd.getString("sex"));
+        			login.setSHOWLOOK_ID(mpd.getString("showlook_id"));
+        			login.setWXMEMBER_ID(mpd.getString("wxmember_id"));
+    			}
+     			session.setAttribute(Const.WXLOGIN, login);
+     			//前往首页的代码
+     			//1.获取轮播图
+     			List<PageData> lunboList=carousel_figureService.listAllOk(pd);
+     			mv.addObject("lunboList", lunboList);
+     			//2.获取分类类别
+     			List<PageData> leibieList=categoryService.listAll(pd);
+     			mv.addObject("leibieList", leibieList);
+     			//3默认获取当日便当类别的所有
+     			pd.put("day", DateUtil.getDay());
+     			List<PageData> biandanList=daily_menuService.listAllNowDay(pd);
+     			mv.addObject("biandanList", biandanList);
+      	} catch (Exception e) {
    			e.printStackTrace();
  		}
-   		mv.setViewName("htmlmember/wxLogin");
+   		mv.setViewName("wx/wxindex");
  		return mv;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-   
-	// 开始转微信支付的一些接口操作======================================================================
-	
-	/**
-	 * 公众号微信支付
-	 * html_member/wxpayorder.do?total_fee=0.01&attach=1&body=购买商品
-	 * 
-	 * total_fee  金额
-	 * attach     支付类型  1-优惠买单支付，2-购买提货券商品,3-优选商品,4-充值商品
-	 * body       商品说明
-	 * out_trade_no   订单ID
-	 */
-	public static Map<String, String> WxPayOrder(String _total_fee,String attach,String out_trade_no) throws Exception{
-		Map<String, String> returnmap=new HashMap<String, String>();
-   		try {
-  			PageData pd=new PageData();
-   			BigDecimal total_fee = new BigDecimal(Double.parseDouble(_total_fee)*100);
-  	    	//开始调用微信支付接口
-  			WXPayPath dodo = new WXPayPath("3");
- 	    	Map<String, String> reqData=new HashMap<String, String>();
- 	    	reqData.put("body", "九鱼网-充值余额");
- 	    	reqData.put("attach",attach);
- 	    	reqData.put("out_trade_no", out_trade_no);
-	    	reqData.put("fee_type", "CNY");
-	    	reqData.put("total_fee", String.valueOf(total_fee.intValue()));
-	    	reqData.put("spbill_create_ip", dodo.getSpbill_create_ip());
-	    	reqData.put("notify_url", "https://www.jiuyuvip.com/back_chat/notify.do");
-	     	//JSAPI--公众号支付、NATIVE--原生扫码支付、APP--app支付，统一下单接口trade_type的传参可参考这里
-	    	//MICROPAY--刷卡支付，刷卡支付有单独的支付接口，不调用统一下单接口
-	    	reqData.put("trade_type", "JSAPI");
-	    	reqData.put("openid", "");
-	        reqData.put("sign_type", WXPayConstants.MD5);
-  	    	Map<String, String> map2=dodo.unifiedOrder(reqData);
- 	    	//开始处理结果
-  	        if(map2.get("return_code").toString().equals("SUCCESS") && map2.get("result_code").toString().equals("SUCCESS")  ){
-  	    	  returnmap.put("appId", map2.get("appid").toString());
- 	    	  returnmap.put("timeStamp", String.valueOf(WXPayUtil.getCurrentTimestamp()));
- 	    	  returnmap.put("nonceStr", WXPayUtil.generateNonceStr());
- 	    	  returnmap.put("package","prepay_id="+ map2.get("prepay_id").toString());
- 	    	  returnmap.put("signType", WXPayConstants.MD5);
-   	    	 //二次签名
-   	    	  String sign=dodo.AddSign(returnmap);
-   	    	  returnmap=WXPayUtil.xmlToMap(sign);
-     	      returnmap.put("result_code", map2.get("result_code").toString());
-  	       } 
-  	       returnmap.put("payment_type", attach);
-  	       returnmap.put("out_trade_no", out_trade_no);
-  	       returnmap.put("return_code", map2.get("return_code").toString());
-	       returnmap.put("return_msg", map2.get("return_msg").toString());
-   		} catch (Exception e) {
-			// TODO: handle exception
- 			e.printStackTrace();
-		}
-		return returnmap;
-	}
-	
-	
-	
+ 
 
-   	/**
-   	 * 微信支付的订单交易支付接口
-   	* 方法名称:：payorder 
-   	* 方法描述：订单支付接口
-   	* html_member/payorder.do
-   	* 
-   	 */
-	@RequestMapping(value="/payorder")
+	/**
+	 * 生成微信公众号signature
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value="/getSignatureAjax")
 	@ResponseBody
-	public  Object PayOrder(HttpServletRequest request) throws Exception{
- 		Map<String, Object> map = new HashMap<String, Object>();
-		Map<String, String> data = new HashMap<String, String>();
-	  	String result="1";
-		String message="支付成功";
-		PageData pd=new PageData();
+	public Object getSignatureAjax( ){
+		Map<String,Object> map = new HashMap<String,Object>();
+		String result = "1";
+		String message="获取成功";
+		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			
-		}catch(Exception e){
+			String noncestr=pd.getString("noncestr");
+			String timestamp=pd.getString("timestamp");
+			String url=pd.getString("now_url");
+			String jsapi_ticket=Const.jsapi_ticket;
+ 			if(jsapi_ticket.equals("")){
+				jsapi_ticket=WxpubOAuth.setJiChuAccess_token().getString("jsapi_ticket");
+			}
+ 			map.put("jsapi_ticket", jsapi_ticket);
+			String signature=WxpubOAuth.getSignatureAjax(noncestr, timestamp, jsapi_ticket, url);
+			map.put("data", signature);
+ 		} catch(Exception e){
 			result="0";
 			message="系统异常";
- 			logger.error(e.toString(), e);
+			logger.error(e.toString(), e);
 		}
 		map.put("result", result);
-		map.put("message", message);
-		map.put("data", data);
+		map.put("message",message);
 		return map;
-
 	}
 
+	
+	
+	
+	
+	
+    
 	
 	
 	

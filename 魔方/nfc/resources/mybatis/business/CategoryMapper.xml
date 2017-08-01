@@ -79,6 +79,9 @@
 		order by sort
    	</select>
 	
+	
+	<!-- 微信公众号开始使用sql -->
+	
 	<!-- 列表 -->
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select 
