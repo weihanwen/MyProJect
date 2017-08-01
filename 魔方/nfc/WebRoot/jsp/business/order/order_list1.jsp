@@ -58,6 +58,7 @@
 					</td>
  					<td style="vertical-align:top;"> 
 					 	<select class="selectpicker" name="address_id" id="address_id" data-placeholder="请选择配送点" style="vertical-align:top;width: 120px;">
+							 <option value="">请选择</option>
 							 <c:forEach items="${addressList}" var="var">
 							 	<option value="${var.address_id }" ${var.address_id eq pd.address_id?'selected':'' } >${var.address_name}</option>
 							 </c:forEach>
@@ -80,9 +81,10 @@
  						<th>菜品</th>
 						<th>配送点</th>
 						<th>订单金额</th>
-						<th>配送时间</th>
+						<th>下单时间</th>
 						<th>收货人</th>
 						<th>订单状态</th>
+						<th>订单类型</th>
  					</tr>
 				</thead>
  				<tbody>
@@ -92,7 +94,7 @@
 						<c:if test="${QX.cha == 1 }">
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
- 								<td><a onclick="detail('${var.order_id}')">${var.looknumber}</a></td>
+ 								<td><a onclick="detail('${var.order_id}')" >${var.looknumber}</a></td>
 								<td>
 									<c:forEach items="${var.lunchList}" var="lunch"  >
 										<span>${lunch.lunch_name}X${lunch.shop_number}</span>
@@ -100,8 +102,10 @@
 								</td>
 								<td>${var.address_name}</td>
 								<td>${var.allmoney}</td>
+								<td>${var.createtime}</td>
 								<td>${var.contacts}-${var.contacts_number }</td>
 								<td>待配送</td>
+								<td>${pd.order_type eq '1'?'当日订单':'预约订单' }</td>
  							</tr>
  						</c:forEach>
 						</c:if>
@@ -166,7 +170,7 @@
 			 window.parent.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="详情";
+			 diag.Title ="订单详情";
 			 diag.URL = '<%=basePath%>/order/goDetail.do?order_id='+Id;
 			 diag.Width = 600;
 			 diag.Height = 500;

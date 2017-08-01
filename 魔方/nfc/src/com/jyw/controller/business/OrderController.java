@@ -96,9 +96,7 @@ public class OrderController extends BaseController {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
- 		mv.addObject("msg","success");
-		mv.setViewName("save_result");
-		return mv;
+ 		return mv;
 	}
 	
 	

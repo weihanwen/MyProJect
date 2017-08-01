@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-08-01 10:59:58
+Date: 2017-08-01 11:12:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -155,7 +155,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-08-01 10:57:19', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-08-01 11:11:41', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
 INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '8a87afcba102444dacd90c1151fcf29b', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
@@ -381,7 +381,7 @@ CREATE TABLE `tb_order` (
   `actual_money` int(11) DEFAULT NULL,
   `use_integral` int(11) DEFAULT NULL,
   `use_wx` int(11) DEFAULT NULL,
-  `pay_status` varchar(4) DEFAULT NULL,
+  `order_status` varchar(4) DEFAULT NULL,
   `send_integral` int(11) DEFAULT NULL,
   `serial_number` varchar(100) DEFAULT NULL,
   `order_type` varchar(4) DEFAULT NULL,
