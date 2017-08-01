@@ -49,6 +49,7 @@ public class WxpubOAuth {
          OAuthResult oAuthResult = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create().fromJson(ret, OAuthResult.class);
          pd.put("open_id", oAuthResult.getOpenid());
          pd.put("access_token", oAuthResult.getAccessToken());
+         pd.put("refreshToken", oAuthResult.getRefreshToken());
          return pd;
     }
     
@@ -274,6 +275,9 @@ public class WxpubOAuth {
       */
     public static PageData getUserInforForNotGuanZhu(PageData pd,String openid,String access_token) throws UnsupportedEncodingException {
      	try { 
+     		//判断access_token是否过期
+     		 access_token=accessTokenIsPass(access_token, openid, pd.getString("refresh_token"));
+     		 //====================
       		 Map<String, String> data = new HashMap<String, String>();
  	    	 data.put("access_token",access_token);
 	         data.put("openid", openid);
@@ -294,6 +298,41 @@ public class WxpubOAuth {
  		}
          return pd;
      }
+    
+    
+    /**
+     * 判断access_token是过期重新生成一个返回，没有过期，直接返回
+     * @throws UnsupportedEncodingException 
+     */
+    private static String accessTokenIsPass(String access_token, String openid,String refresh_token)    {
+        try {
+        	Map<String, String> data = new HashMap<String, String>();
+            data.put("access_token", access_token);
+            data.put("openid", openid);
+            String queryString = WxpubOAuth.httpBuildQuery(data);
+            String url="https://api.weixin.qq.com/sns/auth?" + queryString;
+            String resp = httpGet(url);
+            JsonParser jp = new JsonParser();
+            JsonObject respJson = jp.parse(resp).getAsJsonObject();
+            String errmsg=respJson.get("errmsg").getAsString();
+            if(errmsg.equals("ok")){
+            	 return access_token ;
+            } 
+            data = new HashMap<String, String>();
+            data.put("appid", WxUtil.APP_ID);
+            data.put("grant_type", "refresh_token");
+            data.put("refresh_token", refresh_token);
+            queryString = WxpubOAuth.httpBuildQuery(data);
+            url="https://api.weixin.qq.com/sns/oauth2/refresh_token?" + queryString;
+            jp = new JsonParser();
+            respJson = jp.parse(resp).getAsJsonObject();
+            access_token=respJson.get("access_token").getAsString();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+         return access_token;
+    }
     
     
     public static void main(String[] args) {

@@ -147,6 +147,22 @@
   		where 
  			a.is_shelves='1'
   	</select>
+  	
+  	<!-- 微信端开始接口 -->
+  	<!-- 通过ID获取数据 -->
+	<select id="findByIdForWx" parameterType="pd" resultType="pd">
+		select 
+			lunch_id,
+			lunch_name,
+			sale_money,
+ 			inside_banner,
+			graphic_description
+ 		from 
+			tb_lunch
+		where 
+			lunch_id = #{lunch_id}
+	</select>
+  	
 	
 	
 </mapper>

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-08-01 11:12:25
+Date: 2017-08-01 16:21:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -85,26 +85,27 @@ CREATE TABLE `sys_menu` (
 INSERT INTO `sys_menu` VALUES ('1', '系统管理', '#', '0', '1', 'icon-calendar', '1');
 INSERT INTO `sys_menu` VALUES ('2', '组织管理', 'role.do', '1', '2', null, '1');
 INSERT INTO `sys_menu` VALUES ('5', '系统用户', 'user/listUsers.do', '1', '3', null, '1');
-INSERT INTO `sys_menu` VALUES ('6', '基础配置', '#', '0', '1', null, '');
+INSERT INTO `sys_menu` VALUES ('6', '基础配置', '#', '0', '1', 'icon-desktop', '');
 INSERT INTO `sys_menu` VALUES ('7', '轮播图列表', 'carousel_figure/list.do', '6', '1', null, '');
 INSERT INTO `sys_menu` VALUES ('8', '类别列表', 'category/list.do', '6', '2', null, '');
 INSERT INTO `sys_menu` VALUES ('9', '配送点列表', 'address/list.do', '6', '3', null, '');
 INSERT INTO `sys_menu` VALUES ('10', '配送费列表', 'delivery_fee/list.do', '6', '4', null, '');
-INSERT INTO `sys_menu` VALUES ('11', '便当管理', '#', '0', '2', null, '');
-INSERT INTO `sys_menu` VALUES ('12', '订单管理', '#', '0', '3', null, '');
-INSERT INTO `sys_menu` VALUES ('13', '财务管理', '#', '0', '4', null, '');
+INSERT INTO `sys_menu` VALUES ('11', '便当管理', '#', '0', '2', 'icon-folder-open', '');
+INSERT INTO `sys_menu` VALUES ('12', '订单管理', '#', '0', '3', 'icon-list-alt', '');
+INSERT INTO `sys_menu` VALUES ('13', '财务管理', '#', '0', '4', 'icon-edit', '');
 INSERT INTO `sys_menu` VALUES ('14', '便当列表', 'lunch/list.do', '11', '1', null, '');
-INSERT INTO `sys_menu` VALUES ('15', '劵/红包管理', '#', '0', '5', null, '');
+INSERT INTO `sys_menu` VALUES ('15', '劵/红包管理', '#', '0', '5', 'icon-film', '');
 INSERT INTO `sys_menu` VALUES ('16', '红包列表', 'redpackage/list.do', '15', '1', null, '');
 INSERT INTO `sys_menu` VALUES ('17', '每日菜谱', 'daily_menu/list.do', '11', '2', null, '');
-INSERT INTO `sys_menu` VALUES ('18', '会员管理 ', '#', '0', '6', null, '2');
+INSERT INTO `sys_menu` VALUES ('18', '会员管理 ', '#', '0', '6', 'icon-comments', '2');
 INSERT INTO `sys_menu` VALUES ('19', '会员列表', 'wxmember/list.do', '18', '1', null, '2');
 INSERT INTO `sys_menu` VALUES ('20', '预定时间以及菜谱列表', 'scheduled_time/list.do', '11', '3', null, '');
 INSERT INTO `sys_menu` VALUES ('21', '周卡列表', 'weekmeal_card/list.do', '15', '2', null, '');
-INSERT INTO `sys_menu` VALUES ('22', '周卡购买记录', 'weekmeal_card_buy_wxmember/list.do', '13', '1', null, '');
+INSERT INTO `sys_menu` VALUES ('22', '周卡购买记录', 'weekmeal_card_buy_wxmember/list.do', '13', '2', null, '');
 INSERT INTO `sys_menu` VALUES ('23', '待配送订单', 'order/list.do?order_status=1', '12', '1', null, '');
 INSERT INTO `sys_menu` VALUES ('24', '已完成订单', 'order/list.do?order_status=2', '12', '2', null, '');
 INSERT INTO `sys_menu` VALUES ('25', '退款订单', 'order/list.do?order_status=99', '12', '3', null, '');
+INSERT INTO `sys_menu` VALUES ('26', '销售明细', 'order/saleHistory.do', '13', '1', null, '');
 
 -- ----------------------------
 -- Table structure for `sys_role`
@@ -126,9 +127,9 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', '系统管理员', '67108838', '0', '1', '1', '1', '1', '1');
-INSERT INTO `sys_role` VALUES ('2', '超级管理员', '67108838', '1', '238943974', '238943974', '238943974', '238943974', '2');
-INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '67108838', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
+INSERT INTO `sys_role` VALUES ('1', '系统管理员', '134217702', '0', '1', '1', '1', '1', '1');
+INSERT INTO `sys_role` VALUES ('2', '超级管理员', '134217702', '1', '238943974', '238943974', '238943974', '238943974', '2');
+INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '134217702', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
 
 -- ----------------------------
 -- Table structure for `sys_user`
@@ -155,7 +156,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-08-01 11:11:41', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-08-01 14:12:02', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
 INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '8a87afcba102444dacd90c1151fcf29b', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
@@ -226,7 +227,7 @@ CREATE TABLE `tb_address` (
 -- ----------------------------
 -- Records of tb_address
 -- ----------------------------
-INSERT INTO `tb_address` VALUES ('10', '国泰科技大厦', '名河路了撒大大啊', '2017-07-29 11:19:55', '2017-07-29 11:19:55');
+INSERT INTO `tb_address` VALUES ('1', '国泰科技大厦', '名河路了撒大大啊', '2017-07-29 11:19:55', '2017-08-01 11:16:32');
 
 -- ----------------------------
 -- Table structure for `tb_carousel_figure`
@@ -290,7 +291,7 @@ CREATE TABLE `tb_daily_menu` (
 -- ----------------------------
 -- Records of tb_daily_menu
 -- ----------------------------
-INSERT INTO `tb_daily_menu` VALUES ('1', '2017-07-31', '3,', null, '2017-07-31 09:24:06', '2017-07-31 09:30:52');
+INSERT INTO `tb_daily_menu` VALUES ('1', '2017-08-01', '3,1,', null, '2017-07-31 09:24:06', '2017-08-01 16:21:27');
 
 -- ----------------------------
 -- Table structure for `tb_delivery_fee`
@@ -355,6 +356,7 @@ CREATE TABLE `tb_lunch` (
   `have_salenumber` int(11) DEFAULT NULL,
   `lunch_description` text,
   `sort` varchar(4) DEFAULT NULL,
+  `send_integral` int(11) DEFAULT NULL,
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `category_id` int(100) NOT NULL DEFAULT '0',
@@ -364,8 +366,8 @@ CREATE TABLE `tb_lunch` (
 -- ----------------------------
 -- Records of tb_lunch
 -- ----------------------------
-INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunch/93a86392d06d444fa315ee76afb66fdf.jpg', 'http://localhost/FileSave//lunch/3ff9a1dacd4c49feb5c8ca90a0bad0cf.jpg', 'http://localhost/FileSave//lunch/e1724d1115fd4851b0f5cf8710e2c0cb.gif', '1', '99', null, '12', null, '12sda', '0', '2017-07-29 16:28:35', '2017-07-29 16:45:55', '9');
-INSERT INTO `tb_lunch` VALUES ('4', '啦啦', '25', 'http://localhost/FileSave//lunch/1c75fc81681f444ea52b89c9c38abb94.jpg', 'http://localhost/FileSave//lunch/775737c9860f4679845828dfa8daf579.gif', 'http://localhost/FileSave//lunch/bd95fff9343c4740bd895a345c2bd8c5.gif', '1', '1', null, '2', null, '1', '1', '2017-07-29 16:45:47', '2017-07-29 16:45:47', '9');
+INSERT INTO `tb_lunch` VALUES ('1', '啦啦', '25', 'http://localhost/FileSave//lunch/1c75fc81681f444ea52b89c9c38abb94.jpg', 'http://localhost/FileSave//lunch/775737c9860f4679845828dfa8daf579.gif', 'http://localhost/FileSave//lunch/bd95fff9343c4740bd895a345c2bd8c5.gif', '1', '1', null, '2', null, '1', '1', null, '2017-07-29 16:45:47', '2017-08-01 11:16:15', '9');
+INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunch/93a86392d06d444fa315ee76afb66fdf.jpg', 'http://localhost/FileSave//lunch/3ff9a1dacd4c49feb5c8ca90a0bad0cf.jpg', 'http://localhost/FileSave//lunch/e1724d1115fd4851b0f5cf8710e2c0cb.gif', '1', '99', null, '12', null, '12sda', '0', null, '2017-07-29 16:28:35', '2017-07-29 16:45:55', '9');
 
 -- ----------------------------
 -- Table structure for `tb_order`
@@ -564,6 +566,11 @@ CREATE TABLE `tb_wxmember` (
   `sex` varchar(4) DEFAULT NULL,
   `open_id` varchar(100) DEFAULT NULL,
   `phone` varchar(11) DEFAULT NULL,
+  `province_name` varchar(100) DEFAULT NULL,
+  `area_name` varchar(100) DEFAULT NULL,
+  `city_name` varchar(100) DEFAULT NULL,
+  `lng` varchar(100) DEFAULT NULL,
+  `lat` varchar(100) DEFAULT NULL,
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`wxmember_id`)
@@ -572,7 +579,7 @@ CREATE TABLE `tb_wxmember` (
 -- ----------------------------
 -- Records of tb_wxmember
 -- ----------------------------
-INSERT INTO `tb_wxmember` VALUES ('1', '2222', null, '2222', '1', '2123131', null, '2017-07-31 12:01:09', '2017-07-31 12:01:09');
+INSERT INTO `tb_wxmember` VALUES ('1', '2222', null, '2222', '1', '2123131', null, null, null, null, null, null, '2017-07-31 12:01:09', '2017-07-31 12:01:09');
 
 -- ----------------------------
 -- Table structure for `tb_wxmember_address`
@@ -590,11 +597,12 @@ CREATE TABLE `tb_wxmember_address` (
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`wxmember_address_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_wxmember_address
 -- ----------------------------
+INSERT INTO `tb_wxmember_address` VALUES ('1', '1', '1', '1', '1', '1', '1', '1', '2017-08-01 11:16:49', '2017-08-01 11:16:52');
 
 -- ----------------------------
 -- Table structure for `tb_wxmember_redpackage`

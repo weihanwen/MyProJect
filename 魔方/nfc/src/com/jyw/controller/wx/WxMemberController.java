@@ -5,17 +5,30 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jyw.controller.base.BaseController;
+import com.jyw.entity.wx.WxLogin;
+import com.jyw.service.business.CategoryService;
+import com.jyw.service.business.Daily_menuService;
+import com.jyw.service.business.LunchService;
+import com.jyw.service.business.Scheduled_timeService;
+import com.jyw.service.wx.WxmemberService;
+import com.jyw.util.Const;
+import com.jyw.util.DateUtil;
 import com.jyw.util.PageData;
 import com.jyw.util.wxpay.WXPayConstants;
 import com.jyw.util.wxpay.WXPayPath;
@@ -34,6 +47,172 @@ import com.jyw.util.wxpay.WxpubOAuth;
 @Controller("wxMemberController")
 @RequestMapping(value="/wxmember")
 public class WxMemberController extends BaseController {
+	
+	
+
+	@Resource(name="wxmemberService")
+	private WxmemberService wxmemberService;
+	@Resource(name="categoryService")
+	private CategoryService categoryService;//类别集合
+	@Resource(name="scheduled_timeService")
+	private Scheduled_timeService scheduled_timeService;//预定商品列表
+	@Resource(name="lunchService")
+	private LunchService lunchService;//商品列表
+	@Resource(name="daily_menuService")
+	private Daily_menuService daily_menuService;//正常商品菜品
+	
+	/**
+	 * 前往个人中心
+	 * wxmember/gome.do 
+	 * 
+	 *  返回值：用户信息  
+	 *  session存储 Wxlogin  
+ 	 */
+	@RequestMapping(value="/gome")
+	public ModelAndView gome(HttpServletRequest request)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		//shiro管理的session
+ 		Subject currentUser = SecurityUtils.getSubject();  
+ 		Session session = currentUser.getSession();
+ 		WxLogin login=(WxLogin) session.getAttribute(Const.WXLOGIN);
+  		PageData pd = new PageData();
+    	try {
+    		if(login != null){
+    			pd.put("wxmember_id", login.getWXMEMBER_ID());
+        		pd.put("image_url", login.getIMAGE_URL());
+        		pd.put("name", login.getNAME());
+        		pd.put("showlook_id", login.getSHOWLOOK_ID());
+        		pd.put("isuse", "0");
+        		//获取优惠券个数
+        		String countYh=wxmemberService.getRedPackageNumber(pd);
+        		//获取提货券个数
+        		String countTh=wxmemberService.getRedPackageNumber(pd);
+        		//获取积分余额
+        		String now_integral=wxmemberService.getNowIntegral(pd);
+        		pd.put("countYh", countYh);
+        		pd.put("countTh", countTh);
+        		pd.put("now_integral", now_integral);
+        		pd.remove("isuse");
+        		pd.remove("wxmember_id");
+        		mv.addObject("pd", pd);
+    			mv.setViewName("wx/wxme");
+    		}else{
+    			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
+    		}
+        } catch (Exception e) {
+   			e.printStackTrace();
+ 		}
+  		return mv;
+	}
+	
+	
+	/**
+	 * 前往预定界面
+	 * wxmember/yuding.do 
+  	 */
+	@RequestMapping(value="/yuding")
+	public ModelAndView yuding(HttpServletRequest request)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+  		PageData pd = new PageData();
+    	try {
+    		pd=this.getPageData();
+    		//2.获取分类类别
+ 			List<PageData> leibieList=categoryService.listAll(pd);
+ 			mv.addObject("leibieList", leibieList);
+ 			//3默认获取明天可预定的便当类别的所有
+ 			pd.put("day", DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
+ 			//获取今天预定的详情
+ 			PageData daypd=scheduled_timeService.findByNowDay(pd);
+ 			mv.addObject("daypd", daypd);
+ 			List<PageData> ydList=scheduled_timeService.listAllNowDay(daypd);
+ 			mv.addObject("ydList", ydList);
+   			mv.setViewName("wx/yuding");
+        } catch (Exception e) {
+   			e.printStackTrace();
+ 		}
+  		return mv;
+	}
+	
+	
+	/**
+	 * 前往商品的详情页
+	 * wxmember/godetailBygoods.do 
+	 * 
+	 * lunch_id 商品ID
+	 * order_type :  1-订单进入，2-预定进入
+   	 */
+	@RequestMapping(value="/godetailBygoods")
+	public ModelAndView godetailBygoods(HttpServletRequest request,String lunch_id,String order_type)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+  		PageData pd = new PageData();
+    	try {
+     		//获取商品详情
+    		pd.put("lunch_id", lunch_id);
+    		pd=lunchService.findByIdForWx(pd);
+    		if(order_type.equals("1")){
+    			pd.put("day", DateUtil.getDay());
+     			List<PageData> biandanList=daily_menuService.listAllNowDay(pd);
+     			mv.addObject("varList", biandanList);
+    		}else{
+    			pd.put("day",  DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
+       			List<PageData> ydList=scheduled_timeService.listAllNowDay(pd);
+     			mv.addObject("varList", ydList);
+    		}
+    		mv.setViewName("wx/wxgoodsdetail");
+        } catch (Exception e) {
+   			e.printStackTrace();
+ 		}
+  		return mv;
+	}
+	
+	
+	
+	/**
+   	 * 添加金额购物车
+   	* wxmember/addshopcart.do
+   	* 
+   	* lunch_id  商品ID
+   	* number  加1减1
+   	 */
+	@RequestMapping(value="/addshopcart")
+	@ResponseBody
+	public  Object addshopcart(HttpServletRequest request,String lunch_id,String number) throws Exception{
+ 		Map<String, Object> map = new HashMap<String, Object>();
+ 		//shiro管理的session
+ 		Subject currentUser = SecurityUtils.getSubject();  
+ 		Session session = currentUser.getSession();
+ 		WxLogin login=(WxLogin) session.getAttribute(Const.WXLOGIN);
+	  	String result="1";
+		String message="添加进购物车";
+		PageData pd=new PageData();
+		try{
+			if(login == null){
+				result="0";
+				message="登录身份失效，请重新登录";
+			}else{
+				pd.put("wxmember_id", login.getWXMEMBER_ID()) ;
+				//判断购物车是否有当前的商品
+				
+				pd.put("lunch_id", lunch_id);
+			}
+ 		}catch(Exception e){
+			result="0";
+			message="系统异常";
+ 			logger.error(e.toString(), e);
+		}
+		map.put("result", result);
+		map.put("message", message);
+		map.put("data", "");
+		return map;
+
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	 
    

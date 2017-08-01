@@ -82,5 +82,13 @@ public class LunchService {
 		dao.delete("LunchMapper.deleteAll", ArrayDATA_IDS);
 	}
 	
+	//微信端开始接口
+ 	/*
+	* 通过id获取数据
+	*/
+	public PageData findByIdForWx(PageData pd)throws Exception{
+		return (PageData)dao.findForObject("LunchMapper.findByIdForWx", pd);
+	}
+	
 }
 

@@ -18,7 +18,7 @@ public class   WxmemberService {
 	private DaoSupport dao;
 	
 	/*
-	* 新增会员
+	* 新增会员,财富
 	*/
 	public void save(PageData pd)throws Exception{
 		dao.save("WxmemberMapper.save", pd);
@@ -46,6 +46,27 @@ public class   WxmemberService {
 	public PageData findById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("WxmemberMapper.findById", pd);
 	}
+	
+	
+	/*
+	* 获取当前会员的余额
+	*/
+	public String  getNowIntegral(PageData pd)throws Exception{
+		return (String)dao.findForObject("WxmemberMapper.getNowIntegral", pd);
+	}
+	/*
+	* 获取当前会员的红包个数
+	*/
+	public String  getRedPackageNumber(PageData pd)throws Exception{
+		return (String)dao.findForObject("WxmemberMapper.getRedPackageNumber", pd);
+	}
+	/*
+	 * 获取当前会员的提货券个数 
+	 */
+	public String  getTiHuoJuanNumber(PageData pd)throws Exception{
+		return (String)dao.findForObject("WxmemberMapper.getTiHuoJuanNumber", pd);
+	}
+	
 	
   
 	

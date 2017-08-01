@@ -55,6 +55,25 @@ public class  Scheduled_timeService {
 		return (PageData)dao.findForObject("Scheduled_timeMapper.findById", pd);
 	}
 	
+	
+
+	//微信端开始使用的接口-====================================================================================
+	
+	/*
+	* 通过id获取数据
+	*/
+	public PageData findByNowDay(PageData pd)throws Exception{
+		return (PageData)dao.findForObject("Scheduled_timeMapper.findByNowDay", pd);
+	}
+	
+	/*
+	*获取今天的便当菜谱列表
+	*/
+	public List<PageData> listAllNowDay(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("Scheduled_timeMapper.listAllNowDay", pd);
+	}
+	
+	
 	 
 	
 }
