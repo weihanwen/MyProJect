@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-07-31 16:57:51
+Date: 2017-08-01 10:59:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -102,6 +102,9 @@ INSERT INTO `sys_menu` VALUES ('19', '会员列表', 'wxmember/list.do', '18', '
 INSERT INTO `sys_menu` VALUES ('20', '预定时间以及菜谱列表', 'scheduled_time/list.do', '11', '3', null, '');
 INSERT INTO `sys_menu` VALUES ('21', '周卡列表', 'weekmeal_card/list.do', '15', '2', null, '');
 INSERT INTO `sys_menu` VALUES ('22', '周卡购买记录', 'weekmeal_card_buy_wxmember/list.do', '13', '1', null, '');
+INSERT INTO `sys_menu` VALUES ('23', '待配送订单', 'order/list.do?order_status=1', '12', '1', null, '');
+INSERT INTO `sys_menu` VALUES ('24', '已完成订单', 'order/list.do?order_status=2', '12', '2', null, '');
+INSERT INTO `sys_menu` VALUES ('25', '退款订单', 'order/list.do?order_status=99', '12', '3', null, '');
 
 -- ----------------------------
 -- Table structure for `sys_role`
@@ -123,9 +126,9 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', '系统管理员', '8388582', '0', '1', '1', '1', '1', '1');
-INSERT INTO `sys_role` VALUES ('2', '超级管理员', '8388582', '1', '238943974', '238943974', '238943974', '238943974', '2');
-INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '8388582', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
+INSERT INTO `sys_role` VALUES ('1', '系统管理员', '67108838', '0', '1', '1', '1', '1', '1');
+INSERT INTO `sys_role` VALUES ('2', '超级管理员', '67108838', '1', '238943974', '238943974', '238943974', '238943974', '2');
+INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '67108838', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
 
 -- ----------------------------
 -- Table structure for `sys_user`
@@ -152,7 +155,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-07-31 16:49:14', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-08-01 10:57:19', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
 INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '8a87afcba102444dacd90c1151fcf29b', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
@@ -339,7 +342,7 @@ CREATE TABLE `tb_log` (
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_lunch`;
 CREATE TABLE `tb_lunch` (
-  `lunch_id` int(11) NOT NULL AUTO_INCREMENT,
+  `lunch_id` int(100) NOT NULL AUTO_INCREMENT,
   `lunch_name` varchar(100) DEFAULT NULL,
   `sale_money` int(10) DEFAULT NULL,
   `product_cover` varchar(100) DEFAULT NULL,
@@ -365,6 +368,59 @@ INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunc
 INSERT INTO `tb_lunch` VALUES ('4', '啦啦', '25', 'http://localhost/FileSave//lunch/1c75fc81681f444ea52b89c9c38abb94.jpg', 'http://localhost/FileSave//lunch/775737c9860f4679845828dfa8daf579.gif', 'http://localhost/FileSave//lunch/bd95fff9343c4740bd895a345c2bd8c5.gif', '1', '1', null, '2', null, '1', '1', '2017-07-29 16:45:47', '2017-07-29 16:45:47', '9');
 
 -- ----------------------------
+-- Table structure for `tb_order`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_order`;
+CREATE TABLE `tb_order` (
+  `order_id` varchar(100) NOT NULL,
+  `looknumber` varchar(100) DEFAULT NULL,
+  `allmoney` int(11) DEFAULT NULL,
+  `discount_money` int(11) DEFAULT NULL,
+  `wxmember_redpackage_id` varchar(100) DEFAULT NULL,
+  `wxmember_tihuojuan_idstr` varchar(100) DEFAULT NULL,
+  `actual_money` int(11) DEFAULT NULL,
+  `use_integral` int(11) DEFAULT NULL,
+  `use_wx` int(11) DEFAULT NULL,
+  `pay_status` varchar(4) DEFAULT NULL,
+  `send_integral` int(11) DEFAULT NULL,
+  `serial_number` varchar(100) DEFAULT NULL,
+  `order_type` varchar(4) DEFAULT NULL,
+  `reserve_arrival_time` time DEFAULT NULL,
+  `reserve_day` date DEFAULT NULL,
+  `delivery_time` time DEFAULT NULL,
+  `delivery_fee` int(11) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `overtime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `wxmember_id` varchar(100) DEFAULT NULL,
+  `wxmember_address_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_order
+-- ----------------------------
+INSERT INTO `tb_order` VALUES ('1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '00:00:00', '2017-08-01', '10:07:33', '1', '2017-08-01 10:07:30', '2017-08-01 10:07:54', '1', '1');
+INSERT INTO `tb_order` VALUES ('22', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '10:09:02', '2017-08-01', '10:09:08', '2', '2017-08-01 10:09:13', '2017-08-01 10:09:17', '1', '1');
+
+-- ----------------------------
+-- Table structure for `tb_order_lunch`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_order_lunch`;
+CREATE TABLE `tb_order_lunch` (
+  `order_lunch_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` varchar(100) DEFAULT NULL,
+  `lunch_id` varchar(100) DEFAULT NULL,
+  `shop_number` int(11) DEFAULT NULL,
+  PRIMARY KEY (`order_lunch_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_order_lunch
+-- ----------------------------
+INSERT INTO `tb_order_lunch` VALUES ('1', '1', '1', '1');
+INSERT INTO `tb_order_lunch` VALUES ('2', '2', '1', '2');
+
+-- ----------------------------
 -- Table structure for `tb_receive_condition`
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_receive_condition`;
@@ -372,7 +428,7 @@ CREATE TABLE `tb_receive_condition` (
   `receive_condition_id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`receive_condition_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_receive_condition
@@ -420,6 +476,24 @@ CREATE TABLE `tb_scheduled_time` (
 -- Records of tb_scheduled_time
 -- ----------------------------
 INSERT INTO `tb_scheduled_time` VALUES ('1', '2017-08-01', '12:22:00', '14:03:00', '4,', '2017-07-31 16:04:45', '1');
+
+-- ----------------------------
+-- Table structure for `tb_shopcart`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_shopcart`;
+CREATE TABLE `tb_shopcart` (
+  `shopcart_id` varchar(100) NOT NULL,
+  `lunch_id` varchar(100) DEFAULT NULL,
+  `shop_number` int(11) DEFAULT NULL,
+  `wxmember_id` varchar(100) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`shopcart_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_shopcart
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `tb_w`
