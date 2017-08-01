@@ -48,6 +48,8 @@ public class Const {
 	public static final String EMAIL   = "admin00/head/EMAIL.txt";		//邮箱服务器配置路径
 	public static final String SMS1   = "admin00/head/SMS1.txt";		//短信账户配置路径1
 	public static final String SMS2   = "admin00/head/SMS2.txt";		//短信账户配置路径2
+	public static final String SMS3   = "admin00/head/sendtime.txt";		//下单之后送货时间
+	public static final String SMS4   = "admin00/head/arrvertime.txt";		//送货之后预计到达时间
 	public static final String ALGORITHM   = "admin00/head/SMS2.txt";	//公式
 	
 	public static final String FILEPATH = "uploadify/uploads/";			//文件上传路径
@@ -80,6 +82,10 @@ public class Const {
 	public static Map<String,HashMap<String, AppValidation>> APPVALIDATION = new HashMap<String,HashMap<String, AppValidation>>();
 	
 
+	
+	//开始设置参数
+	public static  String sendtime=Tools.readTxtFile(Const.SYSNAME);//下单之后多久可以送货
+	public static  String arrivetime=Tools.readTxtFile(Const.SYSNAME);//送货多久可以到达
 	
 
 	
