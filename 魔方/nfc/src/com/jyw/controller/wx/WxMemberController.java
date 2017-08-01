@@ -183,7 +183,7 @@ public class WxMemberController extends BaseController {
  		Session session = currentUser.getSession();
  		WxLogin login=(WxLogin) session.getAttribute(Const.WXLOGIN);
 	  	String result="1";
-		String message="添加进购物车";
+		String message="添加成功";
 		PageData pd=new PageData();
 		try{
 			if(login == null){
@@ -191,10 +191,20 @@ public class WxMemberController extends BaseController {
 				message="登录身份失效，请重新登录";
 			}else{
 				pd.put("wxmember_id", login.getWXMEMBER_ID()) ;
-				//判断购物车是否有当前的商品
-				
 				pd.put("lunch_id", lunch_id);
-			}
+				//判断购物车是否有当前的商品
+				PageData shoppd=wxmemberService.findShopCartById(pd);
+				if(shoppd == null){
+					wxmemberService.saveShopCartById(pd);
+				}else{
+					if(shoppd.getString("shop_number").equals("1")){
+						wxmemberService.deleteShopCartById(shoppd);
+					}else{
+						shoppd.put("number", number);
+						wxmemberService.updateShopCartById(shoppd);
+					}
+				}
+ 			}
  		}catch(Exception e){
 			result="0";
 			message="系统异常";
@@ -204,8 +214,11 @@ public class WxMemberController extends BaseController {
 		map.put("message", message);
 		map.put("data", "");
 		return map;
-
-	}
+ 	}
+	
+	
+	
+	
 	
 	
 	

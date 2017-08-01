@@ -25,6 +25,8 @@ public class   WxmemberService {
 		dao.save("WxmemberMapper.saveWealth", pd);
 	}
 	
+	
+	
 	/*
 	* 删除
 	*/
@@ -38,17 +40,14 @@ public class   WxmemberService {
 	public void edit(PageData pd)throws Exception{
 		dao.update("WxmemberMapper.edit", pd);
 	}
- 
-	
+	 
 	/*
 	* 通过id获取数据-通过openid/wxmember_id
 	*/
 	public PageData findById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("WxmemberMapper.findById", pd);
 	}
-	
-	
-	/*
+ 	/*
 	* 获取当前会员的余额
 	*/
 	public String  getNowIntegral(PageData pd)throws Exception{
@@ -67,9 +66,21 @@ public class   WxmemberService {
 		return (String)dao.findForObject("WxmemberMapper.getTiHuoJuanNumber", pd);
 	}
 	
-	
-  
-	
+	/*
+	* 获取会员购物车的商品详情
+	*/
+	public PageData findShopCartById(PageData pd)throws Exception{
+		return (PageData)dao.findForObject("WxmemberMapper.findShopCartById", pd);
+	}
+	public void deleteShopCartById(PageData pd)throws Exception{
+		dao.delete("WxmemberMapper.deleteShopCartById", pd);
+	}
+	public void updateShopCartById(PageData pd)throws Exception{
+		dao.update("WxmemberMapper.updateShopCartById", pd);
+	}
+	public void saveShopCartById(PageData pd)throws Exception{
+		dao.save("WxmemberMapper.saveShopCartById", pd);
+ 	}
 	 
 	
 }

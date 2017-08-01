@@ -100,8 +100,55 @@
 			wxmember_id = #{wxmember_id}
  			and isuse=#{isuse}
  	</select>
+ 	
+	<!-- 获取购物车的商品详情 -->
+	<select id="findShopCartById" parameterType="pd" resultType="pd">
+		select 
+			shopcart_id,
+			cast(shop_number as char) as shop_number,
+			lunch_id
+		from 
+			tb_shopcart
+		where 
+			wxmember_id = #{wxmember_id}
+ 			and lunch_id=#{lunch_id}
+ 	</select>
+	<delete id="deleteShopCartById" parameterType="pd">
+		delete from tb_shopcart  
+		where 
+			<choose>
+				<when test="shopcart_id != null and shopcart_id != ''">shopcart_id = #{shopcart_id}</when>
+				<otherwise>wxmember_id = #{wxmember_id} and lunch_id=#{lunch_id}</otherwise>
+			</choose>
 	
-	 
-	 
-	
+	</delete>
+ 	<update id="updateShopCartById" parameterType="pd">
+			update  tb_shopcart
+			set 
+				shop_number = shop_number + #{number}
+			where 
+				<choose>
+					<when test="shopcart_id != null and shopcart_id != ''">shopcart_id = #{shopcart_id}</when>
+					<otherwise>wxmember_id = #{wxmember_id} and lunch_id=#{lunch_id}</otherwise>
+				</choose>
+	</update>
+ 	<insert id="saveShopCartById" parameterType="pd">
+		insert into tb_shopcart(
+ 			wxmember_id,
+			lunch_id,
+			shop_number,
+ 			createtime,
+			updatetime
+   		) values (
+			#{wxmember_id},	
+			#{lunch_id},	
+ 			0, 
+  			now(),	
+			now() 
+		)
+	</insert>
+ 
+ 	
+ 	
+ 	
 </mapper>
