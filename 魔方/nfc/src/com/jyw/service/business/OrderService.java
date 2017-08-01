@@ -25,6 +25,7 @@ public class   OrderService {
 		return (List<PageData>)dao.findForList("OrderMapper.datalistPage", page);
 	}
 	
+
 	/*
 	 *全部订单已order-status划分
 	 */
@@ -53,6 +54,19 @@ public class   OrderService {
 		return (String)dao.findForObject("OrderMapper.getOrderStrByLunchName", pd);
 	}
 	 
+	/*
+	 *销售明细
+	 */
+	public List<PageData> saleHistory(Page page)throws Exception{
+		return (List<PageData>)dao.findForList("OrderMapper.saleHistorydatalistPage", page);
+	}
+	
+	/*
+	 *总的财富订单统计
+	 */
+	public PageData totalOrder(Page page)throws Exception{
+		return (PageData)dao.findForObject("OrderMapper.totalOrder", page);
+	}
 	
 	 
 	

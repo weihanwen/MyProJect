@@ -101,26 +101,49 @@ public class OrderController extends BaseController {
 	
 	
 
-	/*
+	/**
 	 * 导出到excel
 	 * @return
 	 */
 	@RequestMapping(value="/excel")
-	public ModelAndView exportExcel(){
+	public ModelAndView Bankexcel( ){
  		ModelAndView mv = new ModelAndView();
-		PageData pd = new PageData();
+ 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
-			titles.add("w");	 
-			dataMap.put("titles", titles);
-			List<PageData> varOList = orderService.listAll(pd);
-			List<PageData> varList = new ArrayList<PageData>();
-			for(int i=0;i<varOList.size();i++){
+			titles.add("订单号");	//1
+ 			titles.add("菜品");		//2
+			titles.add("订单金额");	//3
+			titles.add("下单时间");	//4
+			titles.add("收货人");	//5
+			titles.add("收货电话");	//6
+			titles.add("订单类型");	//7
+			titles.add("配送地址");	//7
+   			dataMap.put("titles", titles);
+ 			List<PageData> varList = new ArrayList<PageData>();
+ 			List<PageData> orderList=orderService.listAll(pd);
+			for(int i=0;i<orderList.size();i++){
 				PageData vpd = new PageData();
-				vpd.put("var1", varOList.get(i).getString("W"));	//1
-				varList.add(vpd);
+				vpd.put("var1",orderList.get(i).getString("looknumber"));	//1
+ 				String lunch_namestr="";
+				List<PageData> lunchList=orderService.listLunchByOrder(orderList.get(i));
+				for (PageData e : lunchList) {
+					lunch_namestr+=e.getString("lunch_name")+"下单"+e.getString("shop_number")+"份";
+				}
+				vpd.put("var2",lunch_namestr );	//2
+				vpd.put("var3", orderList.get(i).getString("allmoney"));	//3
+				vpd.put("var4", orderList.get(i).get("createtime"));	//4
+				vpd.put("var5", orderList.get(i).getString("contacts"));	//5
+				vpd.put("var6", orderList.get(i).getString("contacts_number"));	//6
+				if( orderList.get(i).getString("order_type").equals("1")){
+					vpd.put("var7","当日订单");	 
+				}else{
+					vpd.put("var7","预约订单-预订日期"+ orderList.get(i).getString("reserve_day"));	 
+				}
+				vpd.put("var6", orderList.get(i).getString("address_name")+orderList.get(i).getString("corporate_name")+orderList.get(i).getString("floor_numbe"));	
+     			varList.add(vpd);
 			}
 			dataMap.put("varList", varList);
 			ObjectExcelView erv = new ObjectExcelView();
@@ -128,9 +151,45 @@ public class OrderController extends BaseController {
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
-		return mv;
+ 		return mv;
 	}
 	
+	
+
+	/**
+	 * 销售明细
+	 * order/saleHistory.do
+	 * 
+	 * 必传order_status
+	 */
+	@RequestMapping(value="/saleHistory")
+	public ModelAndView saleHistory(Page page){
+ 		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		try{
+ 			List<PageData> addressList=ServiceHelper.getAddressService().listAll(pd);
+			mv.addObject("addressList", addressList);
+			pd = this.getPageData();
+  			String lunch_name=pd.getString("lunch_name");
+			if(lunch_name != null && !lunch_name.equals("")){
+				String order_idstr=orderService.getOrderStrByLunchName(pd);
+				pd.put("order_idstr", order_idstr);
+			}
+			page.setPd(pd);
+			List<PageData>	varList = orderService.saleHistory(page);
+			for (PageData e : varList) {
+				e.put("lunchList", orderService.listLunchByOrder(e));
+			}
+			mv.addObject("total", orderService.totalOrder(page));//统计
+ 			this.getHC(); //调用权限
+ 			mv.addObject("varList", varList);
+ 			mv.addObject("pd", pd);
+			mv.setViewName("business/order/order_list");
+ 		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		return mv;
+	}
 	
 	
 	

@@ -36,6 +36,15 @@
 	<div class="row-fluid">
  			<!-- 检索  -->
 			<form action="order/list.do" method="post" name="Form" id="Form">
+			<%-- <table>
+				<tr>
+					<td>
+						<span class="input-icon" style="font-size: 20px;">
+							已退货订单数：${page.totalResult}
+ 						</span>
+					</td>
+				</tr>
+			</table> --%>
 			<table>
 				<tr>
 					<td>
@@ -158,7 +167,16 @@
 		<script type="text/javascript" src="js/jquery.tips.js"></script><!--提示框-->
 		<script type="text/javascript">
  		$(window.parent.hangge());
-		
+ 		$(function() {
+ 			//单选框
+			$(".chzn-select").chosen(); 
+			$(".chzn-select-deselect").chosen({allow_single_deselect:true}); 
+ 			//日期框
+			$('.date-picker').datepicker();
+ 			
+    	});
+ 		
+ 		
 		//检索
 		function search(){
 			window.parent.jzts();
