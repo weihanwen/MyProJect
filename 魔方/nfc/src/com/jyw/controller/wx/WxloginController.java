@@ -26,16 +26,82 @@ import com.jyw.util.wxpay.WxpubOAuth;
  
 /** 
  * 
-* 类名称：HtmlMemberController   
-* 类描述：  h5的页面
+* 类名称：WxloginController   
+* 类描述：  登录页面
 * 创建人：魏汉文  
 * 创建时间：2016年5月26日 下午3:46:49
  */
-@Controller("wxMemberController")
-@RequestMapping(value="/wxmember")
-public class WxMemberController extends BaseController {
+@Controller("wxloginController")
+@RequestMapping(value="/wxlogin")
+public class WxloginController extends BaseController {
 	
-	 
+	
+	
+	/**
+	 * 微信登录授权页面
+	 * wxlogin/toLoginWx.do 
+ 	 */
+	@RequestMapping(value="/toLoginWx")
+	public void toLoginWx(HttpServletRequest request,HttpServletResponse response){
+		String code = "";
+		try {
+			code = WxpubOAuth.createOauthUrlForCode(WxUtil.APP_ID, WxUtil.HOST+"/wxlogin/htmlWxLogin.do", true);
+  			response.sendRedirect(code); 
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	/**
+	 * wxlogin/htmlWxLogin.do?code=
+	 *  授权完直接登录
+	 *  1：未注册过的先得获取手机验证码
+	 *  2：已注册直接前往首页
+	 *  
+	 *  返回值：用户信息  
+	 *  session存储 wxlogin_id   shiro存储 HtmlUser
+	 *  
+	 */
+	@RequestMapping(value="/htmlWxLogin")
+	public ModelAndView HtmlWxLogin(HttpServletRequest request)throws Exception{
+		ModelAndView mv = this.getModelAndView();
+  		PageData pd = new PageData();
+ 		String member_id="";
+   		try {
+   				pd=this.getPageData();
+   				String code=pd.getString("code");
+      			pd = WxpubOAuth.getOpenId(pd,WxUtil.APP_ID, WxUtil.APP_SECRET, code);
+    			if(pd.getString("wxopen_id") == null || pd.getString("wxopen_id").equals("")){
+    				mv.setViewName("redirect:toLoginWx.do");
+   			 		return mv;
+   				} 
+//   			String wxopen_id ="owD2DwsxdygwHXxNV75kjGT7Wvlw";
+   				//获取用户的一些信息
+    			pd=WxpubOAuth.getUserInforForNotGuanZhu(pd,pd.getString("open_id"),pd.getString("access_token"));//获取未关注的用户信息
+  				pd=WxpubOAuth.getWxInformation(pd,pd.getString("wxopen_id"));//对于已经关注所获取的信息
+   				 
+  				
+    	} catch (Exception e) {
+   			e.printStackTrace();
+ 		}
+   		mv.setViewName("htmlmember/wxLogin");
+ 		return mv;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
    
 	// 开始转微信支付的一些接口操作======================================================================
 	

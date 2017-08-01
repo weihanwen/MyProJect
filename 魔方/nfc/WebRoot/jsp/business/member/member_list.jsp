@@ -36,7 +36,7 @@
 	<div class="row-fluid">
 	
 			<!-- 检索  -->
-			<form action="wxmember/list.do" method="post" name="Form" id="Form">
+			<form action="member/list.do" method="post" name="Form" id="Form">
 			<!-- 检索  -->
  			<table id="table_report" class="table table-striped table-bordered table-hover">
  				<thead>

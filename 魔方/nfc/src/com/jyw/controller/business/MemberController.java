@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.jyw.controller.base.BaseController;
 import com.jyw.entity.Page;
 import com.jyw.entity.system.Menu;
-import com.jyw.service.business.WxmemberService;
+import com.jyw.service.business.MemberService;
 import com.jyw.util.Const;
 import com.jyw.util.PageData;
 
@@ -23,18 +23,18 @@ import com.jyw.util.PageData;
  * 创建时间：2017-07-28
  */
 @Controller
-@RequestMapping(value="/wxmember")
-public class WxmemberController extends BaseController {
+@RequestMapping(value="/member")
+public class  MemberController extends BaseController {
 	
-	@Resource(name="wxmemberService")
-	private WxmemberService wxmemberService;
+	@Resource(name="memberService")
+	private MemberService memberService;
 	
 	 
 	
 	 
 	/**
 	 * 列表
-	 * wxmember/list.do
+	 * member/list.do
 	 */
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page){
@@ -43,9 +43,9 @@ public class WxmemberController extends BaseController {
 		try{
 			pd = this.getPageData();
 			page.setPd(pd);
-			List<PageData>	varList = wxmemberService.list(page);	//列出W列表
+			List<PageData>	varList = memberService.list(page);	//列出W列表
  			this.getHC(); //调用权限
-			mv.setViewName("business/wxmember/wxmember_list");
+			mv.setViewName("business/member/member_list");
 			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
 		} catch(Exception e){

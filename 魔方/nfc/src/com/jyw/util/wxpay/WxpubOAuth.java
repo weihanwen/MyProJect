@@ -46,7 +46,7 @@ public class WxpubOAuth {
          String url = WxpubOAuth.createOauthUrlForOpenid(appId, appSecret, code);
          String ret = WxpubOAuth.httpGet(url);
          OAuthResult oAuthResult = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create().fromJson(ret, OAuthResult.class);
-         pd.put("wxopen_id", oAuthResult.getOpenid());
+         pd.put("open_id", oAuthResult.getOpenid());
          pd.put("access_token", oAuthResult.getAccessToken());
          return pd;
     }
@@ -254,8 +254,8 @@ public class WxpubOAuth {
 	        pd.put("name", respJson.get("nickname").getAsString());
 	        pd.put("province_name", respJson.get("province").getAsString());
 	        pd.put("city_name", respJson.get("city").getAsString());
-	        pd.put("wxunionid", respJson.get("unionid").getAsString());
-	        pd.put("wxopen_id", openid);
+	        pd.put("unionid", respJson.get("unionid").getAsString());
+	        pd.put("open_id", openid);
  		} catch (Exception e) {
 			// TODO Auto-generated catch block
  			e.printStackTrace();

@@ -11,8 +11,8 @@ import com.jyw.entity.Page;
 import com.jyw.util.PageData;
 
 
-@Service("wxmemberService")
-public class   WxmemberService {
+@Service("memberService")
+public class   MemberService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
@@ -22,7 +22,7 @@ public class   WxmemberService {
 	*列表
 	*/
 	public List<PageData> list(Page page)throws Exception{
-		return (List<PageData>)dao.findForList("WxmemberMapper.datalistPage", page);
+		return (List<PageData>)dao.findForList("MemberMapper.datalistPage", page);
 	}
 	 
 	 
