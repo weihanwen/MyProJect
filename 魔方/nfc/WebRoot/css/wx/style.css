@@ -1,0 +1,143 @@
+   body{
+		margin: 0;
+		padding: 0;
+		border: 0;
+		height: 100%;
+		width: 100%;
+		font: 12px Arial, "微软雅黑", sans-serif;
+	}
+	img,div,a{
+		margin:0;
+		padding:0;
+	}
+	
+	 /* 首页轮播图 */
+	.lunboclass{
+		width:100%;
+	}
+	.lunboclass a {
+		width: 100%;
+	}
+	.lunboclass img{
+		    width: 100%;
+	}
+	.swiper-pagination_2 .swiper-pagination-bullet-active {
+		background: #fff;
+	}
+	 /* 大类banneer */
+	.bigsort{
+		width:100%;
+		height: 90px;
+	}
+	.bigsort span{
+		display:block;
+		width: 20%;
+		float:left;
+		text-align:center;
+	}
+	.bigsort span img{
+		width: 60%;
+		display: inline;
+		padding: 8% 20% 0% 20%;
+		margin-bottom: 10%;
+	}
+	
+	 /* 商品 */
+	 .allgoods{
+		 margin-bottom:16%;
+		 
+	 }
+	.goodsshow{
+		width:100%;
+	}
+	.goodsshow .one{
+		position:relative;
+	}
+	.goodsshow img{
+		width:100%;
+	}
+	.goodsshow  .two{
+		    position: absolute;
+			width: 100%;
+			height: 18%;
+			background-color: #161616;
+			bottom: 0;
+			right: 0;
+			opacity: 0.3;
+			color:#fff;
+			font-size: 15px;
+			text-align: center;
+	}
+	.goodsshow  .two  span{
+		    font-size: 18px;
+	}
+	
+	
+	
+	.footerdi{
+		position: fixed;
+		bottom: 0;
+		z-index: 100;
+		width: 100%;
+		height: 13%;
+		border-top: 1px solid #b3b3b3;
+		padding:5px 0;
+		background: #fff;
+		font-size: 18px;
+	}
+	.footerdi ul li{
+		float: left;
+		width: 33%;
+	}
+	.footerdi ul li a{
+		color: #8e8e8e;
+		text-align: center;
+		display: block;
+	}
+	.footerdi a i{
+		display: block;
+		background: url(../../images/f_set.png);
+		background-size: 28px auto;
+		margin: 0 auto;
+	}
+	.footerdi li.f_whole i{
+		width: 30px;
+		height: 25px;
+		background-position: 0 -25px;
+		position: relative;
+		top: 2px;
+	}
+	.footerdi li.f_jiexiao i{
+		width: 22px;
+		height: 25px;
+		background-position: 0 -76px;
+		position: relative;
+		top: 1px;
+	}
+	.footerdi li.f_car i{
+		width: 22px;
+		height: 25px;
+		background-position: 0 -126px;
+		position: relative;
+		top: 1px;
+	}
+	.footerdi li.f_personal i{
+		width: 22px;
+		height: 25px;
+		background-position: 0 -175px;
+		position: relative;
+		top: 1px;
+	}
+	.footerdi .f_whole i.cur{
+		background-position: 0 0 !important
+	}
+	.footerdi .f_jiexiao i.cur{
+		background-position: 0 -50px !important	
+	}
+	.footerdi .f_car i.cur{
+		background-position:0 -102px !important
+	}
+
+	.footerdi .f_personal i.cur{
+		background-position:0 -151px !important
+	}

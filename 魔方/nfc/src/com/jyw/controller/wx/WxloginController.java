@@ -90,14 +90,14 @@ public class WxloginController extends BaseController {
   		PageData pd = new PageData();
     	try {
    				pd=this.getPageData();
-   				String code=pd.getString("code");
-      			pd = WxpubOAuth.getOpenId(pd,WxUtil.APP_ID, WxUtil.APP_SECRET, code);
-    			if(pd.getString("open_id") == null || pd.getString("open_id").equals("")){
-    				mv.setViewName("redirect:toLoginWx.do");
-   			 		return mv;
-   				} 
-//   			String wxopen_id ="owD2DwsxdygwHXxNV75kjGT7Wvlw";
-     			WxLogin login=new WxLogin();
+//   				String code=pd.getString("code");
+//      			pd = WxpubOAuth.getOpenId(pd,WxUtil.APP_ID, WxUtil.APP_SECRET, code);
+//    			if(pd.getString("open_id") == null || pd.getString("open_id").equals("")){
+//    				mv.setViewName("redirect:toLoginWx.do");
+//   			 		return mv;
+//   				} 
+   				pd.put("open_id", "owD2DwsxdygwHXxNV75kjGT7Wvlw");
+      			WxLogin login=new WxLogin();
      			PageData mpd=wxmemberService.findById(pd);
      			if( mpd == null){
     				//获取用户的一些信息

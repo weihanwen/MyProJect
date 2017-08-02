@@ -106,8 +106,8 @@
 		from 
 			tb_carousel_figure
 		where
-			 to_days(now()) &gt;= to_days(a.startdate) 
-             and to_days(now()) &lt;= to_days(a.enddate) 
+			 to_days(now()) &gt;= to_days(startdate) 
+             and to_days(now()) &lt;= to_days(enddate) 
   	</select>
  
 	

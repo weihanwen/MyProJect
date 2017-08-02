@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//WebRoot/jsp/system/admin/head.jsp=UTF-8
 encoding//WebRoot/jsp/system/admin/top.jsp=UTF-8
+encoding//WebRoot/jsp/wx/wxindex.jsp=UTF-8
 encoding//src/com/tianer/util/JPushClientUtil.java=UTF-8
 encoding//src/com/tianer/util/JPushClientUtilSD.java=UTF-8
 encoding/<project>=UTF-8

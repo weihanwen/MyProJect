@@ -36,7 +36,7 @@
 <body>
 	<form action="carousel_figure/edit.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="carousel_figure_id" id="carousel_figure_id" value="${pd.carousel_figure_id}"/>
-		<div id="zhongxin" style="width: 60%;margin: 5% auto;">
+		<div id="zhongxin" style="width: 70%;margin: 5% auto;">
 		<table>
 			<tr>
 				<td>轮播图标题 ：</td>
@@ -248,7 +248,7 @@
 			    var start1=new Date(start[0],start[1]-1,start[2]);    //因为当前时间的月份需要+1，故在此-1，不然和当前时间做比较会判断错误
 			    var end1=new Date(end[0],end[1]-1,end[2]);
 			    var day=new Date();
-			    if(day > start1){ 
+			    /* if(day > start1){ 
 			    	$("#startdate").tips({
 						side:3,
 			            msg:'开始排期要从明天开始',
@@ -257,7 +257,7 @@
 			        });
 					$("#startdate").focus();
  			     return false;
-			    }
+			    } */
 			    if(start1 > end1){
 			    	$("#enddate").tips({
 						side:3,

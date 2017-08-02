@@ -60,10 +60,10 @@
 				graphic_description= #{graphic_description},
 				is_shelves= #{is_shelves},
 				is_reservation= #{is_reservation},
+				
 				reservation_number= #{reservation_number},
 				inventory_number= #{inventory_number},
-				have_salenumber= #{have_salenumber},
-				lunch_description= #{lunch_description},
+ 				lunch_description= #{lunch_description},
  				category_id= #{category_id},
  				send_integral= #{send_integral},
   				lunch_id = lunch_id

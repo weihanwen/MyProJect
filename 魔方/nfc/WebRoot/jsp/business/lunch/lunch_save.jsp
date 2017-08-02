@@ -292,6 +292,12 @@
 				$("#graphic_description").focus();
 				return false;
 			}
+			if($("#send_integral").val() == ""){
+				$("#send_integral").val("0");
+			}
+			if($("#reservation_number").val() == ""){
+				$("#reservation_number").val("0");
+			}
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
