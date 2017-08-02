@@ -180,6 +180,7 @@ public class WxMemberController extends BaseController {
  			//3默认获取明天可预定的便当类别的所有
  			pd.put("day", DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
   			PageData daypd=scheduled_timeService.findByNowDay(pd);//获取今天预定的详情
+  			daypd.put("week", DateUtil.getAfterDayWeek("1"));
  			mv.addObject("daypd", daypd);
 // 			List<PageData> ydList=scheduled_timeService.listAllNowDay(daypd);
 // 			mv.addObject("ydList", ydList);

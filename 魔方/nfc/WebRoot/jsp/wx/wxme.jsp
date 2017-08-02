@@ -9,33 +9,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <title>九鱼魔方</title>
+    <title>个人中心</title>
     <base href="<%=basePath%>">
     <link rel="stylesheet" href="css/wx/labary/predefine.css">
     <link rel="stylesheet" href="css/wx/labary/swiper.min.css">
 	<link rel="stylesheet" href="css/wx/style.css">
 </head>
 <body>
-<nav class="top">
-	<div style="text-align:center;line-height:40px;color:#fff">个人中心</div>
-</nav>
 <section style="height:86%;">
-	<%-- <div class="my-top clearfix">
-		<a href="<%=basePath%>html_me/goMe.do?type=1">
+	<div class="my-top clearfix">
+		<a href="">
 			<b class="z-arrow my-arrow fr"></b>
-			<span class="my-top-tx fl" style=" width: 80px; "><img src="${empty pg.image_url?'../../img/moren.png':pg.image_url}" ></span>
+			<span class="my-top-tx fl" style=" width: 80px; "><img src="" ></span>
 			<div class="my-top-text">
-				<p><i class="people-icon"></i>${pg.name }</p>
-				<p>${pg.show_lookid}<b></b></p>
+				<p><i class="people-icon"></i></p>
+				<p><b></b></p>
 			</div>
 	 	</a>
 	</div>
 	<article class="rm-list tj-list  ">
 		<ul>
-			<li><a href="<%=basePath%>html_me/goMe.do?type=6"><i class="my-list-one"></i>提货劵<b class="z-arrow"></b></a></li>
-			<li><a href="<%=basePath%>html_me/goMe.do?type=7"><i class="my-list-three"></i>我的订单<b class="z-arrow"></b></a></li>
+			<li><a ><i class="my-list-one"></i>提货劵<b class="z-arrow"></b></a></li>
+			<li><a  ><i class="my-list-three"></i>我的订单<b class="z-arrow"></b></a></li>
 		</ul>
-	</article> --%>
+	</article>  
  </section>
 <footer class="footerdi guding clf">
 	<ul>
@@ -47,12 +44,12 @@
 		</li>
 		<li class="f_jiexiao">
 			<a  href="wxmember/yuding.do">
-				<i class="cur"></i>
+				<i></i>
 				预定
 			</a>
 		</li>
 		<li class="f_personal">
- 			<a style=" color: #e90000; " href="wxmember/gome.do">
+ 			<a style=" color: #72c4f9; " href="wxmember/gome.do">
 				<i class="cur"></i>
 				我的
 			</a>

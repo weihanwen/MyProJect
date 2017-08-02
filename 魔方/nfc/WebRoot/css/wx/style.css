@@ -46,6 +46,7 @@
 	 /* …Ã∆∑ */
 	 .allgoods{
 		 margin-bottom:16%;
+		 width: 100%;
 	 }
 	.goodsshow{
 		width:100%;
@@ -72,6 +73,68 @@
 	.goodsshow  .two  span{
 		    font-size: 18px;
 	}
+	/* ‘§∂® */
+	.ydinfor{
+		width:100%;
+		height:65px;
+		background-color:green;
+		
+	}
+ 	.ydinfor .one{
+		width: 12%;
+	    color: #fff;
+	    font-size: 16px;
+	    margin-left: 7%;
+	    padding-top: 3%;
+	    float: left;
+	}
+	.ydinfor .two{
+		    width: 79%;
+		    color: #fff;
+		    font-size: 15px;
+		    padding-top: 3%;
+		    float: left;
+	}
+	.ydgoods{
+ 	    width: 40%;
+ 	    height: 203px;
+     	float: left;
+    	margin: 1% 5%;
+	}
+	.ydgoods img{
+		width:100%;
+		height: 150px;
+	}
+	.ydgoods span:nth-child(2){
+		 display: block;
+	     width: 100%;
+	     float: left;
+	     font-size: 17px;
+	     text-align: left;
+	     line-height: 24px;
+ 	}
+ 	.ydgoods span:nth-child(3){
+		     display: block;
+		    width: 55%;
+		    float: left;
+		    font-size: 12px;
+		    text-align: left;
+		    line-height: 26px;
+ 	}
+ 	.ydgoods span:nth-child(4){
+		  display:block; width: 45%; float: left;font-size: 16px;text-align: right;color:blue;
+ 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -125,7 +188,7 @@
 	.footerdi li.f_personal i{
 		width: 22px;
 		height: 25px;
-		background-position: 0 -175px;
+		background-position: 0 -127px;
 		position: relative;
 		top: 1px;
 	}
@@ -140,5 +203,5 @@
 	}
 
 	.footerdi .f_personal i.cur{
-		background-position:0 -151px !important
+		background-position:0 -101px !important
 	}

@@ -9,14 +9,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <title>九鱼魔方</title>
+    <title>点餐</title>
     <base href="<%=basePath%>">
     <link rel="stylesheet" href="css/wx/labary/predefine.css">
     <link rel="stylesheet" href="css/wx/labary/swiper.min.css">
 	<link rel="stylesheet" href="css/wx/style.css">
 </head>
 <body>
-<section style="height:86%;">
+<section style="height:86%;overflow-y: scroll;">
  	<div class="lunboclass">
 		<!-- 轮播图 -->
 		<div class="swiper-container swiper-container_2">
@@ -60,7 +60,7 @@
 <footer class="footerdi guding clf">
 	<ul>
 		<li class="f_whole">
-			<a style=" color: #e90000; " href="wxmember/wxindex.do">
+			<a style=" color: #72c4f9; " href="wxmember/wxindex.do">
 				<i class="cur"></i>
 				点餐
 			</a>
@@ -101,5 +101,34 @@ $(function(){
 	 $(".bigsort").find("span").eq(0).click();
 	 
 });
+//获取商品
+function changeShoyLb(category_id,obj){
+  	$.ajax({
+		type:"post",
+			url:base_inf.base_herf+"wxmember/getLunchList.do",
+			data:{ "category_id":category_id  },
+			dataType:"json",
+			success:function(data){
+				 var lunchList=data.data;
+				 $(".allgoods").empty();
+				 for (var i = 0; i < lunchList.length; i++) {
+					 var s="<div class='goodsshow' onclick='goDetail(this,1)' lunch_id='"+lunchList[i].lunch_id+"' category_id='"+lunchList[i].category_id+"' >"+
+								"<div class='one'>"+
+									"<img src='"+lunchList[i].product_cover+"' />"+
+									"<div class='two'>"+
+										""+lunchList[i].sale_money+"元/份 赠送积分"+lunchList[i].send_integral+"分 <span>到手价："+lunchList[i].daoshoumoney+"元</span> 仅剩"+lunchList[i].inventory_number+"份"+
+									"</div>"+
+								"</div>"+
+							"</div>";
+					$(".allgoods").append(s);
+				 }
+			}
+	});  
+}
+//前往详情
+function goDetail(obj,order_type){
+	window.location.href=base_inf.base_herf+"wxmember/godetailBygoods.do?lunch_id="+$(obj).attr("lunch_id")+"&order_type="+order_type+"&category_id="+$(obj).attr("category_id");
+}
+
 </script>
 </html>

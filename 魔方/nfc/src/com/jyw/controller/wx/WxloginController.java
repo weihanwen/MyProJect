@@ -72,7 +72,7 @@ public class WxloginController extends BaseController {
 	
 	
 	/**
-	 * wxlogin/htmlWxLogin.do?code=
+	 * wxlogin/htmlWxLogin.do 
 	 *  授权完直接登录
 	 *  1：未注册过的先得获取手机验证码
 	 *  2：已注册直接前往首页

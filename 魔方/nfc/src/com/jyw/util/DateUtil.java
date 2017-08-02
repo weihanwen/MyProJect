@@ -252,8 +252,7 @@ public class DateUtil {
     }
     
     public static void main(String[] args) {
-    	System.out.println(compareDate("2014-08-10 11:21:17","2014-08-10 12:21:17"));
-    	//System.out.println(getAfterDayWeek("3"));
-    }
+    	System.out.println(getAfterDayWeek("1"));
+     }
 
 }

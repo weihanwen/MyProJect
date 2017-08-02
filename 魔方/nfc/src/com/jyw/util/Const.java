@@ -90,6 +90,7 @@ public class Const {
 	
 	//微信登录人的key
 	public static final String WXLOGIN = "wxlogin";
+	public static final String WxLOGIN_URL = "wxlogin/htmlWxLogin.do";	 //微信登录地址wxlogin/toLoginWx.do
 	//存储暂时的一些参数
 	public static String access_token="";
 	public static String jsapi_ticket="";
