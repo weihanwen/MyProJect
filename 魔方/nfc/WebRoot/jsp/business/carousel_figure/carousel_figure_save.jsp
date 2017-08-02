@@ -74,7 +74,7 @@
 				</td>
 			</tr>
 			<tr class="h5_url link_content">
-				<td>外部H5链接 :</td><td><input type="text"  value="" placeholder="请输入外部H5链接"  id="h5_url" ></td>
+				<td>外部H5链接 :</td><td><input type="text"  value="https://" placeholder="请输入外部H5链接"  id="h5_url" ></td>
 			</tr>
 			<tr class="lunch_id link_content">
 				<td>菜品链接 ：</td>

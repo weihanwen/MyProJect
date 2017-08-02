@@ -5,6 +5,7 @@
 		height: 100%;
 		width: 100%;
 		font: 12px Arial, "Œ¢»Ì—≈∫⁄", sans-serif;
+		  /*   background: #ededed; */
 	}
 	img,div,a{
 		margin:0;
@@ -45,10 +46,10 @@
 	 /* …Ã∆∑ */
 	 .allgoods{
 		 margin-bottom:16%;
-		 
 	 }
 	.goodsshow{
 		width:100%;
+		    margin-bottom: 2%;
 	}
 	.goodsshow .one{
 		position:relative;

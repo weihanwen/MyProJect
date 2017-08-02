@@ -163,6 +163,31 @@
 			lunch_id = #{lunch_id}
 	</select>
   	
+  	
+  	<!-- 通过分类ID获取上架商品 -->
+	<select id="listAllByCate" parameterType="pd" resultType="pd">
+		select 
+			a.category_id,
+ 			a.lunch_id,
+			a.lunch_name,
+			a.product_cover,
+			a.inside_banner,
+			a.graphic_description,
+			a.sale_money,
+			a.inventory_number,
+			ifnull(a.reservation_number , '0') as reservation_number,
+			IFNULL(a.send_integral,0) as send_integral,
+			(a.sale_money-IFNULL(a.send_integral,0)) as daoshoumoney
+		from 
+			 tb_lunch a  
+ 		where
+ 			a.category_id=#{category_id}
+ 			and a.is_shelves='1'
+ 			<if test="orde_type != null and orde_type != '' and order_type =='2'.toString()" >
+ 				and a.is_reservation='1'
+ 			</if>
+  		order by a.sort
+  	</select>
 	
 	
 </mapper>

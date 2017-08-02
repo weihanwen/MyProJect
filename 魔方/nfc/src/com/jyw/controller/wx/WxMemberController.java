@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jyw.controller.base.BaseController;
 import com.jyw.entity.wx.WxLogin;
+import com.jyw.service.business.Carousel_figureService;
 import com.jyw.service.business.CategoryService;
 import com.jyw.service.business.Daily_menuService;
 import com.jyw.service.business.LunchService;
@@ -60,6 +61,38 @@ public class WxMemberController extends BaseController {
 	private LunchService lunchService;//商品列表
 	@Resource(name="daily_menuService")
 	private Daily_menuService daily_menuService;//正常商品菜品
+	@Resource(name="carousel_figureService")
+	private Carousel_figureService carousel_figureService;//轮播图
+	
+	
+	/**
+   	 * 添加金额购物车
+   	* wxmember/getLunchList.do
+   	* 
+   	* category_id  类别ID
+    */
+	@RequestMapping(value="/getLunchList")
+	@ResponseBody
+	public  Object getLunchList(String category_id) throws Exception{
+ 		Map<String, Object> map = new HashMap<String, Object>();
+ 	  	String result="1";
+		String message="获取成功";
+		PageData pd=new PageData();
+		try{
+			pd.put("category_id", category_id);
+			List<PageData> lunchList=lunchService.listAllByCate(pd);
+			map.put("data", lunchList);
+		}catch(Exception e){
+			result="0";
+			message="系统异常";
+ 			logger.error(e.toString(), e);
+		}
+		map.put("result", result);
+		map.put("message", message);
+ 		return map;
+ 	}
+	
+	
 	
 	/**
 	 * 前往个人中心
@@ -69,7 +102,7 @@ public class WxMemberController extends BaseController {
 	 *  session存储 Wxlogin  
  	 */
 	@RequestMapping(value="/gome")
-	public ModelAndView gome(HttpServletRequest request)throws Exception{
+	public ModelAndView gome()throws Exception{
 		ModelAndView mv = this.getModelAndView();
 		//shiro管理的session
  		Subject currentUser = SecurityUtils.getSubject();  
@@ -105,13 +138,38 @@ public class WxMemberController extends BaseController {
   		return mv;
 	}
 	
+	/**
+	 * 前往订餐界面
+	 * wxmember/wxindex.do 
+	 * 
+  	 */
+	@RequestMapping(value="/wxindex")
+	public ModelAndView wxindex()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+  		PageData pd = new PageData();
+    	try {
+    		pd=this.getPageData();
+    		//1.获取轮播图
+ 			List<PageData> lunboList=carousel_figureService.listAllOk(pd);
+ 			mv.addObject("lunboList", lunboList);
+ 			//2.获取分类类别
+ 			List<PageData> leibieList=categoryService.listAll(pd);
+ 			mv.addObject("leibieList", leibieList);
+   			mv.setViewName("wx/wxindex");
+        } catch (Exception e) {
+   			e.printStackTrace();
+ 		}
+  		return mv;
+	}
+	
 	
 	/**
 	 * 前往预定界面
 	 * wxmember/yuding.do 
+	 * 
   	 */
 	@RequestMapping(value="/yuding")
-	public ModelAndView yuding(HttpServletRequest request)throws Exception{
+	public ModelAndView yuding()throws Exception{
 		ModelAndView mv = this.getModelAndView();
   		PageData pd = new PageData();
     	try {
@@ -121,11 +179,13 @@ public class WxMemberController extends BaseController {
  			mv.addObject("leibieList", leibieList);
  			//3默认获取明天可预定的便当类别的所有
  			pd.put("day", DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
- 			//获取今天预定的详情
- 			PageData daypd=scheduled_timeService.findByNowDay(pd);
+  			PageData daypd=scheduled_timeService.findByNowDay(pd);//获取今天预定的详情
  			mv.addObject("daypd", daypd);
- 			List<PageData> ydList=scheduled_timeService.listAllNowDay(daypd);
- 			mv.addObject("ydList", ydList);
+// 			List<PageData> ydList=scheduled_timeService.listAllNowDay(daypd);
+// 			mv.addObject("ydList", ydList);
+     		pd.put("order_type", "2");
+    		List<PageData> ydList=lunchService.listAllByCate(pd);
+    		mv.addObject("ydList", ydList);
    			mv.setViewName("wx/yuding");
         } catch (Exception e) {
    			e.printStackTrace();
@@ -139,25 +199,19 @@ public class WxMemberController extends BaseController {
 	 * wxmember/godetailBygoods.do 
 	 * 
 	 * lunch_id 商品ID
+	 * category_id 类别ID
 	 * order_type :  1-订单进入，2-预定进入
    	 */
 	@RequestMapping(value="/godetailBygoods")
-	public ModelAndView godetailBygoods(HttpServletRequest request,String lunch_id,String order_type)throws Exception{
+	public ModelAndView godetailBygoods(String lunch_id,String order_type,String category_id)throws Exception{
 		ModelAndView mv = this.getModelAndView();
   		PageData pd = new PageData();
     	try {
      		//获取商品详情
-    		pd.put("lunch_id", lunch_id);
-    		pd=lunchService.findByIdForWx(pd);
-    		if(order_type.equals("1")){
-    			pd.put("day", DateUtil.getDay());
-     			List<PageData> biandanList=daily_menuService.listAllNowDay(pd);
-     			mv.addObject("varList", biandanList);
-    		}else{
-    			pd.put("day",  DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
-       			List<PageData> ydList=scheduled_timeService.listAllNowDay(pd);
-     			mv.addObject("varList", ydList);
-    		}
+    		pd.put("category_id", category_id);
+    		pd.put("order_type", order_type);
+    		List<PageData> ydList=lunchService.listAllByCate(pd);
+ 			mv.addObject("varList", ydList);
     		mv.setViewName("wx/wxgoodsdetail");
         } catch (Exception e) {
    			e.printStackTrace();

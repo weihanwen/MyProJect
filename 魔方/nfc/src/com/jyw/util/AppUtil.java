@@ -23,7 +23,7 @@ public class AppUtil  {
 	
 	//获取Ip展示地址
 		public static String getuploadRootUrlIp(){
-			String url = "http://localhost/FileSave/";
+			String url = "http://192.168.1.12/FileSave/";
 	 		return url;
 		}	
 			

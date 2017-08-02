@@ -129,10 +129,10 @@ public class WxloginController extends BaseController {
      			//2.获取分类类别
      			List<PageData> leibieList=categoryService.listAll(pd);
      			mv.addObject("leibieList", leibieList);
-     			//3默认获取当日便当类别的所有
-     			pd.put("day", DateUtil.getDay());
-     			List<PageData> biandanList=daily_menuService.listAllNowDay(pd);
-     			mv.addObject("biandanList", biandanList);
+//     			//3默认获取当日便当类别的所有
+//     			pd.put("day", DateUtil.getDay());
+//     			List<PageData> biandanList=daily_menuService.listAllNowDay(pd);
+//     			mv.addObject("biandanList", biandanList);
       	} catch (Exception e) {
    			e.printStackTrace();
  		}
