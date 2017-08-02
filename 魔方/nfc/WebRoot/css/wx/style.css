@@ -81,19 +81,20 @@
 		
 	}
  	.ydinfor .one{
-		width: 12%;
+ 		width: 12%;
 	    color: #fff;
-	    font-size: 16px;
+	    font-size: 17px;
 	    margin-left: 7%;
 	    padding-top: 3%;
 	    float: left;
 	}
 	.ydinfor .two{
-		    width: 79%;
+ 		    width: 79%;
 		    color: #fff;
 		    font-size: 15px;
 		    padding-top: 3%;
 		    float: left;
+		        line-height: 22px;
 	}
 	.ydgoods{
  	    width: 40%;

@@ -17,41 +17,49 @@
 </head>
 <body>
 <section style="height:86%;overflow-y: scroll;">
-	<!--大类类别-->
-     <div class="bigsort">
-      	<c:forEach items="${leibieList}" var="var" varStatus="vs">
-      		<c:choose>
-      			<c:when test="${vs.index == 0}">
-	      			<span onclick="changeShoyLb('${var.category_id}')" >
-						<img src="${var.image_url}">${var.title}
-					</span>
-				</c:when>
-      			<c:otherwise>
-	      			<span onclick="changeShoyLb('${var.category_id}')"  style="color:#909090"  >
-						<img src="${var.image_url}">${var.title}
-					</span>
-				</c:otherwise>
-      		</c:choose>
-       	</c:forEach>
- 	</div>
- 	<!--预定说明-->
- 	 <div class="ydinfor">
-      	 	<div class="one">预定说明</div>
-      	 	<div class="two">
-      	 		<span>当前可预定${daypd.day}（${day.week}）中午时段美味便当</span>
-      	 		<span>送餐时段：${daypd.starttime_slot } - ${daypd.endtime_slot } </span>
-      	 	</div>
- 	</div>
-	
-	<!--商品循环-->
-	<div class="allgoods">
- 		 <!-- <div class="ydgoods" >
-		 		<img alt="" src="images/2.jpg"   />
-		 		<span >西红柿炒鸡蛋</span>
- 		 		<span >20份可预订</span>
-		 		<span >66元/份</span>
-		 </div> -->
-  	</div>
+			<!--大类类别-->
+		     <div class="bigsort">
+		      	<c:forEach items="${leibieList}" var="var" varStatus="vs">
+		      		<c:choose>
+		      			<c:when test="${vs.index == 0}">
+			      			<span onclick="changeShoyLb('${var.category_id}')" >
+								<img src="${var.image_url}">${var.title}
+							</span>
+						</c:when>
+		      			<c:otherwise>
+			      			<span onclick="changeShoyLb('${var.category_id}')"  style="color:#909090"  >
+								<img src="${var.image_url}">${var.title}
+							</span>
+						</c:otherwise>
+		      		</c:choose>
+		       	</c:forEach>
+		 	</div>
+		 	<c:choose>
+		 		<c:when test="${!empty daypdy}">
+		 			<!--预定说明-->
+				 	 <div class="ydinfor">
+				      	 	<div class="one">预定说明</div>
+				      	 	<div class="two">
+				      	 		<span>当前可预定${daypd.day}（${day.week}）中午时段美味便当</span><br>
+				      	 		<span>送餐时段：${daypd.starttime_slot } - ${daypd.endtime_slot } </span>
+				      	 	</div>
+				 	</div>
+		  		</c:when>
+		 		<c:otherwise>
+		 			<div style="width:100%;height:65px;text-align: center;">
+		 				<img src="images/fl_d.png" >
+		 			</div>
+		  		</c:otherwise>
+		 	</c:choose>
+ 			<!--商品循环-->
+			<div class="allgoods">
+		 		 <!-- <div class="ydgoods" >
+				 		<img alt="" src="images/2.jpg"   />
+				 		<span >西红柿炒鸡蛋</span>
+		 		 		<span >20份可预订</span>
+				 		<span >66元/份</span>
+				 </div> -->
+		  	</div>
  </section>
 <footer class="footerdi guding clf">
 	<ul>
@@ -76,14 +84,11 @@
 	</ul>
 </footer>
 </body>
-<script type="text/javascript">
-var base_inf={
-         base_herf:"<%=basePath%>" 
-};
-</script>
 <script src="js/wx/library/jquery-1.12.4.min.js"></script>
 <script src="js/wx/tongyong.js"></script>
 <script type="text/javascript">
+
+
 //页面加载后执行
 $(function(){
  	 $(".bigsort").find("span").eq(0).click();
@@ -93,14 +98,14 @@ $(function(){
 function changeShoyLb(category_id,obj){
   	$.ajax({
 		type:"post",
-			url:base_inf.base_herf+"wxmember/getLunchList.do",
-			data:{ "category_id":category_id  },
+			url:"wxmember/getLunchList.do",
+			data:{ "category_id":category_id ,"order_type":"2"},
 			dataType:"json",
 			success:function(data){
 				 var lunchList=data.data;
 				 $(".allgoods").empty();
 				 for (var i = 0; i < lunchList.length; i++) {
-					 var s="<div class='ydgoods' onclick='goDetail(this,1)' lunch_id='"+lunchList[i].lunch_id+"' category_id='"+lunchList[i].category_id+"' >"+
+					 var s="<div class='ydgoods' onclick='goDetail(this,2)' lunch_id='"+lunchList[i].lunch_id+"' category_id='"+lunchList[i].category_id+"' >"+
 								 		"<img alt='' src='"+lunchList[i].inside_banner+"'   />"+
 							 		"<span>"+lunchList[i].lunch_name+"</span>"+
 					 		 		"<span>"+lunchList[i].reservation_number+"份可预订</span><span >"+lunchList[i].sale_money+"元/份</span>"+
@@ -113,7 +118,7 @@ function changeShoyLb(category_id,obj){
 
 //前往详情
 function goDetail(obj,order_type){
-	window.location.href=base_inf.base_herf+"wxmember/godetailBygoods.do?lunch_id="+$(obj).attr("lunch_id")+"&order_type="+order_type+"&category_id="+$(obj).attr("category_id");
+	window.location.href="wxmember/godetailBygoods.do?lunch_id="+$(obj).attr("lunch_id")+"&order_type="+order_type+"&category_id="+$(obj).attr("category_id");
 }
 
 

@@ -73,8 +73,8 @@
 	<!-- 今天的便当列表 -->
 	<select id="listAllNowDay" parameterType="pd" resultType="pd">
 		select 
-			a.`day`,
-			b.lunch_id,
+			b.category_id,
+ 			b.lunch_id,
 			b.lunch_name,
 			b.product_cover,
 			b.inside_banner,
@@ -88,6 +88,7 @@
 			tb_daily_menu a  left join tb_lunch b on a.lunch_idstr like concat(concat('%',b.lunch_id),'%')
  		where
  			a.day=#{day}
+  			and b.category_id=#{category_id}
  		order by b.sort
   	</select>
   	

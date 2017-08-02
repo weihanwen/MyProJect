@@ -80,11 +80,6 @@
 	</ul>
 </footer>
 </body>
-<script type="text/javascript">
-var base_inf={
-         base_herf:"<%=basePath%>" 
-};
-</script>
 <script src="js/wx/library/jquery-1.12.4.min.js"></script>
 <script src="js/wx/library/swiper.min.js"></script>
 <script src="js/wx/tongyong.js"></script>
@@ -105,8 +100,8 @@ $(function(){
 function changeShoyLb(category_id,obj){
   	$.ajax({
 		type:"post",
-			url:base_inf.base_herf+"wxmember/getLunchList.do",
-			data:{ "category_id":category_id  },
+			url:"wxmember/getLunchList.do",
+			data:{ "category_id":category_id ,"order_type":"1" },
 			dataType:"json",
 			success:function(data){
 				 var lunchList=data.data;
@@ -127,7 +122,7 @@ function changeShoyLb(category_id,obj){
 }
 //前往详情
 function goDetail(obj,order_type){
-	window.location.href=base_inf.base_herf+"wxmember/godetailBygoods.do?lunch_id="+$(obj).attr("lunch_id")+"&order_type="+order_type+"&category_id="+$(obj).attr("category_id");
+	window.location.href="wxmember/godetailBygoods.do?lunch_id="+$(obj).attr("lunch_id")+"&order_type="+order_type+"&category_id="+$(obj).attr("category_id");
 }
 
 </script>

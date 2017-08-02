@@ -62,22 +62,37 @@ public class WxMemberController extends BaseController {
 	
 	
 	/**
-   	 * 添加金额购物车
+   	 * 获取商品列表
    	* wxmember/getLunchList.do
    	* 
    	* category_id  类别ID
     */
 	@RequestMapping(value="/getLunchList")
 	@ResponseBody
-	public  Object getLunchList(String category_id) throws Exception{
+	public  Object getLunchList(String category_id,String order_type) throws Exception{
  		Map<String, Object> map = new HashMap<String, Object>();
  	  	String result="1";
 		String message="获取成功";
 		PageData pd=new PageData();
 		try{
-			pd.put("category_id", category_id);
-			List<PageData> lunchList=lunchService.listAllByCate(pd);
-			map.put("data", lunchList);
+ 			pd.put("category_id", category_id);
+ 			pd.put("order_type", order_type);
+			if(order_type.equals("2")){
+    			//判断今天是否设有预定时间
+    			pd.put("day", DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
+      			PageData daypd=scheduled_timeService.findByNowDay(pd); 
+      			if(daypd != null){
+       	 			List<PageData> ydList=scheduled_timeService.listAllNowDay(daypd);
+       				map.put("data", ydList);
+      			}else{
+      				map.put("data", new ArrayList<PageData>());
+      			}
+    		}else{
+     			//3默认获取当日便当类别的所有
+     			pd.put("day", DateUtil.getDay());
+     			List<PageData> biandanList=daily_menuService.listAllNowDay(pd);
+    			map.put("data", biandanList);
+    		}
 		}catch(Exception e){
 			result="0";
 			message="系统异常";
@@ -180,8 +195,6 @@ public class WxMemberController extends BaseController {
   				daypd.put("week", DateUtil.getAfterDayWeek("1"));
   	 			mv.addObject("daypd", daypd);
   			}
- // 		List<PageData> ydList=scheduled_timeService.listAllNowDay(daypd);
-// 			mv.addObject("ydList", ydList);
    			mv.setViewName("wx/yuding");
         } catch (Exception e) {
    			e.printStackTrace();
@@ -211,19 +224,24 @@ public class WxMemberController extends BaseController {
     			pd.put("day", DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
       			PageData daypd=scheduled_timeService.findByNowDay(pd); 
       			if(daypd != null){
-      				List<PageData> ydList=lunchService.listAllByCate(pd);
-        			mv.addObject("varList", ydList);
+       	 			List<PageData> ydList=scheduled_timeService.listAllNowDay(daypd);
+       	 			mv.addObject("varList", ydList); 
+       	 			mv.setViewName("wx/wxgoodsdetail");
       			}else{
-      				mv.addObject("varList", new ArrayList<PageData>());
+      				mv.setViewName("redirect:yuding.do");
       			}
     		}else{
-    			List<PageData> ydList=lunchService.listAllByCate(pd);
-    			mv.addObject("varList", ydList);
+     			//3默认获取当日便当类别的所有
+     			pd.put("day", DateUtil.getDay());
+     			List<PageData> biandanList=daily_menuService.listAllNowDay(pd);
+     			mv.addObject("varList", biandanList); 
+     			mv.setViewName("wx/wxgoodsdetail");
     		}
-     		mv.setViewName("wx/wxgoodsdetail");
-        } catch (Exception e) {
+    		pd.put("lunch_id", lunch_id);
+          } catch (Exception e) {
    			e.printStackTrace();
  		}
+    	mv.addObject("pd", pd); 
   		return mv;
 	}
 	
@@ -292,6 +310,7 @@ public class WxMemberController extends BaseController {
 	 
    
 	// 开始转微信支付的一些接口操作======================================================================
+	
 	/**
 	 * 公众号微信支付
 	 * html_member/wxpayorder.do?total_fee=0.01&attach=1&body=购买商品
