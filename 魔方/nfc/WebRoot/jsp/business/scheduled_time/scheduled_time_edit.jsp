@@ -32,7 +32,7 @@
 	<form action="scheduled_time/edit.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="scheduled_time_id" id="scheduled_time_id"  value="${pd.scheduled_time_id}"/>
 		<input type="hidden" name="lunch_idstr" id="lunch_idstr"  value="${pd.lunch_idstr}"/>
-		<div id="zhongxin" style="width: 60%;margin: 5% auto;">
+		<div id="zhongxin" style="width: 70%;margin: 5% auto;">
 		<table>
 			<tr>
 				<td>预定日期 ：</td>

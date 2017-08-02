@@ -128,8 +128,10 @@ public class Scheduled_timeController extends BaseController {
 				String[] str=lunch_idstr.split(",");
 				for (int i = 0; i < str.length; i++) {
 					pd.put("lunch_id", str[i]);
-					lunch_namestr+=ServiceHelper.getLunchService().findById(pd).getString("lunch_name")+",";
- 				}
+					if(ServiceHelper.getLunchService().findById(pd) != null){
+						lunch_namestr+=ServiceHelper.getLunchService().findById(pd).getString("lunch_name")+",";
+					}
+  				}
 				e.put("lunch_namestr", lunch_namestr);
 			}
  			this.getHC(); //调用权限

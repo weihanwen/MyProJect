@@ -31,7 +31,7 @@
 <body>
 	<form action="scheduled_time/save.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="lunch_idstr" id="lunch_idstr"  value=""/>
-		<div id="zhongxin" style="width: 60%;margin: 5% auto;">
+		<div id="zhongxin" style="width: 70%;margin: 5% auto;">
 		<table>
 			<tr>
 				<td>预定日期 ：</td>

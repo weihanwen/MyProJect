@@ -35,12 +35,12 @@
 		       	</c:forEach>
 		 	</div>
 		 	<c:choose>
-		 		<c:when test="${!empty daypdy}">
+		 		<c:when test="${!empty daypd}">
 		 			<!--预定说明-->
 				 	 <div class="ydinfor">
 				      	 	<div class="one">预定说明</div>
 				      	 	<div class="two">
-				      	 		<span>当前可预定${daypd.day}（${day.week}）中午时段美味便当</span><br>
+				      	 		<span>当前可预定${daypd.day}（${daypd.week}）中午美味便当</span><br>
 				      	 		<span>送餐时段：${daypd.starttime_slot } - ${daypd.endtime_slot } </span>
 				      	 	</div>
 				 	</div>

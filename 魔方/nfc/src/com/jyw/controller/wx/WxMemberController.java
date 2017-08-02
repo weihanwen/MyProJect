@@ -82,9 +82,9 @@ public class WxMemberController extends BaseController {
     			pd.put("day", DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
       			PageData daypd=scheduled_timeService.findByNowDay(pd); 
       			if(daypd != null){
-       	 			List<PageData> ydList=scheduled_timeService.listAllNowDay(daypd);
+       	 			List<PageData> ydList=scheduled_timeService.listAllNowDay(pd);
        				map.put("data", ydList);
-      			}else{
+       			}else{
       				map.put("data", new ArrayList<PageData>());
       			}
     		}else{
