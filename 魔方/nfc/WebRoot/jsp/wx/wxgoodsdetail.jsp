@@ -29,11 +29,14 @@
 
 	<div id="jssor_1" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 800px; height: 1218px; overflow: hidden; visibility: hidden; background-color: #fff;">
         <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 800px; height:1046px; overflow: hidden;">
-            <div data-p="144.50" style="display: none;">
-                <img data-u="image" src="images/lunbo/01.jpg" />
-                <img data-u="thumb" src="images/lunbo/thumb-01.jpg" />
-            </div>
-            <div data-p="144.50" style="display: none;">
+            <c:forEach items="${varList}" var="var">
+            	<div data-p="144.50" style="display: none;">
+	                <img data-u="image" src="${var.graphic_description}" />
+	                <img data-u="thumb" src="${var.inside_banner}" lunch_id="${var.lunch_id}"/>
+	            </div>
+            </c:forEach>
+                 
+           <!-- <div data-p="144.50" style="display: none;">
                 <img data-u="image" src="images/lunbo/02.jpg" />
                 <img data-u="thumb" src="images/lunbo/thumb-02.jpg" />
             </div>
@@ -53,7 +56,7 @@
                 <img data-u="image" src="images/lunbo/06.jpg" />
                 <img data-u="thumb" src="images/lunbo/thumb-06.jpg" />
             </div>
-            <!--<div data-p="144.50" style="display: none;">
+            <div data-p="144.50" style="display: none;">
                 <img data-u="image" src="images/lunbo/07.jpg" />
                 <img data-u="thumb" src="images/lunbo/thumb-07.jpg" />
             </div>
@@ -93,14 +96,12 @@
         </div>
        
     </div>
-
     <!-- #endregion Jssor Slider End -->
-
 </div>
 
 <footer class="twofooter">
  	<a   class="foot_guc"><span class="iconfont icon-gouwuche1 icon2"></span></a>
-	<a   class="foot_gm"><span>去结算</span></a>
+	<a    class="foot_gm"><span>去结算</span></a>
 </footer>
 	<a  href="javascript:void(0)" onclick="location.reload()" class="reflash"></a>	 <!-- 刷新链接 -->
 </body>
@@ -125,6 +126,11 @@ $(".up").click(function(){
 	}
 });
 
+//添加进购物车   onclick="clikthisLunch()"
+function clikthisLunch(){
+	var lunch_id=$(".pav").find("img").attr("lunch_id");
+	alert(lunch_id);
+}
 
 
 </script>
