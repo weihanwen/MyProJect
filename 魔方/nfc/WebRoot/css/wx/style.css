@@ -31,6 +31,7 @@
 	    position: fixed;
 	    z-index: 99;
 	    font-size: 16px;
+	    opacity: 0.8;
 	}
 	.top div{
 		text-align: center;
@@ -59,13 +60,15 @@
 	 /* 大类banneer */
 	.bigsort{
 		width:100%;
-		height: 90px;
+		    height: 103px;
+     
 	}
 	.bigsort span{
 		display:block;
 		width: 20%;
 		float:left;
 		text-align:center;
+		margin-top: 10px;
 	}
 	.bigsort span img{
 		width: 60%;
@@ -216,7 +219,7 @@
 	    margin: 10px 10px 0 0;
 	}
 	.my-list-one {
-	    background: url(../../images/tihuojuan.png);
+	    background: url(../../images/youhuiquan.png);
 	    background-size: 100%;
 	}
 	.my-list-two {
@@ -224,15 +227,15 @@
 	    background-size: 100%;
 	}
   	.my-list-three {
-	    background: url(../../images/tihuojuan.png);
+	    background: url(../../images/jifen.png);
 	    background-size: 100%;
 	}
 	.my-list-four {
-	    background: url(../../images/tihuojuan.png);
+	    background: url(../../images/shouhuodizhi.png);
 	    background-size: 100%;
 	}
 	.my-list-five {
-	    background: url(../../images/tihuojuan.png);
+	    background: url(../../images/dingdan.png);
 	    background-size: 100%;
 	}
 	
@@ -252,7 +255,7 @@
  
 	
 	.people-icon  {
-	    background: url(../../images/4.gif) no-repeat 0 0;
+	    background: url(../../images/wd.png) no-repeat 0 0;
 	    width: 25px;
 	    height: 25px;
 	    background-size: 100%;
@@ -261,7 +264,7 @@
  	    margin-right: 8px;
 	}
 	.showid-icon  {
-	    background: url(../../images/4.gif) no-repeat 0 0;
+	    background: url(../../images/wd.png) no-repeat 0 0;
 	    width: 25px;
 	    height: 25px;
 	    background-size: 100%;
@@ -280,7 +283,7 @@
 		bottom: 0;
 		z-index: 100;
 		width: 100%;
-		height: 8%;
+		height: 7.1%;
 		border-top: 1px solid #b3b3b3;
 		padding:5px 0;
 		background: #fff;
@@ -342,11 +345,78 @@
 	.footerdi .f_personal i.cur{
 		background-position:0 -101px !important
 	}
+		
+		
+		
+		
+	/* 二级页面 *****************************************************************************************************************8 */
+	header {
+	    height: 44px;
+	    width: 100%;
+	    background: #fc111b;
+	    line-height: 44px;
+	    color: #fff;
+	    position: fixed;
+	    top: 0;
+	    opacity: 0.8;
+	}
+	header .goback {
+	    position: absolute;
+	    left: 0;
+	    top: 0;
+	    width: 44px;
+	    text-align: center;
+	    line-height: 30px;
+	    font-size: 3.5rem;
+	}
+	header .title {
+	    width: 100%;
+	    text-align: center;
+	    line-height: 44px;
+	    color: #fff;
+	    font-size: 1.1rem;
+	}
+	.center{
+		width:100%;
+		margin-top: 40px;
+	}
 	
 	
 	
+	.twofooter {
+	    position: fixed;
+	    width: 100%;
+	    height: 4rem;
+	    background: #fff;
+	    bottom: 0;
+	    z-index: 2;
+	}
+	.twofooter a {
+	    display: block;
+	    position: relative;
+	    float: left;
+	    text-align: center;
+	    height: 4rem;
+	    color: #666;
+	    font-size: 1.4rem;
+	}
+	.twofooter .icon2 {
+	    font-size: 3.4rem;
+	}
+	.twofooter .foot_gm {
+	    line-height: 4rem;
+	}
+	.foot_guc{
+	    width: 29%;
+ 	    border-top: 1px solid #ccc;
+	}
+	.foot_gm {
+	    width: 70%;
+	    border-left: 1px solid #ccc;
+	    border-top: 1px solid #ccc;
+	}
 	
-	
+	/* ******************************************************************************************************8888   */
 	
 	
 	

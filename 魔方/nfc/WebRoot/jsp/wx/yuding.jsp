@@ -121,7 +121,7 @@ function changeShoyLb(category_id,obj){
 
 //前往详情
 function goDetail(obj,order_type){
-	window.location.href="wxmember/godetailBygoods.do?lunch_id="+$(obj).attr("lunch_id")+"&order_type="+order_type+"&category_id="+$(obj).attr("category_id");
+	
 }
 
 
