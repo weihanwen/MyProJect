@@ -16,7 +16,10 @@
 	<link rel="stylesheet" href="css/wx/style.css">
 </head>
 <body>
-<section style="height:86%;overflow-y: scroll;">
+<nav class="top">
+	<div>预定</div>
+</nav>
+<section class="onesection">
 			<!--大类类别-->
 		     <div class="bigsort">
 		      	<c:forEach items="${leibieList}" var="var" varStatus="vs">

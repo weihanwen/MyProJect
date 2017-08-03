@@ -51,7 +51,7 @@
 				</td>
 			</tr>
 			 <tr>
-				<td>选择预定便当列表 ：</td>
+				<td>可预定列表 ：</td>
 				<td>
 					<c:forEach items="${lunchList}" var="var">
 						<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }商品${var.reservation_number}份可以预定

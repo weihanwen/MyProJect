@@ -11,7 +11,38 @@
 		margin:0;
 		padding:0;
 	}
+	a, input, button {
+	    -webkit-tap-highlight-color: rgba(255,0,0,0);
+	    outline: none;
+	}
+	a {
+	    text-decoration: none;
+	}
+	ul {
+	    list-style: none;
+	}
 	
+	.top {
+	    background: #ff0600;
+	    height: 40px;
+	    right: 0;
+	    top: 0;
+	    width: 100%;
+	    position: fixed;
+	    z-index: 99;
+	    font-size: 16px;
+	}
+	.top div{
+		text-align: center;
+	    line-height: 40px;
+	    color: #fff;
+	}
+	
+	.onesection{
+		height:91%;
+ 		margin-top:40px;
+	}
+ 
 	 /* 首页轮播图 */
 	.lunboclass{
 		width:100%;
@@ -45,7 +76,7 @@
 	
 	 /* 商品 */
 	 .allgoods{
-		 margin-bottom:16%;
+		 margin-bottom:20%;
 		 width: 100%;
 	 }
 	.goodsshow{
@@ -126,13 +157,118 @@
 		  display:block; width: 45%; float: left;font-size: 16px;text-align: right;color:blue;
  	}
 	
+	/* 个人中心 */
+	.my-top {
+	    background: #fdb801;
+	    color: #fff;
+	    padding: 10px 4%;
+	    height: 16%;
+	}
+	.my-top-tx{
+		display:block;
+		float:left;
+		width:27%;
+		height:100px;
+	}
+ 	.my-top-tx img{
+		width:100%;
+	}
+	.my-top-text{
+		display:block;
+		float:left;
+		width:50%;
+		height:100px;
+		margin-left: 5%;
+	}
+	.my-top-text p{
+		display: block;
+	    width: 100%;
+	    float: left;
+	    margin-top: 7%;
+	    margin-left: 10%;
+	    color:#fff;
+	    font-size: 16px;
+ 	}
+	.my-top-text img{
+		height:100%;
+	}
 	
+	.tj-list ul li {
+	    border-top: 1px solid #d9d9d9;
+	}
+	.rm-list ul li {
+	    width: 100%;
+	    border-bottom: 1px solid #d9d9d9;
+	    line-height: 50px;
+	    background: #fff;
+	}
+	.rm-list ul li a {
+	    color: #333;
+	    padding: 0 15px;
+	    display: block;
+	}
+	.my-list-one, .my-list-two, .my-list-three, .my-list-four, .my-list-five{
+	    width: 30px;
+	    height: 30px;
+	    background-size: 100%;
+	    display: inline-block;
+	    float: left;
+	    margin: 10px 10px 0 0;
+	}
+	.my-list-one {
+	    background: url(../../images/tihuojuan.png);
+	    background-size: 100%;
+	}
+	.my-list-two {
+	    background: url(../../images/tihuojuan.png);
+	    background-size: 100%;
+	}
+  	.my-list-three {
+	    background: url(../../images/tihuojuan.png);
+	    background-size: 100%;
+	}
+	.my-list-four {
+	    background: url(../../images/tihuojuan.png);
+	    background-size: 100%;
+	}
+	.my-list-five {
+	    background: url(../../images/tihuojuan.png);
+	    background-size: 100%;
+	}
 	
+	.z-arrow {
+		margin-right: 10px;
+	    margin-top: 18px;
+	    border: solid #bbb;
+	    -webkit-transform: rotate(45deg);
+ 	    font-size: 0;
+	    line-height: 0;
+	    float: right;
+	    width: 10px;
+	    height: 10px;
+	    border-width: 2px 2px 0 0;
+	    
+	}
+ 
 	
-	
-	
-	
-	
+	.people-icon  {
+	    background: url(../../images/4.gif) no-repeat 0 0;
+	    width: 25px;
+	    height: 25px;
+	    background-size: 100%;
+	    display: inline-block;
+	    float: left;
+ 	    margin-right: 8px;
+	}
+	.showid-icon  {
+	    background: url(../../images/4.gif) no-repeat 0 0;
+	    width: 25px;
+	    height: 25px;
+	    background-size: 100%;
+	    display: inline-block;
+	    float: left;
+ 	    margin-right: 8px;
+	}
 	
 	
 	
@@ -144,7 +280,7 @@
 		bottom: 0;
 		z-index: 100;
 		width: 100%;
-		height: 13%;
+		height: 8%;
 		border-top: 1px solid #b3b3b3;
 		padding:5px 0;
 		background: #fff;
@@ -206,3 +342,21 @@
 	.footerdi .f_personal i.cur{
 		background-position:0 -101px !important
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	.white{
+		color: #fff;
+	}
+	.red{
+		color:red;
+	}
+	
+	
+	

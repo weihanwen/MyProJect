@@ -150,6 +150,39 @@ public class WxMemberController extends BaseController {
 	}
 	
 	/**
+	 * 前往个人详情页面
+	 * wxmember/gomedetail.do 
+	 * 
+	 *  返回值：用户信息  
+	 *  session存储 Wxlogin  
+ 	 */
+	@RequestMapping(value="/gomedetail")
+	public ModelAndView gomedetail()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		//shiro管理的session
+ 		Subject currentUser = SecurityUtils.getSubject();  
+ 		Session session = currentUser.getSession();
+ 		WxLogin login=(WxLogin) session.getAttribute(Const.WXLOGIN);
+  		PageData pd = new PageData();
+    	try {
+    		if(login != null){
+         		pd.put("image_url", login.getIMAGE_URL());
+        		pd.put("name", login.getNAME());
+        		pd.put("showlook_id", login.getSHOWLOOK_ID());
+         		mv.addObject("pd", pd);
+    			mv.setViewName("wx/wxmedetail");
+    		}else{
+    			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
+    		}
+        } catch (Exception e) {
+   			e.printStackTrace();
+ 		}
+  		return mv;
+	}
+	
+	
+	
+	/**
 	 * 前往订餐界面
 	 * wxmember/wxindex.do 
 	 * 

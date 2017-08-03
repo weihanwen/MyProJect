@@ -16,24 +16,30 @@
 	<link rel="stylesheet" href="css/wx/style.css">
 </head>
 <body>
-<section style="height:86%;">
-	<div class="my-top clearfix">
-		<a href="">
-			<b class="z-arrow my-arrow fr"></b>
-			<span class="my-top-tx fl" style=" width: 80px; "><img src="" ></span>
+<nav class="top">
+	<div>个人中心</div>
+</nav>
+<section class='onesection'>
+	<div class="my-top white">
+		<a href="wxmember/gomedetail.do">
+			<b class="z-arrow"></b>
+			<span class="my-top-tx"  ><img src="${pd.image_url eq ''?'img/moren.jpg':pd.image_url}" ></span>
 			<div class="my-top-text">
-				<p><i class="people-icon"></i></p>
-				<p><b></b></p>
+				<p><i class="people-icon"></i>${pd.name}</p>
+				<p><i class="showid-icon"></i><b>${pd.showlook_id}</b></p>
 			</div>
 	 	</a>
 	</div>
-	<article class="rm-list tj-list  ">
+	<article class="rm-list ">
 		<ul>
-			<li><a ><i class="my-list-one"></i>提货劵<b class="z-arrow"></b></a></li>
-			<li><a  ><i class="my-list-three"></i>我的订单<b class="z-arrow"></b></a></li>
-		</ul>
+			<li><a  ><i class="my-list-one"></i>优惠券<b class="z-arrow"></b></a></li>
+			<li><a  ><i class="my-list-two"></i>提货券<b class="z-arrow"></b></a></li>
+ 			<li><a  ><i class="my-list-three"></i>我的积分<b class="z-arrow"></b></a></li>
+ 			<li><a  ><i class="my-list-four"></i>收货地址<b class="z-arrow"></b></a></li>
+ 			<li><a  ><i class="my-list-five"></i>我的订单<b class="z-arrow"></b></a></li>
+ 		</ul>
 	</article>  
- </section>
+  </section>
 <footer class="footerdi guding clf">
 	<ul>
 		<li class="f_whole">

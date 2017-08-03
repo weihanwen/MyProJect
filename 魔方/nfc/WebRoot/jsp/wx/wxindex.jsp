@@ -16,7 +16,10 @@
 	<link rel="stylesheet" href="css/wx/style.css">
 </head>
 <body>
-<section style="height:86%;overflow-y: scroll;">
+<nav class="top">
+	<div>点餐</div>
+</nav>
+<section class="onesection">
  	<div class="lunboclass">
 		<!-- 轮播图 -->
 		<div class="swiper-container swiper-container_2">

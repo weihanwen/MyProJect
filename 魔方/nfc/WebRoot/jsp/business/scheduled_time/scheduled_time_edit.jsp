@@ -52,7 +52,7 @@
 				</td>
 			</tr> 
 			<tr>
-				<td>预定便当列表 ：</td>
+				<td>可预定列表 ：</td>
 				<td>
 					<c:forEach items="${lunchList}" var="var">
 						<c:choose>
