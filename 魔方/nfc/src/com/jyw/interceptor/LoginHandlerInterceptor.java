@@ -32,16 +32,16 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		String path = request.getServletPath();
 		if(path.matches(Const.NO_INTERCEPTOR_PATH)){
-//			if(path.contains("wxmember")){//微信拦截
-// 				Subject currentUser = SecurityUtils.getSubject();  
-//				Session session = currentUser.getSession();
-//				WxLogin login = (WxLogin)session.getAttribute(Const.WXLOGIN);
-//				if(login == null){
-//					//登陆过滤
-//					response.sendRedirect(request.getContextPath() + Const.LOGIN);
-//					return false;		
-//				}
-//			}
+			if(path.contains("wxmember")){//微信拦截
+ 				Subject currentUser = SecurityUtils.getSubject();  
+				Session session = currentUser.getSession();
+				WxLogin login = (WxLogin)session.getAttribute(Const.WXLOGIN);
+				if(login == null){
+					//登陆过滤
+					response.sendRedirect(request.getContextPath() + Const.WxLOGIN_URL);
+					return false;		
+				}
+			}
 			return true;
 		}else{
 			//shiro管理的session

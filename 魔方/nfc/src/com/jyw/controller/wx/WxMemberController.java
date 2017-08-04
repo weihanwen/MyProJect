@@ -247,31 +247,43 @@ public class WxMemberController extends BaseController {
 	@RequestMapping(value="/godetailBygoods")
 	public ModelAndView godetailBygoods(String lunch_id,String order_type,String category_id)throws Exception{
 		ModelAndView mv = this.getModelAndView();
+		//shiro管理的session
+ 		Subject currentUser = SecurityUtils.getSubject();  
+ 		Session session = currentUser.getSession();
+ 		WxLogin login=(WxLogin) session.getAttribute(Const.WXLOGIN);
   		PageData pd = new PageData();
     	try {
-     		//获取商品详情
-    		pd.put("category_id", category_id);
-    		pd.put("order_type", order_type);
-    		if(order_type.equals("2")){
-    			//判断今天是否设有预定时间
-    			pd.put("day", DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
-      			PageData daypd=scheduled_timeService.findByNowDay(pd); 
-      			if(daypd != null){
-       	 			List<PageData> ydList=scheduled_timeService.listAllNowDay(daypd);
-       	 			mv.addObject("varList", ydList); 
-       	 			mv.setViewName("wx/wxgoodsdetail");
-      			}else{
-      				mv.setViewName("redirect:yuding.do");
-      			}
+    		if(login != null ){
+    			//获取商品详情
+        		pd.put("category_id", category_id);
+        		pd.put("order_type", order_type);
+        		if(order_type.equals("2")){
+        			//判断今天是否设有预定时间
+        			pd.put("day", DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
+          			PageData daypd=scheduled_timeService.findByNowDay(pd); 
+          			if(daypd != null){
+           	 			List<PageData> ydList=scheduled_timeService.listAllNowDay(daypd);
+           	 			mv.addObject("varList", ydList); 
+           	 			mv.setViewName("wx/wxgoodsdetail");
+          			}else{
+          				mv.setViewName("redirect:yuding.do");
+          			}
+        		}else{
+         			//3默认获取当日便当类别的所有
+         			pd.put("day", DateUtil.getDay());
+         			List<PageData> biandanList=daily_menuService.listAllNowDay(pd);
+         			mv.addObject("varList", biandanList); 
+         			mv.setViewName("wx/wxgoodsdetail");
+        		}
+        		pd.put("lunch_id", lunch_id);
+        		//获取购物车数量
+        		pd.put("wxmember_id", login.getWXMEMBER_ID());
+        		pd.put("shopnumber", wxmemberService.countLunchNumber(pd));
+        		pd.remove("wxmember_id");
     		}else{
-     			//3默认获取当日便当类别的所有
-     			pd.put("day", DateUtil.getDay());
-     			List<PageData> biandanList=daily_menuService.listAllNowDay(pd);
-     			mv.addObject("varList", biandanList); 
-     			mv.setViewName("wx/wxgoodsdetail");
+    			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
     		}
-    		pd.put("lunch_id", lunch_id);
-          } catch (Exception e) {
+         } catch (Exception e) {
    			e.printStackTrace();
  		}
     	mv.addObject("pd", pd); 
@@ -308,6 +320,8 @@ public class WxMemberController extends BaseController {
 				//判断购物车是否有当前的商品
 				PageData shoppd=wxmemberService.findShopCartById(pd);
 				if(shoppd == null){
+					String shopcart_id=BaseController.get10UID();
+					pd.put("shopcart_id", shopcart_id);
 					wxmemberService.saveShopCartById(pd);
 				}else{
 					if(shoppd.getString("shop_number").equals("1")){
@@ -317,7 +331,8 @@ public class WxMemberController extends BaseController {
 						wxmemberService.updateShopCartById(shoppd);
 					}
 				}
- 			}
+				map.put("data", wxmemberService.countLunchNumber(pd));
+  			}
  		}catch(Exception e){
 			result="0";
 			message="系统异常";
@@ -325,12 +340,64 @@ public class WxMemberController extends BaseController {
 		}
 		map.put("result", result);
 		map.put("message", message);
-		map.put("data", "");
+		
 		return map;
  	}
-	
-	
-	
+
+	/**
+	 * 前往购物车列表
+	 * wxmember/goshopcatList.do 
+     */
+	@RequestMapping(value="/goshopcatList")
+	public ModelAndView goshopcatList()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		//shiro管理的session
+ 		Subject currentUser = SecurityUtils.getSubject();  
+ 		Session session = currentUser.getSession();
+ 		WxLogin login=(WxLogin) session.getAttribute(Const.WXLOGIN);
+  		PageData pd = new PageData();
+    	try {
+    		if(login != null ){
+    			pd.put("wxmember_id", login.getWXMEMBER_ID());
+    			
+    			
+    			
+    			
+    			mv.setViewName("wx/shopcarlist");
+     		}else{
+    			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
+    		}
+         } catch (Exception e) {
+   			e.printStackTrace();
+ 		}
+    	mv.addObject("pd", pd); 
+  		return mv;
+	}
+	/**
+	 * 计算总价
+	 * wxmember/countAllShopMoney.do
+	 * 
+	 * allshopcart_id  商品所有ID集合
+ 	 */
+	@RequestMapping(value="/countAllShopMoney")
+	@ResponseBody
+	public  Object addshopcart(String allshopcart_id) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+ 		String result="1";
+		String message="添加成功";
+		PageData pd=new PageData();
+		try{
+			pd.put("allshopcart_id", allshopcart_id);
+			map.put("data", wxmemberService.sumLunchmoneyById(pd));
+ 		}catch(Exception e){
+			result="0";
+			message="系统异常";
+			logger.error(e.toString(), e);
+		}
+		map.put("result", result);
+		map.put("message", message);
+ 		return map;
+	}
 	
 	
 	

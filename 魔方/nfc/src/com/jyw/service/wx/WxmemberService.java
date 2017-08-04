@@ -69,6 +69,12 @@ public class   WxmemberService {
 	/*
 	* 获取会员购物车的商品详情
 	*/
+	public String sumLunchmoneyById(PageData pd)throws Exception{
+		return (String)dao.findForObject("WxmemberMapper.sumLunchmoneyById", pd);
+	}
+	public String countLunchNumber(PageData pd)throws Exception{
+		return (String)dao.findForObject("WxmemberMapper.countLunchNumber", pd);
+	}
 	public PageData findShopCartById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("WxmemberMapper.findShopCartById", pd);
 	}

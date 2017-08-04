@@ -102,6 +102,22 @@
  	</select>
  	
 	<!-- 获取购物车的商品详情 -->
+	<select id="sumLunchmoneyById" parameterType="pd" resultType="String">
+		select 
+			
+		from 
+			tb_shopcart a left join tb_lunch b on a.lunch_id=b.lunch_id
+		where 
+			wxmember_id = #{wxmember_id}
+  	</select>
+	<select id="countLunchNumber" parameterType="pd" resultType="String">
+		select 
+			ifnull(sum(shop_number), '0') as allnumber 
+		from 
+			tb_shopcart
+		where 
+			wxmember_id = #{wxmember_id}
+  	</select>
 	<select id="findShopCartById" parameterType="pd" resultType="pd">
 		select 
 			shopcart_id,
@@ -134,15 +150,17 @@
 	</update>
  	<insert id="saveShopCartById" parameterType="pd">
 		insert into tb_shopcart(
+ 			shopcart_id,
  			wxmember_id,
 			lunch_id,
 			shop_number,
  			createtime,
 			updatetime
    		) values (
+			#{shopcart_id},	
 			#{wxmember_id},	
 			#{lunch_id},	
- 			0, 
+ 			1, 
   			now(),	
 			now() 
 		)
