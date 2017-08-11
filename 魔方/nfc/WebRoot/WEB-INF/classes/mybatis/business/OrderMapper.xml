@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderMapper">
+ 
+	
+  	
+	
+	
+  	
+   <!-- 查看详情 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+ 			a.order_id,
+			a.looknumber,
+			a.allmoney,
+			a.discount_money,
+			a.wxmember_redpackage_id,
+			a.wxmember_tihuojuan_idstr,
+			a.actual_money,
+			a.use_integral,
+			a.use_wx,
+			a.order_status,
+			a.send_integral,
+			a.serial_number,
+			a.order_type,
+			a.reserve_arrival_time,
+			a.reserve_day,
+			a.delivery_time,
+			a.delivery_fee,
+			a.createtime,
+			a.overtime,
+			a.wxmember_id,
+			a.wxmember_address_id,
+			c.contacts,
+ 			c.contacts_number,
+ 			c.corporate_name,
+ 			c.floor_numbe,
+			d.address_name
+  		from 
+			tb_order a  
+			left join tb_wxmember b on a.wxmember_id=b.wxmember_id
+			left join tb_wxmember_address c on a.wxmember_id=c.wxmember_id
+			left join tb_address d on c.address_id=d.address_id
+		where 
+			a.order_id=#{order_id}
+   	</select>
+  	
+   
+   	
+   	
+    <!-- 根据菜单名搜索的时候，获取所有有关的订单ID -->
+	<select id="getOrderStrByLunchName" parameterType="pd" resultType="String">
+		select  
+				group_concat(a.order_id)  as orderstr
+		from   	
+				tb_order_lunch a 
+ 				left join tb_lunch b on a.lunch_id=b.lunch_id
+ 				left join tb_order c on a.order_id=c.order_id
+		where 
+			 	b.lunch_name like concat(concat('%',#{lunch_name}),'%')
+			 	and c.order_status=#{order_status}
+    	</select>
+   	
+   	
+   	<!-- 获取订单下的菜单集合菜单 -->
+	<select id="listLunchByOrder" parameterType="pd" resultType="pd">
+		select  
+				a.order_id,
+				a.shop_number,
+				b.lunch_name
+		from   	
+				tb_order_lunch a 
+ 				left join tb_lunch b on a.lunch_id=b.lunch_id
+ 		where 
+			 	a.order_id=#{order_id}
+   </select>
+   
+    
+    <sql id="orderSearch">
+    		<choose>
+    			<when test="pd.order_status != null and pd.order_status != ''">a.order_status=#{pd.order_status}</when>
+    			<otherwise>a.order_status in ('1','2','99')</otherwise>
+    		</choose>
+    		<if test="pd.address_id != null and pd.address_id != ''">
+				and c.address_id=#{pd.address_id}
+			</if>
+			<if test="pd.looknumber != null and pd.looknumber != ''">
+				and a.looknumber=#{pd.looknumber}
+			</if>
+			<if test="pd.name != null and pd.name != ''">
+				and b.name like concat(concat('%',#{pd.name}),'%')
+			</if>
+			<if test="pd.orderstr != null and pd.orderstr != ''">
+				and #{pd.orderstr} like concat(concat('%',a.order_id),'%')
+			</if>
+			<if test="pd.starttime != null and pd.starttime!= ''"> 
+				and date_format(a.createtime,'%Y-%m-%d') &gt;= #{pd.starttime} 
+			</if>
+			<if test="pd.endtime != null and pd.endtime!= ''"> 
+				and date_format(a.createtime,'%Y-%m-%d') &lt;= #{pd.endtime} 
+			</if>
+    </sql>
+    
+     <!-- 列表 -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select 
+ 			a.order_id,
+			a.looknumber,
+			a.allmoney,
+			a.discount_money,
+			a.wxmember_redpackage_id,
+			a.wxmember_tihuojuan_idstr,
+			a.actual_money,
+			a.use_integral,
+			a.use_wx,
+			a.order_status,
+			a.send_integral,
+			a.serial_number,
+			a.order_type,
+			a.reserve_arrival_time,
+			a.reserve_day,
+			a.delivery_time,
+			a.delivery_fee,
+			a.createtime,
+			a.overtime,
+			a.wxmember_id,
+			a.wxmember_address_id,
+			c.contacts,
+ 			c.contacts_number,
+ 			c.corporate_name,
+ 			c.floor_numbe,
+			d.address_name
+  		from 
+			tb_order a  
+			left join tb_wxmember b on a.wxmember_id=b.wxmember_id
+			left join tb_wxmember_address c on a.wxmember_id=c.wxmember_id
+			left join tb_address d on c.address_id=d.address_id
+		where 
+			<include refid="orderSearch" />  
+   	</select>
+    
+    
+	<!-- 获取订单列表状态不一样查询的条件不一样 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select 
+ 			a.order_id,
+			a.looknumber,
+			a.allmoney,
+ 			a.order_status,
+			a.order_type,
+ 			a.createtime,
+			a.overtime,
+			a.wxmember_id,
+ 			c.contacts,
+ 			c.contacts_number,
+ 			c.address_id,
+			d.address_name
+  		from 
+			tb_order a  
+			left join tb_wxmember b on a.wxmember_id=b.wxmember_id
+			left join tb_wxmember_address c on a.wxmember_id=c.wxmember_id
+			left join tb_address d on c.address_id=d.address_id
+		where 
+  			<include refid="orderSearch" />  
+  		order by a.createtime desc
+  	</select>
+   
+    <!-- 销售明细 -->
+	<select id="saleHistorydatalistPage" parameterType="page" resultType="pd">
+		select 
+ 			a.order_id,
+			a.looknumber,
+			a.allmoney,
+ 			a.order_status,
+			a.order_type,
+ 			a.createtime,
+			a.overtime,
+			a.wxmember_id,
+ 			c.contacts,
+ 			c.contacts_number,
+ 			c.address_id,
+			d.address_name
+  		from 
+			tb_order a  
+			left join tb_wxmember b on a.wxmember_id=b.wxmember_id
+			left join tb_wxmember_address c on a.wxmember_id=c.wxmember_id
+			left join tb_address d on c.address_id=d.address_id
+		where 
+  			<include refid="orderSearch" />  
+  		order by a.createtime desc
+  	</select>
+  	
+  	<!-- 总的订单财富统计 -->
+	<select id="totalOrder" parameterType="page" resultType="pd">
+		select 
+			sum(a.allmoney) as allallmoney,
+			sum(a.discount_money) as alldiscount_money,
+			sum(a.actual_money) as allactual_money,
+ 			sum(a.use_integral) as alluse_integral,
+			sum(a.use_wx) as alluse_wx,
+			sum(a.send_integral) as allsend_integral,
+ 			count(*) as allordernumber
+  		from 
+			tb_order a  
+			left join tb_wxmember b on a.wxmember_id=b.wxmember_id
+			left join tb_wxmember_address c on a.wxmember_id=c.wxmember_id
+			left join tb_address d on c.address_id=d.address_id
+		where 
+  			<include refid="orderSearch" />  
+  		order by a.createtime desc
+  	</select>
+   	
+	
+</mapper>

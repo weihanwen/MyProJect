@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="WxmemberMapper">
+
+	<!-- 新增会员  -->
+	<insert id="save" parameterType="pd">
+		insert into tb_wxmember(
+ 			wxmember_id,
+			showlook_id,
+			image_url,
+			name,
+			sex,
+			open_id,
+			phone,
+			province_name,
+			city_name,
+			area_name,
+ 			createtime,
+			updatetime 
+  		) values (
+			#{wxmember_id},	
+			#{showlook_id}, 
+			#{image_url}, 
+			#{name}, 
+			#{sex}, 
+			#{open_id}, 
+			#{phone}, 
+			#{province_name}, 
+			#{city_name}, 
+			#{area_name}, 
+ 			now(),	
+			now() 
+		)
+	</insert>
+	 <!-- 新增会员财富  -->
+	<insert id="saveWealth" parameterType="pd">
+		insert into tb_wxmember_wealth(
+ 			wxmember_id,
+			now_integral,
+			before_integral,
+			createtime,
+			updatetime
+   		) values (
+			#{wxmember_id},	
+			0, 
+			0, 
+  			now(),	
+			now() 
+		)
+	</insert>
+	
+	
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			wxmember_id,
+			showlook_id,
+			image_url,
+			name,
+			sex,
+			open_id,
+			phone 
+		from 
+			tb_wxmember
+		where 
+			<choose>
+				<when test="open_id != null and open_id != ''">open_id=#{open_id}</when>
+				<otherwise>wxmember_id = #{wxmember_id}</otherwise>
+			</choose>
+ 	</select>
+ 	
+ 	
+	<!-- 获取当前会员的余额  -->
+	<select id="getNowIntegral" parameterType="pd" resultType="String">
+		select 
+			cast(now_integral as char) as now_integral
+		from 
+			tb_wxmember_wealth
+		where 
+			wxmember_id = #{wxmember_id}
+ 	</select>
+	<!-- 获取当前会员的红包个数*未使用 -->
+	<select id="getRedPackageNumber" parameterType="pd" resultType="String">
+		select 
+			cast( count(*) as char) as number
+		from 
+			tb_wxmember_redpackage
+		where 
+			wxmember_id = #{wxmember_id}
+			and isuse=#{isuse}
+ 	</select>
+	<!-- 获取当前会员的提货券个数*未使用 -->
+	<select id="getTiHuoJuanNumber" parameterType="pd" resultType="String">
+		select 
+			cast( count(*) as char) as number
+		from 
+			tb_wxmember_tihuojuan
+		where 
+			wxmember_id = #{wxmember_id}
+ 			and isuse=#{isuse}
+ 	</select>
+ 	
+	<!-- 获取购物车的商品详情 -->
+	<select id="sumLunchmoneyById" parameterType="pd" resultType="String">
+		select 
+			
+		from 
+			tb_shopcart a left join tb_lunch b on a.lunch_id=b.lunch_id
+		where 
+			wxmember_id = #{wxmember_id}
+  	</select>
+	<select id="countLunchNumber" parameterType="pd" resultType="String">
+		select 
+			ifnull(sum(shop_number), '0') as allnumber 
+		from 
+			tb_shopcart
+		where 
+			wxmember_id = #{wxmember_id}
+  	</select>
+	<select id="findShopCartById" parameterType="pd" resultType="pd">
+		select 
+			shopcart_id,
+			cast(shop_number as char) as shop_number,
+			lunch_id
+		from 
+			tb_shopcart
+		where 
+			wxmember_id = #{wxmember_id}
+ 			and lunch_id=#{lunch_id}
+ 	</select>
+	<delete id="deleteShopCartById" parameterType="pd">
+		delete from tb_shopcart  
+		where 
+			<choose>
+				<when test="shopcart_id != null and shopcart_id != ''">shopcart_id = #{shopcart_id}</when>
+				<otherwise>wxmember_id = #{wxmember_id} and lunch_id=#{lunch_id}</otherwise>
+			</choose>
+	
+	</delete>
+ 	<update id="updateShopCartById" parameterType="pd">
+			update  tb_shopcart
+			set 
+				shop_number = shop_number + #{number}
+			where 
+				<choose>
+					<when test="shopcart_id != null and shopcart_id != ''">shopcart_id = #{shopcart_id}</when>
+					<otherwise>wxmember_id = #{wxmember_id} and lunch_id=#{lunch_id}</otherwise>
+				</choose>
+	</update>
+ 	<insert id="saveShopCartById" parameterType="pd">
+		insert into tb_shopcart(
+ 			shopcart_id,
+ 			wxmember_id,
+			lunch_id,
+			shop_number,
+ 			createtime,
+			updatetime
+   		) values (
+			#{shopcart_id},	
+			#{wxmember_id},	
+			#{lunch_id},	
+ 			1, 
+  			now(),	
+			now() 
+		)
+	</insert>
+ 
+ 	
+ 	
+ 	
+</mapper>

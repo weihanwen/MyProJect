@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="LunchMapper">
+
+	<!-- 新增-->
+	<insert id="save" parameterType="pd">
+		insert into tb_lunch(
+ 			lunch_name,
+			sale_money,
+			product_cover,
+			inside_banner,
+			graphic_description,
+			is_shelves,
+			is_reservation,
+			reservation_number,
+			inventory_number,
+			have_salenumber,
+			lunch_description,
+			sort,
+			send_integral,
+			createtime,
+			updatetime,
+			category_id
+ 		) values (
+			#{lunch_name},	
+			#{sale_money},	
+			#{product_cover},	
+			#{inside_banner},	
+			#{graphic_description},	
+ 			#{is_shelves},	
+			#{is_reservation},	
+			#{reservation_number},	
+			#{inventory_number},	
+			#{have_salenumber},	
+			#{lunch_description},
+			(select ifnull(max(a.sort),'-1')+1  from tb_lunch a where a.category_id=#{category_id} ) ,	
+			#{send_integral},
+			now(),	
+			now(),	
+			#{category_id} 
+		)
+	</insert>
+	
+	
+	<!-- 删除-->
+	<delete id="delete" parameterType="pd">
+		delete from tb_lunch
+		where 
+			lunch_id = #{lunch_id}
+	</delete>
+ 
+	<!-- 修改 -->
+	<update id="edit" parameterType="pd">
+			update  tb_lunch
+			set 
+				lunch_name= #{lunch_name},
+				sale_money= #{sale_money},
+				product_cover= #{product_cover},
+				inside_banner= #{inside_banner},
+				graphic_description= #{graphic_description},
+				is_shelves= #{is_shelves},
+				is_reservation= #{is_reservation},
+				
+				reservation_number= #{reservation_number},
+				inventory_number= #{inventory_number},
+ 				lunch_description= #{lunch_description},
+ 				category_id= #{category_id},
+ 				send_integral= #{send_integral},
+  				lunch_id = lunch_id
+			where 
+				lunch_id = #{lunch_id}
+	</update>
+	
+	<!-- 修改排序 -->
+	<update id="editSort" parameterType="pd">
+			update tb_lunch as g1 join tb_lunch as g2 on (g1.lunch_id=#{lunch_id_one} and g2.lunch_id = #{lunch_id_two})
+			set    g1.sort = g2.sort,g2.sort=g1.sort
+  	</update>
+	
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+			lunch_id,
+			lunch_name,
+			sale_money,
+			product_cover,
+			inside_banner,
+			graphic_description,
+			is_shelves,
+			is_reservation,
+			reservation_number,
+			inventory_number,
+			have_salenumber,
+			lunch_description,
+			send_integral,
+			createtime,
+			updatetime,
+			category_id
+		from 
+			tb_lunch
+		where 
+			lunch_id = #{lunch_id}
+	</select>
+	
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select 
+			a.lunch_id,
+			a.lunch_name,
+			a.sale_money,
+ 			a.inside_banner,
+ 			a.is_shelves,
+ 			ifnull(a.have_salenumber,'0' ) as have_salenumber,
+ 			b.title
+		from 
+			tb_lunch a left join tb_category b on a.category_id=b.category_id
+			
+			
+		
+		order by a.createtime desc
+  	</select>
+ 
+ 
+ 
+	<!-- 获取所有上架并且可预订的商品 -->
+	<select id="listAllUpReservation" parameterType="pd" resultType="pd">
+		select 
+			cast(a.lunch_id as char) as lunch_id,
+			a.lunch_name,
+			ifnull(a.reservation_number,'0') as  reservation_number
+		from 
+			tb_lunch a  
+  		where 
+ 			a.is_shelves='1' and a.is_reservation='1'
+  	</select>
+  	
+  	
+  	<!-- 获取所有上架商品 -->
+	<select id="listAllUpShelves" parameterType="pd" resultType="pd">
+		select 
+			cast(a.lunch_id as char) as lunch_id,
+			a.lunch_name 
+		from 
+			tb_lunch a  
+  		where 
+ 			a.is_shelves='1'
+  	</select>
+  	
+  	<!-- 微信端开始接口 -->
+  	<!-- 通过ID获取数据 -->
+	<select id="findByIdForWx" parameterType="pd" resultType="pd">
+		select 
+			lunch_id,
+			lunch_name,
+			sale_money,
+ 			inside_banner,
+			graphic_description
+ 		from 
+			tb_lunch
+		where 
+			lunch_id = #{lunch_id}
+	</select>
+  	
+  	
+  	<!-- 通过分类ID获取上架商品 -->
+	<select id="listAllByCate" parameterType="pd" resultType="pd">
+		select 
+			a.category_id,
+ 			a.lunch_id,
+			a.lunch_name,
+			a.product_cover,
+			a.inside_banner,
+			a.graphic_description,
+			a.sale_money,
+			a.inventory_number,
+			ifnull(a.reservation_number , '0') as reservation_number,
+			IFNULL(a.send_integral,0) as send_integral,
+			(a.sale_money-IFNULL(a.send_integral,0)) as daoshoumoney
+		from 
+			 tb_lunch a  
+ 		where
+ 			a.category_id=#{category_id}
+ 			and a.is_shelves='1'
+ 			<if test="orde_type != null and orde_type != '' and order_type =='2'.toString()" >
+ 				and a.is_reservation='1'
+ 			</if>
+  		order by a.sort
+  	</select>
+	
+	
+</mapper>
