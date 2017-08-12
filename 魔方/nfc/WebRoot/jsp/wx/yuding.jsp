@@ -21,7 +21,7 @@
 </nav>
 <section class="onesection">
 			<!--大类类别-->
-		     <div class="bigsort">
+		     <div class="bigsort"  style="display:none;">
 		      	<c:forEach items="${leibieList}" var="var" varStatus="vs">
 		      		<c:choose>
 		      			<c:when test="${vs.index == 0}">

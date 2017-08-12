@@ -23,13 +23,13 @@ public class AppUtil  {
 	
 	//获取Ip展示地址
 		public static String getuploadRootUrlIp(){
-			String url = "http://192.168.1.12/FileSave/";
+			String url = "http://localhost/FileSave/";
 	 		return url;
 		}	
 			
 	    //获取展示地址
 		public static String getuploadRootUrl(){
-			String url = "E://dzh//apache-tomcat-7.0.63//FileSave";
+			String url = "E://apache-tomcat-7.0.63//FileSave";
 	 		return url;
 	 	}	
 	

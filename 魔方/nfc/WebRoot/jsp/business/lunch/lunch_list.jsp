@@ -60,7 +60,7 @@
 							<tr>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 								<td>
-									<img src="${var.inside_banner}" style="width: 35px;"/>
+									<img src="${var.inside_banner}" style="width: 35px;height:35px;"/>
 									${var.lunch_name}
 								</td>
 								<td>

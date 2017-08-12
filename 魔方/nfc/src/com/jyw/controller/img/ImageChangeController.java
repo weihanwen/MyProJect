@@ -92,7 +92,7 @@ public class ImageChangeController extends BaseController {
 	
 	
 	/**
-	 * 修改类别
+	 * 修改商品
 	 * imgChange/editLunch.do
  	 */
 	@RequestMapping(value="/editLunch")
