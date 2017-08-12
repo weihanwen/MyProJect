@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2017-08-12 12:42:37
+Date: 2017-08-12 16:07:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -156,7 +156,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-08-12 12:30:51', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-08-12 13:33:16', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
 INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '8a87afcba102444dacd90c1151fcf29b', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
@@ -251,9 +251,9 @@ CREATE TABLE `tb_carousel_figure` (
 -- ----------------------------
 -- Records of tb_carousel_figure
 -- ----------------------------
-INSERT INTO `tb_carousel_figure` VALUES ('4', ' 第一张', 'http://localhost/FileSave//carousel/72285c1c2a2d49c5bbe3487cf8bf25a2.png', '2017-08-02', '2017-08-04', '0', '1', '', '2017-08-02 14:14:55', '2017-08-02 14:23:18', null);
-INSERT INTO `tb_carousel_figure` VALUES ('5', ' 第二张', 'http://localhost/FileSave//carousel/b1afa3c23d024325bf50dfff065cc5e0.png', '2017-08-02', '2017-08-03', '0', '2', 'https://www.jiuyuvip.com', '2017-08-02 14:15:23', '2017-08-02 14:54:48', null);
-INSERT INTO `tb_carousel_figure` VALUES ('6', ' 第三张', 'http://localhost/FileSave//carousel/3c8b9942a55547cdb07a248256cf7f69.png', '2017-08-02', '2017-08-03', '0', '3', '1', '2017-08-02 14:16:03', '2017-08-02 14:23:29', null);
+INSERT INTO `tb_carousel_figure` VALUES ('4', ' 第一张', 'http://localhost/FileSave//carousel/f479d58f6fc74aea824cd43e3102a2af.jpg', '2017-08-02', '2017-08-31', '0', '1', '', '2017-08-02 14:14:55', '2017-08-12 13:33:53', null);
+INSERT INTO `tb_carousel_figure` VALUES ('5', ' 第二张', 'http://localhost/FileSave//carousel/4a0eecac645d4ffb8db4abadbbf893b7.jpg', '2017-08-02', '2017-08-28', '0', '2', 'https://www.jiuyuvip.com', '2017-08-02 14:15:23', '2017-08-12 13:33:58', null);
+INSERT INTO `tb_carousel_figure` VALUES ('6', ' 第三张', 'http://localhost/FileSave//carousel/678869bf432b4be681855af9fe94aa50.jpg', '2017-08-02', '2017-08-25', '0', '3', '1', '2017-08-02 14:16:03', '2017-08-12 13:34:03', null);
 
 -- ----------------------------
 -- Table structure for `tb_category`
@@ -291,11 +291,12 @@ CREATE TABLE `tb_daily_menu` (
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`daily_menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_daily_menu
 -- ----------------------------
+INSERT INTO `tb_daily_menu` VALUES ('2', '2017-08-12', '1,', null, '2017-08-12 13:15:57', '2017-08-12 13:17:13');
 
 -- ----------------------------
 -- Table structure for `tb_delivery_fee`
@@ -364,14 +365,16 @@ CREATE TABLE `tb_lunch` (
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `category_id` int(100) NOT NULL DEFAULT '0',
+  `dc_version` int(4) DEFAULT '0',
+  `yd_version` int(4) DEFAULT '0',
   PRIMARY KEY (`lunch_id`,`category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_lunch
 -- ----------------------------
-INSERT INTO `tb_lunch` VALUES ('1', '啦啦', '25', 'http://192.168.1.12/FileSave//lunch/2be2c63947144144a61b0fbab7fe6952.jpg', 'http://192.168.1.12/FileSave//lunch/beb48f133cd8479daf40c5db6aabfeb9.jpg', 'http://192.168.1.12/FileSave//lunch/877af34aa8d74f5993314ed3e7fdc680.jpg', '1', '1', '0', '2', null, '1', '1', '0', '2017-07-29 16:45:47', '2017-08-12 12:27:02', '9');
-INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunch/8f1f5bb3f90142a281c94547584ba972.png', 'http://localhost/FileSave//lunch/c8c55127448040109257fac1d3dab33d.jpg', 'http://localhost/FileSave//lunch/adb429242a2742b78dd5460fb9a28be5.jpg', '1', '1', '1', '12', null, '12sda', '0', '5', '2017-07-29 16:28:35', '2017-08-02 14:53:00', '9');
+INSERT INTO `tb_lunch` VALUES ('1', '啦啦', '25', 'http://localhost/FileSave//lunch/dd8fe5a782824b629b623232220e953d.jpg', 'http://localhost/FileSave//lunch/b4ca64d3f7204faaa7af44308bc0a9c9.jpg', 'http://localhost/FileSave//lunch/483952b61d474783825b05bc5f2ed29a.jpg', '1', '1', '2', '2', '0', '1', '1', '0', '2017-07-29 16:45:47', '2017-08-12 16:06:24', '9', '6', '0');
+INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunch/2397e314d1174463abc016ca0ef01d77.jpg', 'http://localhost/FileSave//lunch/b19fbb20de6942eb9cd0179e98e39c88.jpg', 'http://localhost/FileSave//lunch/fb813af3cbcf4280b936d2b6529b04d7.jpg', '1', '1', '2', '2', '0', '12sda', '0', '5', '2017-07-29 16:28:35', '2017-08-12 15:58:17', '9', '0', '0');
 
 -- ----------------------------
 -- Table structure for `tb_order`
@@ -476,11 +479,12 @@ CREATE TABLE `tb_scheduled_time` (
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `update_oprator_id` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`scheduled_time_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_scheduled_time
 -- ----------------------------
+INSERT INTO `tb_scheduled_time` VALUES ('2', '2017-08-13', '11:11:00', '12:12:00', '1,3,', '2017-08-12 13:27:00', '1');
 
 -- ----------------------------
 -- Table structure for `tb_shopcart`
