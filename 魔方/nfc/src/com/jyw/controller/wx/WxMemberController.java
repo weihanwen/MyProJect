@@ -317,29 +317,28 @@ public class WxMemberController extends BaseController {
 			}else{
 				pd.put("wxmember_id", login.getWXMEMBER_ID()) ;
 				pd.put("lunch_id", lunch_id);
-				//判断购物车是否有当前的商品
-				PageData shoppd=wxmemberService.findShopCartById(pd);
-				if(shoppd == null){
-					String shopcart_id=BaseController.get10UID();
-					pd.put("shopcart_id", shopcart_id);
-					wxmemberService.saveShopCartById(pd);
-				}else{
-					if(shoppd.getString("shop_number").equals("1") && number.equals("-1")){
-						wxmemberService.deleteShopCartById(shoppd);
+				boolean flag=true;
+				flag=isKunCunOK(lunch_id, number, "1");
+				if(flag){
+					//判断购物车是否有当前的商品
+					PageData shoppd=wxmemberService.findShopCartById(pd);
+					if(shoppd == null){
+						String shopcart_id=BaseController.get10UID();
+						pd.put("shopcart_id", shopcart_id);
+						wxmemberService.saveShopCartById(pd);
 					}else{
-						boolean flag=true;
-						if(number.equals("1")){
-							flag=isKunCunOK(lunch_id, number, "1");
-						}
-						if(flag){
-							shoppd.put("number", number);
-							wxmemberService.updateShopCartById(shoppd);
+						if(shoppd.getString("shop_number").equals("1") && number.equals("-1")){
+							wxmemberService.deleteShopCartById(shoppd);
 						}else{
-							result="0";
-							message="库存不足";
-						}
- 					}
+ 							shoppd.put("number", number);
+							wxmemberService.updateShopCartById(shoppd);
+	 					}
+					}
+				}else{
+					result="0";
+					message="库存不足";
 				}
+				
 				map.put("data", wxmemberService.countLunchNumber(pd));
   			}
  		}catch(Exception e){
@@ -524,36 +523,36 @@ public class WxMemberController extends BaseController {
 			}
 			if(type.equals("1")){
 				String inventory_number=kcpd.getString("inventory_number");
-				if(Integer.parseInt(inventory_number) < Integer.parseInt(type)){
+				if(Integer.parseInt(inventory_number) < Integer.parseInt(number)){
 					return false;
 				}
-				String dc_version=kcpd.getString("dc_version");
-				int newversion=Integer.parseInt(dc_version);
-				int newkuncun=Integer.parseInt(inventory_number)-Integer.parseInt(type);
 				PageData newpd=new PageData();
-				newpd.put("inventory_number", newkuncun);
-				newpd.put("dc_version", newversion);
 				newpd.put("lunch_id", lunch_id);
-				if(lunchService.findByIdForKunCun(kcpd).getString("dc_version").equals(newpd.getString("dc_version"))){
-					return false;
-				}
-				lunchService.editNumber(newpd);
+ 				String dc_version=kcpd.getString("dc_version");
+ 				newpd.put("inventory_number", String.valueOf(Integer.parseInt(inventory_number)-Integer.parseInt(number)));
+  				if(number.equals("1")){
+   					newpd.put("dc_version", String.valueOf(Integer.parseInt(dc_version)+1));
+   					if(lunchService.findByIdForKunCun(kcpd).getString("dc_version").equals(newpd.getString("dc_version"))){
+  						return false;
+  					}
+ 				}
+ 				lunchService.editNumber(newpd);
  			}else{
  				String reservation_number=kcpd.getString("reservation_number");
-				if(Integer.parseInt(reservation_number) < Integer.parseInt(type)){
+				if(Integer.parseInt(reservation_number) < Integer.parseInt(number)){
 					return false;
 				}
 				String yd_version=kcpd.getString("yd_version");
-				int newversion=Integer.parseInt(yd_version);
-				int newkuncun=Integer.parseInt(reservation_number)-Integer.parseInt(type);
-				PageData newpd=new PageData();
-				newpd.put("reservation_number", newkuncun);
-				newpd.put("yd_version", newversion);
-				newpd.put("lunch_id", lunch_id);
-				if(lunchService.findByIdForKunCun(kcpd).getString("yd_version").equals(newpd.getString("yd_version"))){
-					return false;
+  				PageData newpd=new PageData();
+				newpd.put("reservation_number", String.valueOf(Integer.parseInt(reservation_number)-Integer.parseInt(number)));
+ 				if(number.equals("1")){
+					newpd.put("yd_version", String.valueOf(Integer.parseInt(yd_version)+1));
+					newpd.put("lunch_id", lunch_id);
+					if(lunchService.findByIdForKunCun(kcpd).getString("yd_version").equals(newpd.getString("yd_version"))){
+						return false;
+					}
 				}
-				lunchService.editNumber(newpd);
+ 				lunchService.editNumber(newpd);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

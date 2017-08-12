@@ -166,11 +166,11 @@
 	<select id="findByIdForKunCun" parameterType="pd" resultType="pd">
 		select 
 			lunch_id,
-			reservation_number,
-			inventory_number,
- 			dc_version,
-			yd_version
-  		from 
+			cast(reservation_number as char) reservation_number,
+			cast(inventory_number as char) inventory_number,
+			cast(dc_version as char) dc_version,
+			cast(yd_version as char) yd_version 
+   		from 
 			tb_lunch
 		where 
 			lunch_id = #{lunch_id}
