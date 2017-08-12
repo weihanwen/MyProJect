@@ -43,7 +43,11 @@
 				<td>便当列表 ：</td>
 				<td>
 					<c:forEach items="${lunchList }" var="var">
-						<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }
+						<div style="width:20%;"> 
+							<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }
+							<input class="lunchnumber" lunch_id="${var.lunch_id}" value="${var.lunch_id}"/>
+						</div>
+						
    	            	</c:forEach>
 				</td>
 			</tr>

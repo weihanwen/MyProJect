@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : bendi
-Source Server Version : 50717
+Source Server         : 本地
+Source Server Version : 50173
 Source Host           : localhost:3306
 Source Database       : nfc
 
 Target Server Type    : MYSQL
-Target Server Version : 50717
+Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2017-08-02 15:39:07
+Date: 2017-08-12 12:42:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -127,9 +127,9 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', '系统管理员', '133038054', '0', '1', '1', '1', '1', '1');
-INSERT INTO `sys_role` VALUES ('2', '超级管理员', '133038054', '1', '238943974', '238943974', '238943974', '238943974', '2');
-INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '133038054', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
+INSERT INTO `sys_role` VALUES ('1', '系统管理员', '134217702', '0', '1', '1', '1', '1', '1');
+INSERT INTO `sys_role` VALUES ('2', '超级管理员', '134217702', '1', '238943974', '238943974', '238943974', '238943974', '2');
+INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '134217702', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
 
 -- ----------------------------
 -- Table structure for `sys_user`
@@ -156,7 +156,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-08-02 15:01:47', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-08-12 12:30:51', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
 INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '8a87afcba102444dacd90c1151fcf29b', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
@@ -296,7 +296,6 @@ CREATE TABLE `tb_daily_menu` (
 -- ----------------------------
 -- Records of tb_daily_menu
 -- ----------------------------
-INSERT INTO `tb_daily_menu` VALUES ('1', '2017-08-02', '3,1,', null, '2017-07-31 09:24:06', '2017-08-02 14:42:19');
 
 -- ----------------------------
 -- Table structure for `tb_delivery_fee`
@@ -371,7 +370,7 @@ CREATE TABLE `tb_lunch` (
 -- ----------------------------
 -- Records of tb_lunch
 -- ----------------------------
-INSERT INTO `tb_lunch` VALUES ('1', '啦啦', '25', 'http://localhost/FileSave//lunch/1cd11a35d6cc481abedc37cbddf91615.png', 'http://localhost/FileSave//lunch/68b8740dbb5f470cb25c82f3982bf17a.jpg', 'http://localhost/FileSave//lunch/648aaaf125954aeb8b8465534aa2b9ca.jpg', '1', '1', '0', '2', null, '1', '1', '0', '2017-07-29 16:45:47', '2017-08-02 14:52:48', '9');
+INSERT INTO `tb_lunch` VALUES ('1', '啦啦', '25', 'http://192.168.1.12/FileSave//lunch/2be2c63947144144a61b0fbab7fe6952.jpg', 'http://192.168.1.12/FileSave//lunch/beb48f133cd8479daf40c5db6aabfeb9.jpg', 'http://192.168.1.12/FileSave//lunch/877af34aa8d74f5993314ed3e7fdc680.jpg', '1', '1', '0', '2', null, '1', '1', '0', '2017-07-29 16:45:47', '2017-08-12 12:27:02', '9');
 INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunch/8f1f5bb3f90142a281c94547584ba972.png', 'http://localhost/FileSave//lunch/c8c55127448040109257fac1d3dab33d.jpg', 'http://localhost/FileSave//lunch/adb429242a2742b78dd5460fb9a28be5.jpg', '1', '1', '1', '12', null, '12sda', '0', '5', '2017-07-29 16:28:35', '2017-08-02 14:53:00', '9');
 
 -- ----------------------------
@@ -482,7 +481,6 @@ CREATE TABLE `tb_scheduled_time` (
 -- ----------------------------
 -- Records of tb_scheduled_time
 -- ----------------------------
-INSERT INTO `tb_scheduled_time` VALUES ('1', '2017-08-01', '12:22:00', '14:03:00', '1,3', '2017-08-01 16:50:34', '1');
 
 -- ----------------------------
 -- Table structure for `tb_shopcart`
