@@ -108,7 +108,7 @@
 			b.graphic_description,
 			b.sale_money,
 			b.inventory_number,
-			ifnull(b.reservation_number , '0') as reservation_number,
+			ifnull(b.reservation_number , 0) as reservation_number,
 			IFNULL(b.send_integral,0) as send_integral,
 			(b.sale_money-IFNULL(b.send_integral,0)) as daoshoumoney
   		from 

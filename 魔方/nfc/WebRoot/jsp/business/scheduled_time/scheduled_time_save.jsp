@@ -31,7 +31,8 @@
 <body>
 	<form action="scheduled_time/save.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="lunch_idstr" id="lunch_idstr"  value=""/>
-		<div id="zhongxin" style="width: 70%;margin: 5% auto;">
+		<input type="hidden" name="lunchnumberstr" id="lunchnumberstr"  value=""/>
+		<div id="zhongxin" style="width: 90%;margin: 5% auto;">
 		<table>
 			<tr>
 				<td>预定日期 ：</td>
@@ -54,8 +55,12 @@
 				<td>可预定列表 ：</td>
 				<td>
 					<c:forEach items="${lunchList}" var="var">
-						<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }商品${var.reservation_number}份可以预定
-   	            	</c:forEach>
+						<div style="width:100%;"> 
+							<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }
+							>>
+							可预定： <input type="number" class="lunchnumber" lunch_id="${var.lunch_id}" value="${var.reservation_number}"/>
+						</div>
+    	            </c:forEach>
 				</td>
 			</tr> 
   		</table>
@@ -119,7 +124,13 @@
 						}
 					});
 					$("#lunch_idstr").val(lunch_idstr);
-					 
+					//设置库存
+					var lunchnumberstr="";
+					$(".lunchnumber").each(function(n,obj){
+						lunchnumberstr+=$(obj).attr("lunch_id")+"@"+$(obj).val()+",";
+		 			});
+		  			$("#lunchnumberstr").val(lunchnumberstr);
+		  			//======
 					
 					$("#Form").submit();
 					$("#zhongxin").hide();

@@ -42,6 +42,15 @@ public class Daily_menuController extends BaseController {
 		try {
 			pd = this.getPageData();
 			daily_menuService.save(pd);
+			String lunchnumberstr=pd.getString("lunchnumberstr");
+			String[] lunstr=lunchnumberstr.split(",");
+			for (int i = 0; i < lunstr.length; i++) {
+				pd=new PageData();
+				pd.put("lunch_id", lunstr[i].split("@")[0]);
+				pd.put("inventory_number", lunstr[i].split("@")[1]);
+				ServiceHelper.getLunchService().editNumber(pd);
+				pd=null;
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -83,6 +92,15 @@ public class Daily_menuController extends BaseController {
 		try {
 			pd = this.getPageData();
 			daily_menuService.edit(pd);
+			String lunchnumberstr=pd.getString("lunchnumberstr");
+			String[] lunstr=lunchnumberstr.split(",");
+			for (int i = 0; i < lunstr.length; i++) {
+				pd=new PageData();
+				pd.put("lunch_id", lunstr[i].split("@")[0]);
+				pd.put("inventory_number", lunstr[i].split("@")[1]);
+				ServiceHelper.getLunchService().editNumber(pd);
+				pd=null;
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

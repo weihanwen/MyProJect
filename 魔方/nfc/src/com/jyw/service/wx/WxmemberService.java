@@ -67,7 +67,7 @@ public class   WxmemberService {
 	}
 	
 	/*
-	* 获取会员购物车的商品详情
+	* 获取会员购物车的总价
 	*/
 	public String sumLunchmoneyById(PageData pd)throws Exception{
 		return (String)dao.findForObject("WxmemberMapper.sumLunchmoneyById", pd);
@@ -87,6 +87,9 @@ public class   WxmemberService {
 	public void saveShopCartById(PageData pd)throws Exception{
 		dao.save("WxmemberMapper.saveShopCartById", pd);
  	}
+	public List<PageData> findShopCartList(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("WxmemberMapper.findShopCartList", pd);
+	}
 	 
 	
 }

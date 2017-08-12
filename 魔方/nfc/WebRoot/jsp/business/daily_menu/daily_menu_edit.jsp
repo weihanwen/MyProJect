@@ -32,7 +32,8 @@
 	<form action="daily_menu/edit.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="daily_menu_id" id="daily_menu_id"  value="${pd.daily_menu_id}"/>
 		<input type="hidden" name="lunch_idstr" id="lunch_idstr"  value="${pd.lunch_idstr}"/>
-		<div id="zhongxin" style="width: 60%;margin: 5% auto;">
+		<input type="hidden" name="lunchnumberstr" id="lunchnumberstr"  value=""/>
+		<div id="zhongxin" style="width: 80%;margin: 5% auto;">
 		<table>
 			<tr>
 				<td>日期 ：</td>
@@ -46,10 +47,18 @@
 					<c:forEach items="${lunchList}" var="var">
 						<c:choose>
 							<c:when test="${fn:contains(pd.lunch_idstr,var.lunch_id )}">
- 								<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" checked />${var.lunch_name }
-							</c:when>
+								<div style="width:100%;"> 
+									<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" checked />${var.lunch_name }
+									>>>>
+									当前库存： <input type="number" class="lunchnumber" lunch_id="${var.lunch_id}" value="${var.inventory_number}"/>
+								</div>
+ 							</c:when>
 							<c:otherwise>
- 								<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }
+ 								<div style="width:100%;"> 
+									<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }
+									>>>>
+									当前库存： <input type="number" class="lunchnumber" lunch_id="${var.lunch_id}" value="${var.inventory_number}"/>
+								</div>
 							</c:otherwise>
 						</c:choose>
    	            	</c:forEach>
@@ -106,7 +115,13 @@
 				}
 			});
 			$("#lunch_idstr").val(lunch_idstr);
- 			
+			//设置库存
+			var lunchnumberstr="";
+			$(".lunchnumber").each(function(n,obj){
+				lunchnumberstr+=$(obj).attr("lunch_id")+"@"+$(obj).val()+",";
+ 			});
+  			$("#lunchnumberstr").val(lunchnumberstr);
+  			//======
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

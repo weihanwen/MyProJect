@@ -324,7 +324,7 @@ public class WxMemberController extends BaseController {
 					pd.put("shopcart_id", shopcart_id);
 					wxmemberService.saveShopCartById(pd);
 				}else{
-					if(shoppd.getString("shop_number").equals("1")){
+					if(shoppd.getString("shop_number").equals("1") && number.equals("-1")){
 						wxmemberService.deleteShopCartById(shoppd);
 					}else{
 						shoppd.put("number", number);
@@ -359,11 +359,10 @@ public class WxMemberController extends BaseController {
     	try {
     		if(login != null ){
     			pd.put("wxmember_id", login.getWXMEMBER_ID());
-    			
-    			
-    			
-    			
-    			mv.setViewName("wx/shopcarlist");
+    			//获取购物车列表
+    			List<PageData> shopList=wxmemberService.findShopCartList(pd);
+    			mv.addObject("shopList", shopList);
+     			mv.setViewName("wx/shopcartlist");
      		}else{
     			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
     		}

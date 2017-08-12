@@ -76,6 +76,17 @@
 			update tb_lunch as g1 join tb_lunch as g2 on (g1.lunch_id=#{lunch_id_one} and g2.lunch_id = #{lunch_id_two})
 			set    g1.sort = g2.sort,g2.sort=g1.sort
   	</update>
+  	
+  	<!-- 修改库存或预定库存 -->
+	<update id="editNumber" parameterType="pd">
+			update tb_lunch 
+  			set     
+  					<if test="reservation_number != null">reservation_number= #{reservation_number},</if>
+  					<if test="inventory_number != null">inventory_number= #{inventory_number},</if>
+ 					lunch_id=lunch_id
+			where 
+				lunch_id = #{lunch_id}
+  	</update>
 	
 	
 	<!-- 通过ID获取数据 -->
@@ -130,7 +141,7 @@
 		select 
 			cast(a.lunch_id as char) as lunch_id,
 			a.lunch_name,
-			ifnull(a.reservation_number,'0') as  reservation_number
+			ifnull(a.reservation_number,0) as  reservation_number
 		from 
 			tb_lunch a  
   		where 
@@ -142,7 +153,8 @@
 	<select id="listAllUpShelves" parameterType="pd" resultType="pd">
 		select 
 			cast(a.lunch_id as char) as lunch_id,
-			a.lunch_name 
+			a.lunch_name,
+			ifnull(a.inventory_number,0) as  inventory_number
 		from 
 			tb_lunch a  
   		where 

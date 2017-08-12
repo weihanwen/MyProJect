@@ -101,15 +101,16 @@
  			and isuse=#{isuse}
  	</select>
  	
-	<!-- 获取购物车的商品详情 -->
+	<!-- 获取购物车的商品总价 -->
 	<select id="sumLunchmoneyById" parameterType="pd" resultType="String">
 		select 
-			
-		from 
+			ifnull(sum(a.shop_number*b.sale,0_money)) as allmoney
+ 		from 
 			tb_shopcart a left join tb_lunch b on a.lunch_id=b.lunch_id
 		where 
-			wxmember_id = #{wxmember_id}
+			 #{allshopcart_id} like concat(concat('%',a.lunch_id),'%')
   	</select>
+  	<!-- 统计购物车商品数量 -->
 	<select id="countLunchNumber" parameterType="pd" resultType="String">
 		select 
 			ifnull(sum(shop_number), '0') as allnumber 
@@ -165,7 +166,20 @@
 			now() 
 		)
 	</insert>
- 
+ 	<select id="findShopCartList" parameterType="pd" resultType="pd">
+		select 
+			a.shopcart_id,
+			a.lunch_id,
+			a.shop_number,
+			b.sale_money,
+			cast(b.sale_money*a.shop_number as decimal(10,2))  allsale_money,
+			b.lunch_name,
+			b.inside_banner
+ 		from 
+			tb_shopcart a left join tb_lunch b on a.lunch_id=b.lunch_id
+		where 
+			a.wxmember_id = #{wxmember_id}
+ 	</select>
  	
  	
  	

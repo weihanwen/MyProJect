@@ -52,6 +52,15 @@ public class Scheduled_timeController extends BaseController {
 			if(user != null ){
 				pd.put("update_oprator_id", user.getUSER_ID());
 				scheduled_timeService.save(pd);
+				String lunchnumberstr=pd.getString("lunchnumberstr");
+				String[] lunstr=lunchnumberstr.split(",");
+				for (int i = 0; i < lunstr.length; i++) {
+					pd=new PageData();
+					pd.put("lunch_id", lunstr[i].split("@")[0]);
+					pd.put("reservation_number", lunstr[i].split("@")[1]);
+					ServiceHelper.getLunchService().editNumber(pd);
+					pd=null;
+				}
 			}
  		} catch (Exception e) {
 			// TODO: handle exception
@@ -100,6 +109,15 @@ public class Scheduled_timeController extends BaseController {
 			if(user != null ){
 				pd.put("update_oprator_id", user.getUSER_ID());
 				scheduled_timeService.edit(pd);
+				String lunchnumberstr=pd.getString("lunchnumberstr");
+				String[] lunstr=lunchnumberstr.split(",");
+				for (int i = 0; i < lunstr.length; i++) {
+					pd=new PageData();
+					pd.put("lunch_id", lunstr[i].split("@")[0]);
+					pd.put("reservation_number", lunstr[i].split("@")[1]);
+					ServiceHelper.getLunchService().editNumber(pd);
+					pd=null;
+				}
 			}
  		} catch (Exception e) {
 			// TODO: handle exception

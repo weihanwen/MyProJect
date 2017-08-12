@@ -31,7 +31,8 @@
 <body>
 	<form action="daily_menu/save.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="lunch_idstr" id="lunch_idstr"  value=""/>
-		<div id="zhongxin" style="width: 60%;margin: 5% auto;">
+		<input type="hidden" name="lunchnumberstr" id="lunchnumberstr"  value=""/>
+		<div id="zhongxin" style="width: 80%;margin: 5% auto;">
 		<table>
 			<tr>
 				<td>日期 ：</td>
@@ -43,12 +44,12 @@
 				<td>便当列表 ：</td>
 				<td>
 					<c:forEach items="${lunchList }" var="var">
-						<div style="width:20%;"> 
+						<div style="width:100%;"> 
 							<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }
-							<input class="lunchnumber" lunch_id="${var.lunch_id}" value="${var.lunch_id}"/>
+							>>>>
+							当前库存： <input type="number" class="lunchnumber" lunch_id="${var.lunch_id}" value="${var.inventory_number}"/>
 						</div>
-						
-   	            	</c:forEach>
+    	            </c:forEach>
 				</td>
 			</tr>
   		</table>
@@ -100,7 +101,14 @@
 					lunch_idstr+=$(obj).val()+",";
 				}
 			});
- 			$("#lunch_idstr").val(lunch_idstr);
+			$("#lunch_idstr").val(lunch_idstr);
+			//设置库存
+			var lunchnumberstr="";
+			$(".lunchnumber").each(function(n,obj){
+				lunchnumberstr+=$(obj).attr("lunch_id")+"@"+$(obj).val()+",";
+ 			});
+  			$("#lunchnumberstr").val(lunchnumberstr);
+  			//======
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

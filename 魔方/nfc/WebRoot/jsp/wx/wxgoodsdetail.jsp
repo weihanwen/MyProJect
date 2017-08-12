@@ -159,7 +159,7 @@ function backreturn(){
 //添加进购物车   onclick="clikthisLunch()"
 function clikthisLunch(){
 	var lunch_id=$(".pav").find("img").attr("lunch_id");
-	alert(lunch_id);
+	//alert(lunch_id);
 	$.ajax({
 		type:"post",
 			url:"wxmember/addshopcart.do",
