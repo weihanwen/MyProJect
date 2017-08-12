@@ -327,9 +327,18 @@ public class WxMemberController extends BaseController {
 					if(shoppd.getString("shop_number").equals("1") && number.equals("-1")){
 						wxmemberService.deleteShopCartById(shoppd);
 					}else{
-						shoppd.put("number", number);
-						wxmemberService.updateShopCartById(shoppd);
-					}
+						boolean flag=true;
+						if(number.equals("1")){
+							flag=isKunCunOK(lunch_id, number, "1");
+						}
+						if(flag){
+							shoppd.put("number", number);
+							wxmemberService.updateShopCartById(shoppd);
+						}else{
+							result="0";
+							message="库存不足";
+						}
+ 					}
 				}
 				map.put("data", wxmemberService.countLunchNumber(pd));
   			}
@@ -340,8 +349,7 @@ public class WxMemberController extends BaseController {
 		}
 		map.put("result", result);
 		map.put("message", message);
-		
-		return map;
+ 		return map;
  	}
 
 	/**
@@ -380,7 +388,7 @@ public class WxMemberController extends BaseController {
  	 */
 	@RequestMapping(value="/countAllShopMoney")
 	@ResponseBody
-	public  Object addshopcart(String allshopcart_id) throws Exception{
+	public  Object countAllShopMoney(String allshopcart_id) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
  		String result="1";
 		String message="添加成功";
@@ -398,17 +406,160 @@ public class WxMemberController extends BaseController {
  		return map;
 	}
 	
+	/**
+	 * 去支付界面
+	 * wxmember/goPayJSP.do 
+	 * 
+	 * type 1-购物车购买，2-直接购买
+ 	 * allshopcart_id  购物车结算嘚所有购物车ID
+	 * lunch_id   直接购买嘚ID
+     */
+	@RequestMapping(value="/goPayJSP")
+	public ModelAndView goPayJSP()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		//shiro管理的session
+ 		Subject currentUser = SecurityUtils.getSubject();  
+ 		Session session = currentUser.getSession();
+ 		WxLogin login=(WxLogin) session.getAttribute(Const.WXLOGIN);
+  		PageData pd = new PageData();
+    	try {
+    		pd=this.getPageData();
+    		if(login != null ){
+    			pd.put("wxmember_id", login.getWXMEMBER_ID());
+    			String type=pd.getString("type");
+    			if(type.equals("1")){
+    				//获取购买商品列表
+        			List<PageData> shopList=wxmemberService.findShopCartList(pd);
+        			mv.addObject("shopList", shopList);
+        			//获取总金额
+        			String allpaymoney=wxmemberService.sumLunchmoneyById(pd);
+        			mv.addObject("allpaymoney", allpaymoney);
+    			}else{
+    				//获取商品详情
+    				PageData lunchpd=lunchService.findByIdForWx(pd);
+    				mv.addObject("lunchpd", lunchpd);
+    			}
+    			//获取红包集合
+    			
+    			//获取提货卷集合
+    			
+    			
+     			mv.setViewName("wx/readypay");
+     		}else{
+    			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
+    		}
+         } catch (Exception e) {
+   			e.printStackTrace();
+ 		}
+    	mv.addObject("pd", pd); 
+  		return mv;
+	}
+	
+	
+	/**
+   	 * 微信支付的订单交易支付接口
+   	* 方法名称:：payorder 
+   	* 方法描述：订单支付接口
+   	* html_member/payorder.do
+   	* 
+   	* paytype 		1-购物车，2-直接购买
+   	* lunch_type 	1-订餐，2-预定
+   	* lunchstr   	格式：lunch_id@number
+   	* 
+   	 */
+	@RequestMapping(value="/payorder")
+	@ResponseBody
+	public  Object PayOrder(HttpServletRequest request) throws Exception{
+ 		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, String> data = new HashMap<String, String>();
+	  	String result="1";
+		String message="支付成功";
+		PageData pd=new PageData();
+		try{
+			pd = this.getPageData();
+			//如果是直接购买需要判断库存
+			
+			
+			//添加库存嘚定时器-5分钟
+			
+			//获取微信支付嘚信息
+			
+			
+			
+			
+			
+		}catch(Exception e){
+			result="0";
+			message="系统异常";
+ 			logger.error(e.toString(), e);
+		}
+		map.put("result", result);
+		map.put("message", message);
+		map.put("data", data);
+		return map;
+
+	}
+
 	
 	
 	
 	
 	
 	
-	
-	
-	 
-   
-	// 开始转微信支付的一些接口操作======================================================================
+	/**
+	 * 判断当前商品嘚库存是否充足
+	 * @param lunch_id 商品ID
+	 * @param number 购买嘚数量
+	 * @return type 1-点餐，2-预定
+	 */
+	public synchronized boolean isKunCunOK(String lunch_id,String number,String type){
+		boolean flag=true;
+		PageData kcpd=new PageData();
+		try {
+			kcpd.put("lunch_id", lunch_id);
+			//获取当前库存以及版本号比对库存
+			kcpd=lunchService.findByIdForKunCun(kcpd);
+			if(kcpd == null){
+				return false;
+			}
+			if(type.equals("1")){
+				String inventory_number=kcpd.getString("inventory_number");
+				if(Integer.parseInt(inventory_number) < Integer.parseInt(type)){
+					return false;
+				}
+				String dc_version=kcpd.getString("dc_version");
+				int newversion=Integer.parseInt(dc_version);
+				int newkuncun=Integer.parseInt(inventory_number)-Integer.parseInt(type);
+				PageData newpd=new PageData();
+				newpd.put("inventory_number", newkuncun);
+				newpd.put("dc_version", newversion);
+				newpd.put("lunch_id", lunch_id);
+				if(lunchService.findByIdForKunCun(kcpd).getString("dc_version").equals(newpd.getString("dc_version"))){
+					return false;
+				}
+				lunchService.editNumber(newpd);
+ 			}else{
+ 				String reservation_number=kcpd.getString("reservation_number");
+				if(Integer.parseInt(reservation_number) < Integer.parseInt(type)){
+					return false;
+				}
+				String yd_version=kcpd.getString("yd_version");
+				int newversion=Integer.parseInt(yd_version);
+				int newkuncun=Integer.parseInt(reservation_number)-Integer.parseInt(type);
+				PageData newpd=new PageData();
+				newpd.put("reservation_number", newkuncun);
+				newpd.put("yd_version", newversion);
+				newpd.put("lunch_id", lunch_id);
+				if(lunchService.findByIdForKunCun(kcpd).getString("yd_version").equals(newpd.getString("yd_version"))){
+					return false;
+				}
+				lunchService.editNumber(newpd);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+  		return flag;
+  	}
 	
 	/**
 	 * 公众号微信支付
@@ -419,11 +570,10 @@ public class WxMemberController extends BaseController {
 	 * body       商品说明
 	 * out_trade_no   订单ID
 	 */
-	public static Map<String, String> WxPayOrder(String _total_fee,String attach,String out_trade_no) throws Exception{
+	public static Map<String, String> WxPayOrder(String _total_fee,String attach,String out_trade_no,String openid) throws Exception{
 		Map<String, String> returnmap=new HashMap<String, String>();
    		try {
-  			PageData pd=new PageData();
-   			BigDecimal total_fee = new BigDecimal(Double.parseDouble(_total_fee)*100);
+    		BigDecimal total_fee = new BigDecimal(Double.parseDouble(_total_fee)*100);
   	    	//开始调用微信支付接口
   			WXPayPath dodo = new WXPayPath("3");
  	    	Map<String, String> reqData=new HashMap<String, String>();
@@ -437,7 +587,7 @@ public class WxMemberController extends BaseController {
 	     	//JSAPI--公众号支付、NATIVE--原生扫码支付、APP--app支付，统一下单接口trade_type的传参可参考这里
 	    	//MICROPAY--刷卡支付，刷卡支付有单独的支付接口，不调用统一下单接口
 	    	reqData.put("trade_type", "JSAPI");
-	    	reqData.put("openid", "");
+	    	reqData.put("openid", openid);
 	        reqData.put("sign_type", WXPayConstants.MD5);
   	    	Map<String, String> map2=dodo.unifiedOrder(reqData);
  	    	//开始处理结果
@@ -466,37 +616,7 @@ public class WxMemberController extends BaseController {
 	
 	
 
-   	/**
-   	 * 微信支付的订单交易支付接口
-   	* 方法名称:：payorder 
-   	* 方法描述：订单支付接口
-   	* html_member/payorder.do
-   	* 
-   	 */
-	@RequestMapping(value="/payorder")
-	@ResponseBody
-	public  Object PayOrder(HttpServletRequest request) throws Exception{
- 		Map<String, Object> map = new HashMap<String, Object>();
-		Map<String, String> data = new HashMap<String, String>();
-	  	String result="1";
-		String message="支付成功";
-		PageData pd=new PageData();
-		try{
-			pd = this.getPageData();
-			
-		}catch(Exception e){
-			result="0";
-			message="系统异常";
- 			logger.error(e.toString(), e);
-		}
-		map.put("result", result);
-		map.put("message", message);
-		map.put("data", data);
-		return map;
-
-	}
-
-	
+   
 	
 	
  

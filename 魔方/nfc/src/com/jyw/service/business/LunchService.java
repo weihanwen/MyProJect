@@ -91,6 +91,12 @@ public class LunchService {
 	}
 	
 	//微信端开始接口===========================================================================================
+	/*
+	 * 通过ID获取库存以及所对应嘚版本号
+	 */
+	public PageData findByIdForKunCun(PageData pd)throws Exception{
+		return (PageData)dao.findForObject("LunchMapper.findByIdForKunCun", pd);
+	}
  	/*
 	* 通过id获取数据
 	*/

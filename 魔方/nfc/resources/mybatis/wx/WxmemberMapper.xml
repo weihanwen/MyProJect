@@ -179,6 +179,7 @@
 			tb_shopcart a left join tb_lunch b on a.lunch_id=b.lunch_id
 		where 
 			a.wxmember_id = #{wxmember_id}
+			<if test="allshopcart_id != null and allshopcart_id != ''">and #{allshopcart_id} like concat(concat('%',a.lunch_id),'%')</if>
  	</select>
  	
  	

@@ -83,6 +83,8 @@
   			set     
   					<if test="reservation_number != null">reservation_number= #{reservation_number},</if>
   					<if test="inventory_number != null">inventory_number= #{inventory_number},</if>
+  					<if test="dc_version != null">dc_version= #{dc_version},</if>
+  					<if test="yd_version != null">yd_version= #{yd_version},</if>
  					lunch_id=lunch_id
 			where 
 				lunch_id = #{lunch_id}
@@ -128,9 +130,7 @@
 		from 
 			tb_lunch a 
 			left join tb_category b on a.category_id=b.category_id
-			
-			
-		
+ 
 		order by a.createtime desc
   	</select>
  
@@ -162,6 +162,21 @@
   	</select>
   	
   	<!-- 微信端开始接口 -->
+  	<!-- 通过ID获取库存以及所对应嘚版本号 -->
+	<select id="findByIdForKunCun" parameterType="pd" resultType="pd">
+		select 
+			lunch_id,
+			reservation_number,
+			inventory_number,
+ 			dc_version,
+			yd_version
+  		from 
+			tb_lunch
+		where 
+			lunch_id = #{lunch_id}
+	</select>
+ 
+	
   	<!-- 通过ID获取数据 -->
 	<select id="findByIdForWx" parameterType="pd" resultType="pd">
 		select 
@@ -175,8 +190,6 @@
 		where 
 			lunch_id = #{lunch_id}
 	</select>
-  	
-  	
   	<!-- 通过分类ID获取上架商品 -->
 	<select id="listAllByCate" parameterType="pd" resultType="pd">
 		select 

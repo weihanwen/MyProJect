@@ -146,6 +146,8 @@ function addShopCart(number,lunch_id){
 			success:function(data){
 				  if(data.result == "1"){
 					  flag=true;
+				  }else{
+					  alert(data.message);
 				  }
 			}
 	});  
