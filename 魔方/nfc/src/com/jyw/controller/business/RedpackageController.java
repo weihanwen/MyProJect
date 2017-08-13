@@ -18,8 +18,7 @@ import com.jyw.entity.Page;
 import com.jyw.entity.system.Menu;
 import com.jyw.entity.system.User;
 import com.jyw.service.business.RedpackageService;
-import com.jyw.service.wx.Wxmember_redpackageService;
-import com.jyw.util.Const;
+ import com.jyw.util.Const;
 import com.jyw.util.PageData;
 import com.jyw.util.ServiceHelper;
 
@@ -35,8 +34,7 @@ public class RedpackageController extends BaseController {
 	@Resource(name="redpackageService")
 	private RedpackageService redpackageService;
 	
-	@Resource(name="wxmember_redpackageService")
-	private Wxmember_redpackageService wxmember_redpackageService;
+ 
 	
 	/**
 	 * 新增

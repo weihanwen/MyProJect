@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Wxmember_redpackageMapper">
-
-	<!-- 新增-->
-	<insert id="save" parameterType="pd">
-		insert into tb_redpackage(
- 			wxmember_id,
-			money,
- 			redpackage_id,
- 			createtime,
-			updatetime 
-  		) values (
-			#{wxmember_id},	
-			#{money}, 
-			#{redpackage_id}, 
- 			now(),	
-			now() 
-		)
-	</insert>
+	
+	
+	<!-- 修改红包使用状态 -->
+	<update id="editRedPackage" parameterType="pd">
+			update  tb_wxmember_redpackage
+			set 
+					<if test="isuse != null and isuse != ''">isuse = #{isuse},</if>
+					<if test="isfrozen != null and isfrozen != ''">isfrozen = #{isfrozen},</if>
+					wxmember_redpackage_id=wxmember_redpackage_id
+ 			where 
+					wxmember_redpackage_id = #{wxmember_redpackage_id}
+	</update>
 	
 	 
 	 <!-- 获取当前会员的红包个数*未使用 -->
@@ -29,8 +24,18 @@
 		where 
 			wxmember_id = #{wxmember_id}
 			and isuse=#{isuse}
-			and isfrozen='0'
+			and isfrozen=#{isfrozen}
  	</select>
+ 	
+ 	<!-- 获取红包金额 -->
+	<select id="getRedPackageMoneyById" parameterType="pd" resultType="String">
+		select 
+			ifnull(money,0)
+		from 
+			tb_wxmember_redpackage
+		where 
+			wxmember_redpackage_id = #{wxmember_redpackage_id}
+  	</select>
 	 
 	
 </mapper>

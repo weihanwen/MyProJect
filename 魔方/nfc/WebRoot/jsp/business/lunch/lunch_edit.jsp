@@ -63,12 +63,12 @@
 					<input  type="hidden" name="sale_money" id="sale_money" value="${pd.sale_money}" />
 				</td>
 			</tr>
-			<tr>
+			<%-- <tr>
 				<td>赠送积分 ：</td>
 				<td>
 					<input  type="number" name="send_integral" id="send_integral" value="${pd.send_integral}" maxlength="32" placeholder="这里输入赠送积分" title="赠送积分"  style="width:208px;"/>
 				</td>
-			</tr>
+			</tr> --%>
  			<tr>
 				<td>设置库存 ：</td>
 				<td>

@@ -23,6 +23,7 @@ import com.jyw.entity.wx.WxLogin;
 import com.jyw.service.business.Carousel_figureService;
 import com.jyw.service.business.CategoryService;
 import com.jyw.service.business.Daily_menuService;
+import com.jyw.service.business.Delivery_feeService;
 import com.jyw.service.business.LunchService;
 import com.jyw.service.business.Scheduled_timeService;
 import com.jyw.service.wx.WxOrderService;
@@ -62,6 +63,8 @@ public class WxMemberController extends BaseController {
 	private Carousel_figureService carousel_figureService;//轮播图
 	@Resource(name="wxOrderService")
 	private WxOrderService WxOrderService;//订单
+	@Resource(name="delivery_feeService")
+	private Delivery_feeService delivery_feeService;//配送费
 	
 	
 	/**
@@ -130,6 +133,7 @@ public class WxMemberController extends BaseController {
         		pd.put("name", login.getNAME());
         		pd.put("showlook_id", login.getSHOWLOOK_ID());
         		pd.put("isuse", "0");
+        		pd.put("isfrozen", "0");
         		//获取优惠券个数
         		String countYh=wxmemberService.getRedPackageNumber(pd);
         		//获取提货券个数
@@ -281,7 +285,7 @@ public class WxMemberController extends BaseController {
         		pd.put("lunch_id", lunch_id);
         		//获取购物车数量
         		pd.put("wxmember_id", login.getWXMEMBER_ID());
-        		pd.put("shopnumber", wxmemberService.countLunchNumber(pd));
+        		pd.put("shopnumber", wxmemberService.countShopcartNumber(pd));
         		pd.remove("wxmember_id");
     		}else{
     			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
@@ -342,7 +346,7 @@ public class WxMemberController extends BaseController {
 					message="库存不足";
 				}
 				
-				map.put("data", wxmemberService.countLunchNumber(pd));
+				map.put("data", wxmemberService.countShopcartNumber(pd));
   			}
  		}catch(Exception e){
 			result="0";
@@ -397,7 +401,7 @@ public class WxMemberController extends BaseController {
 		PageData pd=new PageData();
 		try{
 			pd.put("allshopcart_id", allshopcart_id);
-			map.put("data", wxmemberService.sumLunchmoneyById(pd));
+			map.put("data", wxmemberService.sumShopcartById(pd));
  		}catch(Exception e){
 			result="0";
 			message="系统异常";
@@ -443,8 +447,10 @@ public class WxMemberController extends BaseController {
         			List<PageData> shopList=wxmemberService.findShopCartList(pd);
         			mv.addObject("shopList", shopList);
         			//获取总金额
-        			String allpaymoney=wxmemberService.sumLunchmoneyById(pd);
+        			String allpaymoney=wxmemberService.sumShopcartById(pd);
         			allmoney=Integer.parseInt(allpaymoney);
+        			//配送费
+    				mv.addObject("delivery_fee", delivery_feeService.getMoneyByNumber(wxmemberService.countShopcartNumber(pd)));
     			}else{
     				String lunch_id=pd.getString("lunch_idstr").split("@")[0];
     				pd.put("lunch_id", lunch_id);
@@ -454,23 +460,37 @@ public class WxMemberController extends BaseController {
     				lunchpd.put("shop_number", shop_number);
     				mv.addObject("lunchpd", lunchpd);
     				allmoney=((int) lunchpd.get("sale_money"))*Integer.parseInt(shop_number);
+    				//配送费
+    				mv.addObject("delivery_fee", delivery_feeService.getMoneyByNumber(shop_number));
     			}
     			mv.addObject("allmoney", allmoney);
     			int  discount_money=0;
      			//判断是否使用红包
      			if(pd.getString("wxmember_redpackage_id") != null){
-    				
+     				discount_money+=Integer.parseInt(wxmemberService.getRedPackageMoneyById(pd));
     			}
     			//判断是否使用提货卷
      			if(pd.getString("wxmember_tihuojuan_idstr") != null){
-     				
+     				String[] thjstr=pd.getString("wxmember_tihuojuan_idstr").split(",");
+     				for (int i = 0; i < thjstr.length; i++) {
+						pd.put("wxmember_tihuojuan_id", thjstr[i]);
+						discount_money+=Integer.parseInt(wxmemberService.getTiHuoJuanMoneyById(pd));
+					}
+     				pd.remove("wxmember_tihuojuan_id");
      			}
-    			mv.addObject("discount_money", "0");
+    			mv.addObject("discount_money", discount_money);
     			mv.addObject("actual_money", allmoney-discount_money);
     			//判断是否有选择地址
     			if(pd.getString("wxmember_address_id") != null){
     				mv.addObject("address", wxmemberService.findAddressDetail(pd).getString("address"));
     			}
+    			//设置时间
+    			if(pd.getString("order_type").equals("1")){
+    				mv.addObject("reserve_arrival_time", "14:22");
+    			}else{
+    				
+    			}
+     			
     			
      			mv.setViewName("wx/dc_orderpay");
      		}else{

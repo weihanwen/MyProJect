@@ -64,6 +64,21 @@
 			tb_delivery_fee
 		order by number 
    	</select>
+   	
+   	
+   	
+   	
+	<!-- 通过份数获取配送金额 -->
+	<select id="getMoneyByNumber" parameterType="String" resultType="String">
+		select 
+ 			money
+ 		from 
+			tb_delivery_fee
+		where 
+			number = #{number}
+		order by money desc
+		limit 1
+	</select>
  
 	
 	

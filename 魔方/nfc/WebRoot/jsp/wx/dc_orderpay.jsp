@@ -43,18 +43,34 @@
      </ul>
       <ul class="ui-list ui-list-text ui-border-tb mg_b_10">
         <li class="ui-border-t">
-            <div class="ui-list-info ">
-                <h4>预定时间</h4>
-            </div>
-            <div class="ui-list-action"> </div>
-        </li>
+        	<c:choose>
+        		<c:when test="${pd.order_type eq '1' }">
+        			<div class="ui-list-info ">
+		                <h4>预定送达时间 ${reserve_arrival_time}</h4>
+		            </div>
+		            <div class="ui-list-action"> </div>
+        		</c:when>
+         		<c:otherwise></c:otherwise>
+        	</c:choose>
+         </li>
      </ul>
      <ul class="ui-list ui-list-text ui-list-pure ui-border-tb mg_b_10 ">
         <li class="ui-border-t youhuiList" >
-             <c:forEach items="${shopList }" var="var">
-			    <p  class="oneyouhui" style="overflow:hidden;"><span style='color:#999;float:left;'>${var.lunch_name}</span><span style="float:right;">X${var.shop_number}</span></p>
-	 		</c:forEach>
-          </li>
+        	<c:choose>
+        		<c:when test="${pd.shop_type eq '1' }">
+        			<c:forEach items="${shopList }" var="var">
+					    <p  class="oneyouhui" style="overflow:hidden;"><span style='color:#999;float:left;'>${var.lunch_name}</span><span style="float:right;">X${var.shop_number}</span></p>
+			 		</c:forEach>
+        		</c:when>
+        		<c:otherwise>
+        			<p  class="oneyouhui" style="overflow:hidden;"><span style='color:#999;float:left;'>${lunchpd.lunch_name}</span>
+	        			<span style="float:right;">
+	        				X${lunchpd.shop_number}
+	        			</span>
+        			</p>
+        		</c:otherwise>
+        	</c:choose>
+           </li>
     </ul>
      <ul class="ui-list ui-list-text ui-list-link ui-border-tb mg_b_10">
         <li class="ui-border-t" onclick="peisong()">

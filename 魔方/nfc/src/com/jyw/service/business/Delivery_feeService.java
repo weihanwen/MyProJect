@@ -67,5 +67,12 @@ public class Delivery_feeService {
 		dao.delete("Delivery_feeMapper.deleteAll", ArrayDATA_IDS);
 	}
 	
+	/*
+	* 通过份数获取配送金额
+	*/
+	public String getMoneyByNumber(String number)throws Exception{
+		return (String)dao.findForObject("Delivery_feeMapper.getMoneyByNumber", number);
+	}
+	
 }
 

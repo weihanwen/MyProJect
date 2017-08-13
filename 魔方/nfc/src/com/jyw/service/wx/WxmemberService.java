@@ -63,7 +63,12 @@ public class   WxmemberService {
 	public String  getRedPackageNumber(PageData pd)throws Exception{
 		return (String)dao.findForObject("Wxmember_redpackageMapper.getRedPackageNumber", pd);
 	}
-	
+	public String  getRedPackageMoneyById(PageData pd)throws Exception{
+		return (String)dao.findForObject("Wxmember_redpackageMapper.getRedPackageMoneyById", pd);
+	}
+	public void editRedPackage(PageData pd)throws Exception{
+		dao.update("Wxmember_redpackageMapper.editRedPackage", pd);
+	}
 	
 	
 	
@@ -83,7 +88,12 @@ public class   WxmemberService {
 	public String  getTiHuoJuanNumber(PageData pd)throws Exception{
 		return (String)dao.findForObject("Wxmember_tihuojuanMapper.getTiHuoJuanNumber", pd);
 	}
-	
+	public String  getTiHuoJuanMoneyById(PageData pd)throws Exception{
+		return (String)dao.findForObject("Wxmember_tihuojuanMapper.getTiHuoJuanMoneyById", pd);
+	}
+	public void editTiHuoJuan(PageData pd)throws Exception{
+		dao.update("Wxmember_tihuojuanMapper.editTiHuoJuan", pd);
+	}
 	
 	
 	
@@ -91,11 +101,11 @@ public class   WxmemberService {
 	/*
 	* 获取会员购物车的总价==================================================================================
 	*/
-	public String sumLunchmoneyById(PageData pd)throws Exception{
-		return (String)dao.findForObject("WxShopcartMapper.sumLunchmoneyById", pd);
+	public String sumShopcartById(PageData pd)throws Exception{
+		return (String)dao.findForObject("WxShopcartMapper.sumShopcartById", pd);
 	}
-	public String countLunchNumber(PageData pd)throws Exception{
-		return (String)dao.findForObject("WxShopcartMapper.countLunchNumber", pd);
+	public String countShopcartNumber(PageData pd)throws Exception{
+		return (String)dao.findForObject("WxShopcartMapper.countShopcartNumber", pd);
 	}
 	public PageData findShopCartById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("WxShopcartMapper.findShopCartById", pd);

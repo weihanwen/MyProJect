@@ -4,7 +4,7 @@
 
 	
 	<!-- 获取购物车的商品总价 -->
-	<select id="sumLunchmoneyById" parameterType="pd" resultType="String">
+	<select id="sumShopcartById" parameterType="pd" resultType="String">
 		select 
 			ifnull(sum(a.shop_number*b.sale_money),0) as allmoney
  		from 
@@ -13,14 +13,17 @@
 			 #{allshopcart_id} like concat(concat('%',a.shopcart_id),'%')
   	</select>
   	<!-- 统计购物车商品数量 -->
-	<select id="countLunchNumber" parameterType="pd" resultType="String">
+	<select id="countShopcartNumber" parameterType="pd" resultType="String">
 		select 
 			ifnull(sum(shop_number), '0') as allnumber 
 		from 
 			tb_shopcart
 		where 
-			wxmember_id = #{wxmember_id}
-  	</select>
+			<choose>
+				<when test="allshopcart_id != null and allshopcart_id != ''">#{allshopcart_id} like concat(concat('%',shopcart_id),'%')</when>
+				<otherwise>wxmember_id = #{wxmember_id}</otherwise>
+			</choose>
+   	</select>
 
 	<select id="findShopCartById" parameterType="pd" resultType="pd">
 		select 
