@@ -492,7 +492,7 @@ public class WxMemberController extends BaseController {
     			}
      			
     			
-     			mv.setViewName("wx/dc_orderpay");
+     			mv.setViewName("wx/orderpay");
      		}else{
     			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
     		}
