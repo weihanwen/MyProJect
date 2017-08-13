@@ -52,7 +52,7 @@
 	<div class="shopfooter">
 		<span class="iconfont icon-dui foot_xz" onclick="chose()" name="quanxuan"></span><span>全选</span>
 		<span>合计：</span><span class="zongjia">0元</span>
-		<a class="foot_tj"  style="background:#aaa;">提交订单</a>
+		<a class="foot_tj"  style="background:#aaa;" onclick="goReadyPayOrder()">提交订单</a>
 	</div>
 </body>
 <script src="js/jquery-1.8.3.min.js"></script>
@@ -190,7 +190,21 @@ function zongjia(){
 
 //去结算页面
 function goReadyPayOrder(){
-	 
+ 	 var allshopcart_id="";
+	 var sel_span = $("span[check=checked]");
+	 for (var i = 0; i < sel_span.length; i++) {
+			if($(sel_span[i]).attr("check")=="checked"&&$(sel_span[i]).parent()[0].className=="shop_sign") {
+				var shopcart_id=$(sel_span[i]).attr("shopcart_id");
+				if(shopcart_id != ""){
+					allshopcart_id+=shopcart_id+",";
+				}
+			}
+	 };
+	 if(allshopcart_id != ''){
+		 window.location.href="wxmember/goPayJSP.do?shop_type=1&allshopcart_id="+allshopcart_id+"&order_type=1";
+	 }else{
+		 alert("请选择商品");
+	 }
 }
  
 

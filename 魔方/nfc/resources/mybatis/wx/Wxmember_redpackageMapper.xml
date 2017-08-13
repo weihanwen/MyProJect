@@ -20,7 +20,17 @@
 	</insert>
 	
 	 
-	 
+	 <!-- 获取当前会员的红包个数*未使用 -->
+	<select id="getRedPackageNumber" parameterType="pd" resultType="String">
+		select 
+			cast( count(*) as char) as number
+		from 
+			tb_wxmember_redpackage
+		where 
+			wxmember_id = #{wxmember_id}
+			and isuse=#{isuse}
+			and isfrozen='0'
+ 	</select>
 	 
 	
 </mapper>

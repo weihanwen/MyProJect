@@ -393,7 +393,7 @@ public class WxMemberController extends BaseController {
 	public  Object countAllShopMoney(String allshopcart_id) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
  		String result="1";
-		String message="添加成功";
+		String message="统计完成";
 		PageData pd=new PageData();
 		try{
 			pd.put("allshopcart_id", allshopcart_id);
@@ -410,14 +410,19 @@ public class WxMemberController extends BaseController {
 	
 	/**
 	 * 去支付界面
-	 * wxmember/goPayJSP.do 
+	 * wxmember/goPayJSP.do?shop_type=1&allshopcart_id=&order_type=1
 	 * 
 	 * shop_type 		1-购物车购买，2-直接购买
  	 * allshopcart_id  	购物车结算嘚所有购物车ID
 	 * lunch_idstr   	ID@数量
 	 * order_type  		1-点餐，2-预定
 	 * 
-     */
+	 * 二次加载可能嘚参数
+	 * wxmember_address_id  		地址id
+	 * wxmember_redpackage_id  		使用红包id
+	 * wxmember_tihuojuan_idstr		使用嘚提货卷ID
+	 * 
+      */
 	@RequestMapping(value="/goPayJSP")
 	public ModelAndView goPayJSP()throws Exception{
 		ModelAndView mv = this.getModelAndView();
@@ -431,9 +436,9 @@ public class WxMemberController extends BaseController {
     		if(login != null ){
     			pd.put("wxmember_id", login.getWXMEMBER_ID());
     			mv.addObject("nowintegral", wxmemberService.getNowIntegral(pd));
-    			String type=pd.getString("type");
+    			String shop_type=pd.getString("shop_type");
     			int allmoney=0;
-    			if(type.equals("1")){
+    			if(shop_type.equals("1")){
     				//获取购买商品列表
         			List<PageData> shopList=wxmemberService.findShopCartList(pd);
         			mv.addObject("shopList", shopList);
@@ -453,11 +458,19 @@ public class WxMemberController extends BaseController {
     			mv.addObject("allmoney", allmoney);
     			int  discount_money=0;
      			//判断是否使用红包
-    			
+     			if(pd.getString("wxmember_redpackage_id") != null){
+    				
+    			}
     			//判断是否使用提货卷
-    			
+     			if(pd.getString("wxmember_tihuojuan_idstr") != null){
+     				
+     			}
     			mv.addObject("discount_money", "0");
     			mv.addObject("actual_money", allmoney-discount_money);
+    			//判断是否有选择地址
+    			if(pd.getString("wxmember_address_id") != null){
+    				mv.addObject("address", wxmemberService.findAddressDetail(pd).getString("address"));
+    			}
     			
      			mv.setViewName("wx/dc_orderpay");
      		}else{

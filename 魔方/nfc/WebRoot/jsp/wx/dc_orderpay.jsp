@@ -31,7 +31,12 @@
         </li>
         <li class="ui-border-t">
             <div class="ui-list-info">
-                <h4>+添加收件地址</h4>
+            	<c:choose>
+            		<c:when test="${!empty pd.wxmember_address_id }"><h4>${address}</h4></c:when>
+            		<c:otherwise>
+            			 <div style="background-color: #27A6F1; color: #fff; padding: 8px; width: 50%; margin: auto; text-align: center; border-radius: 22px; "> +添加收件地址</div>
+            		</c:otherwise>
+            	</c:choose>              
             </div>
             <div class="ui-list-action col_c9"> </div>
         </li>

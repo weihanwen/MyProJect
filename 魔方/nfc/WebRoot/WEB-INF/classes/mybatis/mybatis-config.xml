@@ -60,8 +60,11 @@
 		 
 		 <!-- wx端 -->
 		<mapper resource="mybatis/wx/Wxmember_redpackageMapper.xml"/><!-- 会员红包 -->
+		<mapper resource="mybatis/wx/Wxmember_tihuojuanMapper.xml"/><!-- 提货卷 -->
 		<mapper resource="mybatis/wx/WxmemberMapper.xml"/><!-- 会员 -->
 		<mapper resource="mybatis/wx/WxOrderMapper.xml"/><!-- 订单 -->
+		<mapper resource="mybatis/wx/WxAddressMapper.xml"/><!-- 地址 -->
+		<mapper resource="mybatis/wx/WxShopcartMapper.xml"/><!-- 购物车 -->
 		
 		
 	</mappers>

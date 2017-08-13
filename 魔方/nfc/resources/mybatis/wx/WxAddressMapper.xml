@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="WxAddressMapper">
+
+
+
+	
+ 	
+ 	<!-- 获取地址详情 -->
+ 	<select id="findAddressDetail" parameterType="pd" resultType="pd">
+		select 
+			a.wxmember_address_id,
+			a.contacts,
+			a.sex,
+			a.contacts_number,
+			a.corporate_name,
+			a.floor_numbe,
+			b.address_name,
+ 			concat(b.address_name,a.corporate_name,a.floor_numbe) as address
+ 		from 
+			tb_wxmember_address a left join tb_address b on a.address_id=b.address_id
+		where 
+			a.wxmember_address_id = #{wxmember_address_id}
+  	</select>
+ 
+	
+	
+</mapper>

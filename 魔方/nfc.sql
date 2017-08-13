@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2017-08-13 13:24:21
+Date: 2017-08-13 16:43:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -296,7 +296,7 @@ CREATE TABLE `tb_daily_menu` (
 -- ----------------------------
 -- Records of tb_daily_menu
 -- ----------------------------
-INSERT INTO `tb_daily_menu` VALUES ('2', '2017-08-12', '1,', null, '2017-08-12 13:15:57', '2017-08-12 13:17:13');
+INSERT INTO `tb_daily_menu` VALUES ('2', '2017-08-13', '1,', null, '2017-08-12 13:15:57', '2017-08-13 16:03:30');
 
 -- ----------------------------
 -- Table structure for `tb_delivery_fee`
@@ -373,7 +373,7 @@ CREATE TABLE `tb_lunch` (
 -- ----------------------------
 -- Records of tb_lunch
 -- ----------------------------
-INSERT INTO `tb_lunch` VALUES ('1', '啦啦', '25', 'http://localhost/FileSave//lunch/dd8fe5a782824b629b623232220e953d.jpg', 'http://localhost/FileSave//lunch/b4ca64d3f7204faaa7af44308bc0a9c9.jpg', 'http://localhost/FileSave//lunch/483952b61d474783825b05bc5f2ed29a.jpg', '1', '1', '2', '2', '0', '1', '1', '0', '2017-07-29 16:45:47', '2017-08-12 16:06:24', '9', '6', '0');
+INSERT INTO `tb_lunch` VALUES ('1', '啦啦', '25', 'http://localhost/FileSave//lunch/dd8fe5a782824b629b623232220e953d.jpg', 'http://localhost/FileSave//lunch/b4ca64d3f7204faaa7af44308bc0a9c9.jpg', 'http://localhost/FileSave//lunch/483952b61d474783825b05bc5f2ed29a.jpg', '1', '1', '2', '1', '0', '1', '1', '0', '2017-07-29 16:45:47', '2017-08-13 16:03:40', '9', '7', '0');
 INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunch/2397e314d1174463abc016ca0ef01d77.jpg', 'http://localhost/FileSave//lunch/b19fbb20de6942eb9cd0179e98e39c88.jpg', 'http://localhost/FileSave//lunch/fb813af3cbcf4280b936d2b6529b04d7.jpg', '1', '1', '2', '2', '0', '12sda', '0', '5', '2017-07-29 16:28:35', '2017-08-12 15:58:17', '9', '0', '0');
 
 -- ----------------------------
@@ -504,6 +504,7 @@ CREATE TABLE `tb_shopcart` (
 -- ----------------------------
 -- Records of tb_shopcart
 -- ----------------------------
+INSERT INTO `tb_shopcart` VALUES ('0206599460', '1', '1', '20170802115849437584', '2017-08-13 16:03:40', '2017-08-13 16:03:40');
 
 -- ----------------------------
 -- Table structure for `tb_w`
@@ -611,7 +612,7 @@ CREATE TABLE `tb_wxmember_address` (
 -- ----------------------------
 -- Records of tb_wxmember_address
 -- ----------------------------
-INSERT INTO `tb_wxmember_address` VALUES ('1', '1', '1', '1', '1', '1', '1', '1', '2017-08-01 11:16:49', '2017-08-01 11:16:52');
+INSERT INTO `tb_wxmember_address` VALUES ('1', '1', '1', '12', '24', '1', '1', '1', '2017-08-01 11:16:49', '2017-08-13 16:26:27');
 
 -- ----------------------------
 -- Table structure for `tb_wxmember_redpackage`
@@ -625,6 +626,7 @@ CREATE TABLE `tb_wxmember_redpackage` (
   `redpackage_id` int(11) DEFAULT NULL,
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `isfrozen` varchar(4) DEFAULT '0',
   PRIMARY KEY (`wxmember_redpackage_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -644,6 +646,7 @@ CREATE TABLE `tb_wxmember_tihuojuan` (
   `weekmeal_card_id` int(11) DEFAULT NULL,
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `isfrozen` varchar(4) DEFAULT '0',
   PRIMARY KEY (`wxmember_tihuojuan_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
