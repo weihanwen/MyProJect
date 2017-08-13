@@ -84,8 +84,8 @@ public class Const {
 
 	
 	//开始设置参数
-	public static  String sendtime=Tools.readTxtFile(Const.SYSNAME);//下单之后多久可以送货
-	public static  String arrivetime=Tools.readTxtFile(Const.SYSNAME);//送货多久可以到达
+	public static  String sendtime=Tools.readTxtFile(Const.SYSNAME);//下单之后多久可以送货,单位分钟
+	public static  String arrivetime=Tools.readTxtFile(Const.SYSNAME);//送货多久可以到达，单位分钟
 	
 	
 	//微信登录人的key
