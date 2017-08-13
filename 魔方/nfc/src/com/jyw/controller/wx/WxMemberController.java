@@ -409,9 +409,11 @@ public class WxMemberController extends BaseController {
 	 * 去支付界面
 	 * wxmember/goPayJSP.do 
 	 * 
-	 * type 1-购物车购买，2-直接购买
- 	 * allshopcart_id  购物车结算嘚所有购物车ID
-	 * lunch_id   直接购买嘚ID
+	 * shop_type 		1-购物车购买，2-直接购买
+ 	 * allshopcart_id  	购物车结算嘚所有购物车ID
+	 * lunch_idstr   	ID@数量
+	 * order_type  		1-点餐，2-预定
+	 * 
      */
 	@RequestMapping(value="/goPayJSP")
 	public ModelAndView goPayJSP()throws Exception{
@@ -425,25 +427,36 @@ public class WxMemberController extends BaseController {
     		pd=this.getPageData();
     		if(login != null ){
     			pd.put("wxmember_id", login.getWXMEMBER_ID());
+    			mv.addObject("nowintegral", wxmemberService.getNowIntegral(pd));
     			String type=pd.getString("type");
+    			int allmoney=0;
     			if(type.equals("1")){
     				//获取购买商品列表
         			List<PageData> shopList=wxmemberService.findShopCartList(pd);
         			mv.addObject("shopList", shopList);
         			//获取总金额
         			String allpaymoney=wxmemberService.sumLunchmoneyById(pd);
-        			mv.addObject("allpaymoney", allpaymoney);
+        			allmoney=Integer.parseInt(allpaymoney);
     			}else{
+    				String lunch_id=pd.getString("lunch_idstr").split("@")[0];
+    				pd.put("lunch_id", lunch_id);
+    				String shop_number=pd.getString("lunch_idstr").split("@")[1];
     				//获取商品详情
     				PageData lunchpd=lunchService.findByIdForWx(pd);
+    				lunchpd.put("shop_number", shop_number);
     				mv.addObject("lunchpd", lunchpd);
+    				allmoney=((int) lunchpd.get("sale_money"))*Integer.parseInt(shop_number);
     			}
-    			//获取红包集合
+    			mv.addObject("allmoney", allmoney);
+    			int  discount_money=0;
+     			//判断是否使用红包
     			
-    			//获取提货卷集合
+    			//判断是否使用提货卷
     			
+    			mv.addObject("discount_money", "0");
+    			mv.addObject("actual_money", allmoney-discount_money);
     			
-     			mv.setViewName("wx/readypay");
+     			mv.setViewName("wx/dc_orderpay");
      		}else{
     			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
     		}
@@ -453,6 +466,10 @@ public class WxMemberController extends BaseController {
     	mv.addObject("pd", pd); 
   		return mv;
 	}
+	
+	
+	
+	
 	
 	
 	/**
