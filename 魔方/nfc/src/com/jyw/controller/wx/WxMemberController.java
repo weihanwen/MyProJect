@@ -25,6 +25,7 @@ import com.jyw.service.business.CategoryService;
 import com.jyw.service.business.Daily_menuService;
 import com.jyw.service.business.LunchService;
 import com.jyw.service.business.Scheduled_timeService;
+import com.jyw.service.wx.WxOrderService;
 import com.jyw.service.wx.WxmemberService;
 import com.jyw.util.Const;
 import com.jyw.util.DateUtil;
@@ -59,6 +60,8 @@ public class WxMemberController extends BaseController {
 	private Daily_menuService daily_menuService;//正常商品菜品
 	@Resource(name="carousel_figureService")
 	private Carousel_figureService carousel_figureService;//轮播图
+	@Resource(name="wxOrderService")
+	private WxOrderService WxOrderService;//订单
 	
 	
 	/**
