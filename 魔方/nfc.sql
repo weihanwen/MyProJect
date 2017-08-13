@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2017-08-12 16:07:15
+Date: 2017-08-13 13:24:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -390,6 +390,7 @@ CREATE TABLE `tb_order` (
   `actual_money` int(11) DEFAULT NULL,
   `use_integral` int(11) DEFAULT NULL,
   `use_wx` int(11) DEFAULT NULL,
+  `pay_type` varchar(4) DEFAULT '1',
   `order_status` varchar(4) DEFAULT NULL,
   `send_integral` int(11) DEFAULT NULL,
   `serial_number` varchar(100) DEFAULT NULL,
@@ -408,8 +409,8 @@ CREATE TABLE `tb_order` (
 -- ----------------------------
 -- Records of tb_order
 -- ----------------------------
-INSERT INTO `tb_order` VALUES ('1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '00:00:00', '2017-08-01', '10:07:33', '1', '2017-08-01 10:07:30', '2017-08-01 10:07:54', '1', '1');
-INSERT INTO `tb_order` VALUES ('22', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '10:09:02', '2017-08-01', '10:09:08', '2', '2017-08-01 10:09:13', '2017-08-01 10:09:17', '1', '1');
+INSERT INTO `tb_order` VALUES ('1', '1', '1', '1', '1', '1', '1', '1', '1', null, '1', '1', '1', '1', '00:00:00', '2017-08-01', '10:07:33', '1', '2017-08-01 10:07:30', '2017-08-01 10:07:54', '1', '1');
+INSERT INTO `tb_order` VALUES ('22', '2', '2', '2', '2', '2', '2', '2', '2', null, '2', '2', '2', '2', '10:09:02', '2017-08-01', '10:09:08', '2', '2017-08-01 10:09:13', '2017-08-01 10:09:17', '1', '1');
 
 -- ----------------------------
 -- Table structure for `tb_order_lunch`
