@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.jyw.dao.DaoSupport;
 import com.jyw.entity.Page;
 import com.jyw.util.PageData;
+import com.jyw.util.ServiceHelper;
 
 
 @Service("orderService")
@@ -25,7 +26,31 @@ public class   OrderService {
 		return (List<PageData>)dao.findForList("OrderMapper.datalistPage", page);
 	}
 	
-
+	
+	/*
+	*退款订单-获取订单详情
+	*/
+	public PageData findMoneyById(PageData pd)throws Exception{
+   		return (PageData)dao.findForObject("OrderMapper.findMoneyById", pd);
+	}
+	
+	/*
+	*查看订单详情
+	*/
+	public PageData findById(PageData pd)throws Exception{
+		return (PageData)dao.findForObject("OrderMapper.findById", pd);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*
 	 *全部订单已order-status划分
 	 */
@@ -39,22 +64,13 @@ public class   OrderService {
 	public List<PageData> listLunchByOrder(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("OrderMapper.listLunchByOrder", pd);
 	}
-	 
-	
-	/*
-	*订单详情
-	*/
-	public PageData findById(PageData pd)throws Exception{
-		return (PageData)dao.findForObject("OrderMapper.findById", pd);
-	}
-	/*
+  	/*
 	 *根据菜单名搜索的时候，获取所有有关的订单ID
 	 */
 	public String getOrderStrByLunchName(PageData pd)throws Exception{
 		return (String)dao.findForObject("OrderMapper.getOrderStrByLunchName", pd);
 	}
-	 
-	/*
+ 	/*
 	 *销售明细
 	 */
 	public List<PageData> saleHistory(Page page)throws Exception{

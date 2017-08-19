@@ -21,7 +21,7 @@
 	
 	<ul class="breadcrumb">
 		<li><i class="icon-home"></i> <a href="login_index.do" target="self">首页</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-		<li class="active">退款订单管理</li>
+		<li class="active">配送中管理</li>
 	</ul><!--.breadcrumb-->
 	
 	<div id="nav-search">
@@ -36,7 +36,7 @@
 	<div class="row-fluid">
  			<!-- 检索  -->
 			<form action="order/list.do" method="post" name="Form" id="Form">
-			<input type="hidden" name="order_status" value="99" />
+			<input type="hidden" name="order_status" value="3" />
  			<%-- <table>
 				<tr>
 					<td>
@@ -69,13 +69,10 @@
   						<th>收货人</th>
 						<th>联系电话</th>
 						<th>订单金额</th>
-						<th>订单类型</th>
 						<th>下单时间</th>
-						<!-- <th>接单时间</th>
-						<th>送达时间</th>
-						<th>配送方式</th>
-						<th>配送员</th> -->
-   					</tr>
+						<th>配送员</th>
+ 						<th>操作</th>
+  					</tr>
 				</thead>
  				<tbody>
  				<!-- 开始循环 -->	
@@ -94,19 +91,23 @@
  								<td>${var.contacts}</td>
  								<td>${var.contacts_number }</td>
  								<td>${var.allmoney}</td>
- 								<td>
-									<c:if test="${var.order_type eq '1' }">现点</c:if>
-									<c:if test="${var.order_type eq '2' }">预定</c:if>
-								</td>
 								<td>${var.createtime}</td>
-								<%-- <td>${var.jiedantime}</td>
-								<td>${var.overtime}</td>
 								<td>
 									<c:if test="${var.delivery_type eq '1' }">自配送</c:if>
 									<c:if test="${var.delivery_type eq '2' }">第三方配送</c:if>
 								</td>
-								<td>${var.delivery_operator_name}</td> --%>
-     						</tr>
+ 								<td style="width: 30px;" class="center">
+										 <div class='hidden-phone visible-desktop btn-group'>
+	 										<c:if test="${QX.edit != 1 && QX.del != 1 }">
+											<span class="label label-large label-grey arrowed-in-right arrowed-in">无权限</span>
+											</c:if>
+											<c:if test="${QX.edit == 1 }">
+												<c:if test="${var.delivery_status eq '0' }"><a    onclick="changeStatus('${var.order_id}','1','取货');"  class="btn btn-mini btn-info"  >取货</a></c:if>
+												<c:if test="${var.delivery_status eq '1' }">已取货</c:if>
+ 											</c:if>
+ 										</div> 
+ 								</td>
+    						</tr>
  						</c:forEach>
 						</c:if>
 						<c:if test="${QX.cha == 0 }">
@@ -194,6 +195,21 @@
 			 diag.show();
 		}
 		
+		//删除
+		function changeStatus(order_id,delivery_status,content){
+			bootbox.confirm("确定要"+content+"吗?", function(result) {
+				if(result) {
+					var url = "<%=basePath%>/order/changeStatus.do?order_id="+order_id+"&delivery_status="+delivery_status;
+					$.get(url,function(data){
+						if(data=="success"){
+							nextPage(${page.currentPage});
+						}
+					});
+				}
+			});
+		}
+		
+
 		//导出excel
 		function toExcel(){
 			window.location.href='<%=basePath%>/order/excel.do?order_status=1';

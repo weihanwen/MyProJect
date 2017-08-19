@@ -80,6 +80,17 @@
 		where 
 			wxmember_id = #{wxmember_id}
  	</select>
+ 	
+ 	<!-- 修改会员余额 -->
+	<update id="changeMoneyByMember" parameterType="pd" >
+			update  tb_wxmember_wealth
+			set 
+					<if test="now_integral != null and now_integral != ''">now_integral = #{now_integral},</if>
+					<if test="before_integral != null and before_integral != ''">before_integral = #{before_integral},</if>
+					wxmember_id=wxmember_id
+ 			where 
+					wxmember_id = #{wxmember_id}
+	</update>
 	
  
  	

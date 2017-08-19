@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="OrderMapper">
- 	
-  
+ 
+   <!-- 获取订单得一些详情 -->
+	<select id="findMoneyById" parameterType="pd" resultType="pd">
+		select 
+ 			a.order_id,
+			a.wxmember_redpackage_id,
+			a.wxmember_tihuojuan_idstr,
+			a.actual_money,
+ 			a.wxmember_id,
+ 			b.now_integral as before_integral,
+ 			sum(a.actual_money+b.now_integral) as now_integral
+  		from 
+			tb_order a  
+ 			left join tb_wxmember_wealth b on b.wxmember_id=a.wxmember_id
+ 		where 
+			a.order_id=#{order_id}
+   	</select>
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
    <!-- 查看详情 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
@@ -44,7 +68,9 @@
    
    	
    	
-    <!-- 根据菜单名搜索的时候，获取所有有关的订单ID -->
+   
+   	
+   	 <!-- 根据菜单名搜索的时候，获取所有有关的订单ID -->
 	<select id="getOrderStrByLunchName" parameterType="pd" resultType="String">
 		select  
 				group_concat(a.order_id)  as orderstr
@@ -56,8 +82,6 @@
 			 	b.lunch_name like concat(concat('%',#{lunch_name}),'%')
 			 	and c.order_status=#{order_status}
     	</select>
-   	
-   	
    	<!-- 获取订单下的菜单集合菜单 -->
 	<select id="listLunchByOrder" parameterType="pd" resultType="pd">
 		select  
@@ -144,9 +168,12 @@
 			a.allmoney,
  			a.order_status,
 			a.order_type,
- 			a.createtime,
-			a.overtime,
-			a.wxmember_id,
+ 			a.delivery_status,
+			a.delivery_operator_name,
+			date_format(a.createtime ,'%Y-%m-%d %H:%i:%s') as createtime,
+			date_format(a.jiedantime ,'%Y-%m-%d %H:%i:%s') as jiedantime,
+			date_format(a.createtime ,'%Y-%m-%d %H:%i:%s') as overtime,
+  			a.wxmember_id,
  			c.contacts,
  			c.contacts_number,
  			c.address_id,

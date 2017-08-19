@@ -39,6 +39,24 @@
 		where 
 			a.order_id=#{order_id}
    	</select>
+   	
+   	
+   	<!-- 修改提货卷使用状态 -->
+	<update id="changeStatus" parameterType="pd" >
+			update  tb_order
+			set 
+					<if test="order_status != null and order_status != ''">
+ 						order_status = #{order_status},
+ 						<if test="order_satus == '2'.toString()">jiedantime=now()</if>,
+ 						<if test="order_satus == '4'.toString()">overtime=now()</if>,
+					</if>
+					<if test="delivery_type != null and delivery_type != ''">delivery_type = #{delivery_type},</if>
+					<if test="delivery_operator_name != null and delivery_operator_name != ''">delivery_operator_name = #{delivery_operator_name},</if>
+					<if test="delivery_status != null and delivery_status != ''">delivery_status = #{delivery_status},</if>
+					order_id=order_id
+ 			where 
+					order_id = #{order_id}
+	</update>
   	
    
    	

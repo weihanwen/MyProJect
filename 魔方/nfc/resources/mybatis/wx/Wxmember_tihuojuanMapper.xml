@@ -11,8 +11,13 @@
 					<if test="isfrozen != null and isfrozen != ''">isfrozen = #{isfrozen},</if>
 					wxmember_tihuojuan_id=wxmember_tihuojuan_id
  			where 
-					wxmember_tihuojuan_id = #{wxmember_tihuojuan_id}
-	</update>
+ 					<choose>
+ 						<when test="wxmember_tihuojuan_idstr !=null and wxmember_tihuojuan_idstr != ''">
+ 							#{wxmember_tihuojuan_idstr} like concat(concat('%',wxmember_tihuojuan_id),'%')
+ 						</when>
+ 						<otherwise>wxmember_tihuojuan_id=#{wxmember_tihuojuan_id}</otherwise>
+ 					</choose>
+ 	</update>
 	 
 	<!-- 获取当前会员的提货券个数*未使用 -->
 	<select id="getTiHuoJuanNumber" parameterType="pd" resultType="String">

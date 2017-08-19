@@ -40,6 +40,13 @@ public class   WxmemberService {
 	public void edit(PageData pd)throws Exception{
 		dao.update("WxmemberMapper.edit", pd);
 	}
+	
+	/*
+	 * 修改
+	 */
+	public void changeMoneyByMember(PageData pd)throws Exception{
+		dao.update("WxmemberMapper.changeMoneyByMember", pd);
+	}
 	 
 	/*
 	* 通过id获取数据-通过openid/wxmember_id

@@ -589,7 +589,7 @@ public class WxMemberController extends BaseController {
   						return false;
   					}
  				}
- 				lunchService.editNumber(newpd);
+ 				lunchService.editStock(newpd);
  			}else{
  				String reservation_number=kcpd.getString("reservation_number");
 				if(Integer.parseInt(reservation_number) < Integer.parseInt(number)){
@@ -605,7 +605,7 @@ public class WxMemberController extends BaseController {
 						return false;
 					}
 				}
- 				lunchService.editNumber(newpd);
+ 				lunchService.editStock(newpd);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -21,7 +21,7 @@
 	
 	<ul class="breadcrumb">
 		<li><i class="icon-home"></i> <a href="login_index.do" target="self">首页</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-		<li class="active">退款订单管理</li>
+		<li class="active">已完成订单管理</li>
 	</ul><!--.breadcrumb-->
 	
 	<div id="nav-search">
@@ -36,7 +36,7 @@
 	<div class="row-fluid">
  			<!-- 检索  -->
 			<form action="order/list.do" method="post" name="Form" id="Form">
-			<input type="hidden" name="order_status" value="99" />
+			<input type="hidden" name="order_status" value="4" />
  			<%-- <table>
 				<tr>
 					<td>
@@ -71,10 +71,10 @@
 						<th>订单金额</th>
 						<th>订单类型</th>
 						<th>下单时间</th>
-						<!-- <th>接单时间</th>
+						<th>接单时间</th>
 						<th>送达时间</th>
 						<th>配送方式</th>
-						<th>配送员</th> -->
+						<th>配送员</th>
    					</tr>
 				</thead>
  				<tbody>
@@ -99,13 +99,13 @@
 									<c:if test="${var.order_type eq '2' }">预定</c:if>
 								</td>
 								<td>${var.createtime}</td>
-								<%-- <td>${var.jiedantime}</td>
+								<td>${var.jiedantime}</td>
 								<td>${var.overtime}</td>
 								<td>
 									<c:if test="${var.delivery_type eq '1' }">自配送</c:if>
 									<c:if test="${var.delivery_type eq '2' }">第三方配送</c:if>
 								</td>
-								<td>${var.delivery_operator_name}</td> --%>
+								<td>${var.delivery_operator_name}</td>
      						</tr>
  						</c:forEach>
 						</c:if>

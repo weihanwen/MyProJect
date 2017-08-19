@@ -33,7 +33,12 @@ public class   WxOrderService {
 		return (PageData)dao.findForObject("WxOrderMapper.findById", pd);
 	}
 	
-	 
+	/*
+	* 修改订单状态
+	*/
+	public void changeStatus(PageData pd)throws Exception{
+		dao.update("WxOrderMapper.changeStatus", pd);
+	}
 	 
 	 
 	

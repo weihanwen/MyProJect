@@ -6,6 +6,7 @@ import com.jyw.service.business.LunchService;
 import com.jyw.service.system.menu.MenuService;
 import com.jyw.service.system.role.RoleService;
 import com.jyw.service.system.user.UserService;
+import com.jyw.service.wx.WxOrderService;
 import com.jyw.service.wx.WxmemberService;
 
 
@@ -47,6 +48,11 @@ public final class ServiceHelper {
 	//属性地址服务层
 	public static WxmemberService getWxmemberService(){
 		return (WxmemberService) getService("wxmemberService");
+	}
+	
+	//订单
+	public static WxOrderService getWxOrderService(){
+		return (WxOrderService) getService("wxOrderService");
 	}
 	
 	

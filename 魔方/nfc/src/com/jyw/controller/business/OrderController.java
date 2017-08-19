@@ -1,5 +1,6 @@
 package com.jyw.controller.business;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +45,8 @@ public class OrderController extends BaseController {
 	 * 列表
 	 * order/list.do
 	 * 
-	 * 必传order_status
+	 * 必传order_status :0-未支付，1-已支付预定订单待处理，2-待配送订单，3-配送中/待取货，4-已完成，  99-已退款
+	 * order_type 1-正常订单，2-预定订单
 	 */
 	@RequestMapping(value="/list")
 	public ModelAndView list(Page page){
@@ -69,14 +71,63 @@ public class OrderController extends BaseController {
 			mv.addObject("pd", pd);
 			if(pd.getString("order_status").equals("1")){
 				mv.setViewName("business/order/order_list1");
-			}else{
+			}else if(pd.getString("order_status").equals("2")){
 				mv.setViewName("business/order/order_list2");
+			}else if(pd.getString("order_status").equals("3")){
+				mv.setViewName("business/order/order_list3");
+			}else if(pd.getString("order_status").equals("4")){
+				mv.setViewName("business/order/order_list4");
+			}else{
+				mv.setViewName("business/order/order_list99");
 			}
+			
  		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
 		return mv;
 	}
+	
+	
+
+	/**
+	 * 修改状态
+	 * order/changeStatus.do
+	 */
+	@RequestMapping(value="/changeStatus")
+	public void delete(PrintWriter out){
+ 		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			//0-未支付，1-已支付预定订单待处理，2-待配送订单，3-配送中，4-已完成，  99-已退款
+			String order_status=pd.getString("order_status");
+			if(order_status.equals("2")){
+ 				
+			}else if(order_status.equals("3")){
+				 
+			}else if(order_status.equals("4")){
+				
+			}else{
+				PageData orderpd=orderService.findMoneyById(pd);
+				//修改余额
+				ServiceHelper.getWxmemberService().changeMoneyByMember(orderpd);
+				orderpd.put("isuse", "0");
+				orderpd.put("isfrozen", "0");
+				//修改提货卷状态
+				ServiceHelper.getWxmemberService().editRedPackage(orderpd);
+				//修改红包状态
+				ServiceHelper.getWxmemberService().editTiHuoJuan(orderpd);
+  			}
+			ServiceHelper.getWxOrderService().changeStatus(pd);
+ 			out.write("success");
+			out.close();
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+	}
+	
+	
+	
 	 
 	/**
 	 * 详情
