@@ -24,59 +24,71 @@
  		<link rel="stylesheet" href="css/chosen.css" /><!-- 下拉框 -->
 		<link rel="stylesheet" href="css/ace-responsive.min.css" />
 		<link rel="stylesheet" href="css/ace-skins.min.css" />
- 		<link rel="stylesheet" href="css/datepicker.css" /><!-- 日期框 -->
- 		<!-- 引入 -->
+  		<!-- 引入 -->
 		<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+		<script src="My97DatePicker/WdatePicker.js"></script>
+		<style type="text/css">
+		td{
+ 			width:50%;
+ 			text-align: center;
+		}
+		</style>
 	</head>
 <body>
 	<form action="scheduled_time/edit.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="scheduled_time_id" id="scheduled_time_id"  value="${pd.scheduled_time_id}"/>
-		<input type="hidden" name="lunch_idstr" id="lunch_idstr"  value="${pd.lunch_idstr}"/>
-		<input type="hidden" name="lunchnumberstr" id="lunchnumberstr"  value=""/>
-		<div id="zhongxin" style="width: 90%;margin: 5% auto;">
-		<table>
+		<input type="hidden" name="category_idstr" id="category_idstr"  value=""/>
+ 		<div id="zhongxin" style="width: 90%;margin: 5% auto;">
+		<table style="width: 100%; ">
 			<tr>
-				<td>预定日期 ：</td>
-				<td>
-					<input class="span10 date-picker" name="day"  id="day" value="${pd.day }" type="text" data-date-format="yyyy-mm-dd"   placeholder="便当日期" style="width:208px;" >
+				<td colspan="2">销售日期 ：
+					<input name="day"  id="day" value="${pd.day }" type="text"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"   style="width:208px;" >
 				</td>
 			</tr>
 			<tr>
-				<td>送餐开始段 ：</td>
-				<td>
-					<input class="span10" name="starttime_slot"  id="starttime_slot" value="${pd.starttime_slot }" type="time"       >
+				<td colspan="2">时段名称：
+					<select name="time_name" class="chzn-select" >
+						<option value="午餐" ${pd.time_name eq '午餐' ?selected:'' }>午餐</option>
+						<option value="晚餐" ${pd.time_name eq '晚餐' ?selected:'' }>晚餐</option>
+					</select>
+				</td>
  			</tr>
 			<tr>
-				<td>送餐结束段 ：</td>
-				<td>
- 					<input class="span10" name="endtime_slot"  id="endtime_slot" value="${pd.endtime_slot }" type="time"       >
-				</td>
-			</tr> 
+				<td colspan="2">销售时间段 ：
+					<input type="time"  value="${pd.sale_starttime}" name="sale_starttime"  id="sale_starttime" value="00:00"  style=" width: 20%; " >
+					至
+					<input type="time"  value="${pd.sale_endtime}"   name="sale_endtime"  id="sale_endtime" value="00:00"    style=" width: 20%; ">
+ 				</td>
+ 			</tr>
 			<tr>
-				<td>可预定列表 ：</td>
-				<td>
-					<c:forEach items="${lunchList}" var="var">
-						<c:choose>
-							<c:when test="${fn:contains(pd.lunch_idstr,var.lunch_id )}">
- 								<div style="width:100%;"> 
-									<input type="checkbox" checked name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }
-									>>
-									可预定： <input type="number" class="lunchnumber" lunch_id="${var.lunch_id}" value="${var.reservation_number}"/> 
-								</div>
-							</c:when>
-							<c:otherwise>
- 								<div style="width:100%;"> 
-									<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }
-									>>
-									可预定： <input type="number" class="lunchnumber" lunch_id="${var.lunch_id}" value="${var.reservation_number}"/> 
-								</div>
-							</c:otherwise>
-						</c:choose>
-   	            	</c:forEach>
+				<td colspan="2">预定时间段 ：
+ 					<input type="text" value="${pd.yd_starttime}"   name="yd_starttime"  id="yd_starttime"   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"    style=" width: 27%; "   >
+ 					至
+ 					<input type="text"  value="${pd.yd_endtime}"  name="yd_endtime"  id="yd_endtime"   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"       style=" width: 27%; " >
 				</td>
 			</tr>
-			 
- 		</table>
+			 <tr style="background-color: #f3f3f3">
+				<td colspan="2">--------------可销售类别---------------</td>
+ 			</tr> 
+ 			<c:forEach items="${categoryList}" var="var">
+ 					<c:choose>
+							<c:when test="${fn:contains(pd.category_idstr,var.category_id )}">
+ 								<tr style="background-color: #ffb6b6">
+								 	<td colspan="2">
+					 			 			<input checked onclick="changecolor(this)" type="checkbox"  class="category" value="${var.category_id }" />${var.title }
+					 			 	</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+ 								<tr>
+								 	<td colspan="2">
+					 			 			<input onclick="changecolor(this)" type="checkbox"  class="category" value="${var.category_id }" />${var.title }
+					 			 	</td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
+   			</c:forEach>
+    		</table>
 		</div>
 		<div style="width:40%;padding-top:5%;margin:0 auto;">
 					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
@@ -90,59 +102,32 @@
 		<script src="js/ace-elements.min.js"></script>
 		<script src="js/ace.min.js"></script>
 		<script type="text/javascript" src="js/chosen.jquery.min.js"></script><!-- 下拉框 -->
-		<script type="text/javascript" src="js/bootstrap-datepicker.min.js"></script><!-- 日期框 -->
-		<script type="text/javascript" src="js/jquery.form.js"></script>
+ 		<script type="text/javascript" src="js/jquery.form.js"></script>
  		<script type="text/javascript" src="js/jquery.tips.js"></script>
 		<script type="text/javascript">
  			
 		$(window.parent.hangge());
-		$(function() {
- 			//单选框
-			$(".chzn-select").chosen(); 
-			$(".chzn-select-deselect").chosen({allow_single_deselect:true}); 
- 			//日期框
-			$('.date-picker').datepicker();
- 			
-    	});
-  		 
-
+		 
+		//改变选中得背景颜色
+		function changecolor(obj){
+			if($(obj).is(":checked")){
+				$(obj).parent().parent().css("background-color","#ffb6b6");
+			}else{
+				$(obj).parent().parent().css("background-color","#ffffff");
+			}
+		}
+		
 		//保存
 		function save(){
 			 if(isokTime()){
-				 if($("#starttime_slot").val()==""){
-						$("#starttime_slot").tips({
-							side:3,
-				            msg:'送餐时间不能为空',
-				            bg:'#AE81FF',
-				            time:1
-				        });
-						$("#starttime_slot").focus();
-						return false;
-					}
-					if($("#endtime_slot").val()==""){
-						$("#endtime_slot").tips({
-							side:3,
-				            msg:'送餐时间不能为空',
-				            bg:'#AE81FF',
-				            time:1
-				        });
-						$("#endtime_slot").focus();
-						return false;
-					}
-					//
-					var lunch_idstr="";
-					$(".lunch").each(function(n,obj){
+				 
+					var category_idstr="";
+					$(".category").each(function(n,obj){
 						if($(obj).is(":checked")){
-							lunch_idstr+=$(obj).val()+",";
+							category_idstr+=$(obj).val()+",";
 						}
 					});
-					$("#lunch_idstr").val(lunch_idstr);
-					//设置库存
-					var lunchnumberstr="";
-					$(".lunchnumber").each(function(n,obj){
-						lunchnumberstr+=$(obj).attr("lunch_id")+"@"+$(obj).val()+",";
-		 			});
-		  			$("#lunchnumberstr").val(lunchnumberstr);
+					$("#category_idstr").val(category_idstr);
 		  			//======
 					
 					$("#Form").submit();
@@ -155,9 +140,9 @@
 		function isokTime(){
 			  var start=$("#day").val();
 			  start=start.split('-');  
-			  var start1=new Date(start[0],start[1]-1,start[2]);    //因为当前时间的月份需要+1，故在此-1，不然和当前时间做比较会判断错误
+ 			  var start1=new Date(start[0],start[1]-1,start[2]);    //因为当前时间的月份需要+1，故在此-1，不然和当前时间做比较会判断错误
 			  var nowday=new Date();
-			  if(nowday > start1 ){ 
+ 			  if(nowday > start1 ){ 
 			    	$("#day").tips({
 						side:3,
 			            msg:'开始排期要从明天开始',
@@ -169,8 +154,6 @@
 			 }
 			 return true;
 		}
-		 
-		
 </script>
 </body>
 </html>

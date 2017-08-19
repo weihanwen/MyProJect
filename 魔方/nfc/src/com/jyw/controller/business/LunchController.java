@@ -89,6 +89,29 @@ public class LunchController extends BaseController {
 		}
 		
 	}
+	
+
+	/**
+	 * 修改库存
+	 * lunch/editStock.do
+	 */
+	@RequestMapping(value="/editStock")
+	public void editStock(PrintWriter out){
+		PageData pd = new PageData();
+		try{
+			pd = this.getPageData();
+			lunchService.editStock(pd);
+			out.write("success");
+			out.close();
+		} catch(Exception e){
+			logger.error(e.toString(), e);
+		}
+		
+	}
+	
+ 
+	
+ 
 	 
 	
 	/**

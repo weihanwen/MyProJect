@@ -93,7 +93,7 @@
 			<tr>
 				<td style="vertical-align:top;">
 					<c:if test="${QX.add == 1 }">
-						<a class="btn btn-small btn-success" onclick="add();">新增day便当</a>
+						<a class="btn btn-small btn-success" onclick="add();">新增菜谱</a>
 					</c:if>
  				</td> 
 				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
@@ -139,10 +139,10 @@
 			 window.parent.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="新增";
+			 diag.Title ="新增菜谱";
 			 diag.URL = '<%=basePath%>/daily_menu/goAdd.do';
-			 diag.Width = 600;
-			 diag.Height = 500;
+			 diag.Width = 800;
+			 diag.Height = 600;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 if('${page.currentPage}' == '0'){
@@ -180,8 +180,8 @@
 			 diag.Drag=true;
 			 diag.Title ="编辑";
 			 diag.URL = '<%=basePath%>/daily_menu/goEdit.do?daily_menu_id='+Id;
-			 diag.Width = 600;
-			 diag.Height = 500;
+			 diag.Width = 800;
+			 diag.Height = 600;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 nextPage(${page.currentPage});

@@ -6,18 +6,22 @@
 	<insert id="save" parameterType="pd">
 		insert into tb_scheduled_time(
  			day,
-			starttime_slot,
-			endtime_slot,
-			update_oprator_id,
-			lunch_idstr,
+			time_name,
+			sale_starttime,
+			sale_endtime,
+			yd_starttime,
+			yd_endtime,
+			category_idstr,
 			updatetime 
- 		) values (
-			#{day},	
-			#{starttime_slot}, 
-			#{endtime_slot}, 
-			#{update_oprator_id}, 
-			#{lunch_idstr}, 
- 			now() 
+  		) values (
+			#{day},
+			#{time_name},
+			#{sale_starttime},
+			#{sale_endtime},
+			#{yd_starttime},
+			#{yd_endtime},
+			#{category_idstr}, 
+			now() 
 		)
 	</insert>
 	
@@ -35,10 +39,12 @@
 			update  tb_scheduled_time
 			set 
  				day= #{day},  
- 				starttime_slot= #{starttime_slot},  
- 				endtime_slot= #{endtime_slot},  
- 				update_oprator_id= #{update_oprator_id},
- 				lunch_idstr= #{lunch_idstr} 
+ 				time_name= #{time_name},  
+ 				sale_starttime= #{sale_starttime},  
+ 				sale_endtime= #{sale_endtime},
+ 				yd_starttime= #{yd_starttime} ,
+ 				yd_endtime= #{yd_endtime} ,
+ 				category_idstr= #{category_idstr} 
 			where 
 				scheduled_time_id = #{scheduled_time_id}
 	</update>
@@ -53,10 +59,13 @@
 		select 
 			scheduled_time_id,
 			day,
-			starttime_slot,
-			endtime_slot,
-			lunch_idstr,
- 			updatetime 
+			time_name,
+			sale_starttime,
+			sale_endtime,
+			date_format(yd_starttime ,'%Y-%m-%d %H:%i:%s') as yd_starttime,
+			date_format(yd_endtime ,'%Y-%m-%d %H:%i:%s') as yd_endtime,
+  			category_idstr,
+			updatetime 
 		from 
 			tb_scheduled_time
 		where 
@@ -70,10 +79,13 @@
 		select 
 			a.scheduled_time_id,
 			a.day,
-			a.starttime_slot,
-			a.endtime_slot,
-			a.lunch_idstr,
- 			a.updatetime 
+			a.time_name,
+			a.sale_starttime,
+			a.sale_endtime,
+			date_format(yd_starttime ,'%Y-%m-%d %H:%i:%s') as yd_starttime,
+			date_format(yd_endtime ,'%Y-%m-%d %H:%i:%s') as yd_endtime,
+			a.category_idstr,
+			a.updatetime 
 		from 
 			tb_scheduled_time a  
  		order by a.day desc
@@ -86,10 +98,12 @@
 		select 
 			scheduled_time_id,
 			day,
-			starttime_slot,
-			endtime_slot,
-			lunch_idstr,
- 			updatetime 
+			time_name,
+			sale_starttime,
+			sale_endtime,
+			date_format(yd_starttime ,'%Y-%m-%d %H:%i:%s') as yd_starttime,
+			date_format(yd_endtime ,'%Y-%m-%d %H:%i:%s') as yd_endtime,
+ 			updatetime  
 		from 
 			tb_scheduled_time
 		where 
@@ -99,7 +113,7 @@
 	
 	<!-- 今天的便当列表 -->
 	<select id="listAllNowDay" parameterType="pd" resultType="pd">
-		select 
+		<!-- select 
 			b.category_id,
  			b.lunch_id,
 			b.lunch_name,
@@ -111,12 +125,13 @@
 			ifnull(b.reservation_number , 0) as reservation_number,
 			IFNULL(b.send_integral,0) as send_integral,
 			(b.sale_money-IFNULL(b.send_integral,0)) as daoshoumoney
+  		
   		from 
 			tb_scheduled_time a  left join tb_lunch b on a.lunch_idstr like concat(concat('%',b.lunch_id),'%')
  		where
  			a.day=#{day}
  			and b.category_id=#{category_id}
-  	</select>
+  	 --></select>
  
 	
 </mapper>

@@ -21,7 +21,7 @@
 	
 	<ul class="breadcrumb">
 		<li><i class="icon-home"></i> <a href="login_index.do" target="self">首页</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-		<li class="active">每日便当管理</li>
+		<li class="active">预定商品管理</li>
 	</ul><!--.breadcrumb-->
 	
 	<div id="nav-search">
@@ -41,10 +41,12 @@
  			<table id="table_report" class="table table-striped table-bordered table-hover">
  				<thead>
 					<tr>
- 						<th>预定日期</th>
-						<th>送餐时间段</th>
-						<th>可预订便当</th>
-  						<th class="center">操作</th>
+ 						<th>销售日期</th>
+ 						<th>时段名称</th>
+ 						<th>销售时间段</th>
+ 						<th>预定时间段</th>
+ 						<th>销售类别</th>
+   						<th class="center">操作</th>
 					</tr>
 				</thead>
  				<tbody>
@@ -55,8 +57,10 @@
 						<c:forEach items="${varList}" var="var" varStatus="vs">
 							<tr>
  								<td>${var.day}</td>
-								<td>${var.starttime_slot}--${var.endtime_slot}</td>
-								<td>${var.lunch_namestr}</td>
+ 								<td>${var.time_name}</td>
+								<td>${var.sale_starttime}至${var.sale_endtime}</td>
+								<td>${var.yd_starttime}至${var.yd_endtime}</td>
+								<td>${var.category_namestr}</td>
  								<td style="width: 30px;" class="center">
 										 <div class='hidden-phone visible-desktop btn-group'>
 	 										<c:if test="${QX.edit != 1 && QX.del != 1 }">

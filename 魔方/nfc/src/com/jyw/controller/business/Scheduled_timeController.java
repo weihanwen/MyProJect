@@ -42,26 +42,10 @@ public class Scheduled_timeController extends BaseController {
 	@RequestMapping(value="/save")
 	public ModelAndView save() throws Exception{
  		ModelAndView mv = this.getModelAndView();
-  		//shiro管理的session
- 		Subject currentUser = SecurityUtils.getSubject();  
- 		Session session = currentUser.getSession();
- 		User user=(User) session.getAttribute(Const.SESSION_USER);
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			if(user != null ){
-				pd.put("update_oprator_id", user.getUSER_ID());
-				scheduled_timeService.save(pd);
-				String lunchnumberstr=pd.getString("lunchnumberstr");
-				String[] lunstr=lunchnumberstr.split(",");
-				for (int i = 0; i < lunstr.length; i++) {
-					pd=new PageData();
-					pd.put("lunch_id", lunstr[i].split("@")[0]);
-					pd.put("reservation_number", lunstr[i].split("@")[1]);
-					ServiceHelper.getLunchService().editNumber(pd);
-					pd=null;
-				}
-			}
+			scheduled_timeService.save(pd);
  		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -99,26 +83,10 @@ public class Scheduled_timeController extends BaseController {
 	@RequestMapping(value="/edit")
 	public ModelAndView edit() throws Exception{
  		ModelAndView mv = this.getModelAndView();
- 		//shiro管理的session
- 		Subject currentUser = SecurityUtils.getSubject();  
- 		Session session = currentUser.getSession();
- 		User user=(User) session.getAttribute(Const.SESSION_USER);
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			if(user != null ){
-				pd.put("update_oprator_id", user.getUSER_ID());
-				scheduled_timeService.edit(pd);
-				String lunchnumberstr=pd.getString("lunchnumberstr");
-				String[] lunstr=lunchnumberstr.split(",");
-				for (int i = 0; i < lunstr.length; i++) {
-					pd=new PageData();
-					pd.put("lunch_id", lunstr[i].split("@")[0]);
-					pd.put("reservation_number", lunstr[i].split("@")[1]);
-					ServiceHelper.getLunchService().editNumber(pd);
-					pd=null;
-				}
-			}
+			scheduled_timeService.edit(pd);
  		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -141,16 +109,16 @@ public class Scheduled_timeController extends BaseController {
 			page.setPd(pd);
 			List<PageData>	varList = scheduled_timeService.list(page);	//列出W列表
 			for (PageData e : varList) {
-				String lunch_namestr="";
-				String lunch_idstr=e.getString("lunch_idstr");
-				String[] str=lunch_idstr.split(",");
+				String category_namestr="";
+				String category_idstr=e.getString("category_idstr");
+				String[] str=category_idstr.split(",");
 				for (int i = 0; i < str.length; i++) {
-					pd.put("lunch_id", str[i]);
-					if(ServiceHelper.getLunchService().findById(pd) != null){
-						lunch_namestr+=ServiceHelper.getLunchService().findById(pd).getString("lunch_name")+",";
+					pd.put("category_id", str[i]);
+					if(ServiceHelper.getCategoryService().findById(pd) != null){
+						category_namestr+=ServiceHelper.getCategoryService().findById(pd).getString("title")+"/";
 					}
   				}
-				e.put("lunch_namestr", lunch_namestr);
+				e.put("category_namestr", category_namestr);
 			}
  			this.getHC(); //调用权限
 			mv.setViewName("business/scheduled_time/scheduled_time_list");
@@ -172,9 +140,8 @@ public class Scheduled_timeController extends BaseController {
 		PageData pd = new PageData();
  		try {
  			pd = this.getPageData();
- 			//获取便当列表
-			List<PageData> lunchList=ServiceHelper.getLunchService().listAllUpShelves(pd);
-			mv.addObject("lunchList", lunchList);
+ 			List<PageData> categoryList=ServiceHelper.getCategoryService().listAll(pd);
+			mv.addObject("categoryList", categoryList);
 			mv.setViewName("business/scheduled_time/scheduled_time_save");
  			mv.addObject("pd", pd);
 		} catch (Exception e) {
@@ -193,9 +160,8 @@ public class Scheduled_timeController extends BaseController {
 		PageData pd = new PageData();
  		try {
  			pd = this.getPageData();
- 			//获取便当列表
-			List<PageData> lunchList=ServiceHelper.getLunchService().listAllUpShelves(pd);
-			mv.addObject("lunchList", lunchList);
+ 			List<PageData> categoryList=ServiceHelper.getCategoryService().listAll(pd);
+			mv.addObject("categoryList", categoryList);
 			pd = scheduled_timeService.findById(pd);	//根据ID读取
 			mv.addObject("pd", pd);
 			mv.setViewName("business/scheduled_time/scheduled_time_edit");

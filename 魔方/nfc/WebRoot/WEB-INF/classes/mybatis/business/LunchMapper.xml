@@ -92,7 +92,7 @@
   	</update>
   	
   	<!-- 修改库存或预定库存 -->
-	<update id="editNumber" parameterType="pd">
+	<update id="editStock" parameterType="pd">
 			update tb_lunch 
   			set     
   					<if test="yd_stocknumber != null">yd_stocknumber= #{yd_stocknumber},</if>
@@ -163,14 +163,18 @@
   	<!-- 获取所有上架商品 -->
 	<select id="listAllUpShelves" parameterType="pd" resultType="pd">
 		select 
-			cast(a.lunch_id as char) as lunch_id,
+			a.category_id,
+			a.lunch_id,
 			a.lunch_name,
 			ifnull(a.yd_stocknumber,0) as  yd_stocknumber,
-			ifnull(a.dc_stocknumber,0) as  dc_stocknumber
+			ifnull(a.dc_stocknumber,0) as  dc_stocknumber,
+			a.sort,
+			b.title
 		from 
-			tb_lunch a  
+			tb_lunch a  left join tb_category b on a.category_id=b.category_id
   		where 
  			a.is_shelves='1'
+  		order by cast(b.category_id as signed),cast(a.sort as signed)
   	</select>
   	
   	<!-- 微信端开始接口 -->

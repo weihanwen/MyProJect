@@ -8,14 +8,12 @@
  			day,
 			lunch_idstr,
 			address_id,
-			createtime,
-			updatetime 
+ 			updatetime 
  		) values (
 			#{day},	
 			#{lunch_idstr}, 
 			#{address_id}, 
-			now(),	
-			now() 
+ 			now() 
 		)
 	</insert>
 	
@@ -45,8 +43,7 @@
 			daily_menu_id,
 			day,
 			lunch_idstr,
-			createtime,
-			updatetime 
+ 			updatetime 
 		from 
 			tb_daily_menu
 		where 
@@ -61,8 +58,7 @@
 			a.day,
 			a.lunch_idstr ,
 			a.address_id,
-			a.createtime,
-			a.updatetime 
+ 			a.updatetime 
 		from 
 			tb_daily_menu a  
  		order by a.day desc

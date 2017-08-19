@@ -42,16 +42,7 @@ public class Daily_menuController extends BaseController {
 		try {
 			pd = this.getPageData();
 			daily_menuService.save(pd);
-			String lunchnumberstr=pd.getString("lunchnumberstr");
-			String[] lunstr=lunchnumberstr.split(",");
-			for (int i = 0; i < lunstr.length; i++) {
-				pd=new PageData();
-				pd.put("lunch_id", lunstr[i].split("@")[0]);
-				pd.put("inventory_number", lunstr[i].split("@")[1]);
-				ServiceHelper.getLunchService().editNumber(pd);
-				pd=null;
-			}
-		} catch (Exception e) {
+ 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -92,16 +83,7 @@ public class Daily_menuController extends BaseController {
 		try {
 			pd = this.getPageData();
 			daily_menuService.edit(pd);
-			String lunchnumberstr=pd.getString("lunchnumberstr");
-			String[] lunstr=lunchnumberstr.split(",");
-			for (int i = 0; i < lunstr.length; i++) {
-				pd=new PageData();
-				pd.put("lunch_id", lunstr[i].split("@")[0]);
-				pd.put("inventory_number", lunstr[i].split("@")[1]);
-				ServiceHelper.getLunchService().editNumber(pd);
-				pd=null;
-			}
-		} catch (Exception e) {
+ 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -129,7 +111,7 @@ public class Daily_menuController extends BaseController {
 				for (int i = 0; i < str.length; i++) {
 					pd.put("lunch_id", str[i]);
 					if(ServiceHelper.getLunchService().findById(pd) != null){
-						lunch_namestr+=ServiceHelper.getLunchService().findById(pd).getString("lunch_name")+",";
+						lunch_namestr+=str[i]+ServiceHelper.getLunchService().findById(pd).getString("lunch_name")+"/";
 					}
   				}
 				e.put("lunch_namestr", lunch_namestr);

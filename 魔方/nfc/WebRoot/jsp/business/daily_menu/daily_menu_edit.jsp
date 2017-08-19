@@ -27,44 +27,65 @@
  		<link rel="stylesheet" href="css/datepicker.css" /><!-- 日期框 -->
  		<!-- 引入 -->
 		<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+		<style type="text/css">
+		td{
+			text-align: center;
+			width:30%;
+		}
+		</style>
 	</head>
 <body>
 	<form action="daily_menu/edit.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="daily_menu_id" id="daily_menu_id"  value="${pd.daily_menu_id}"/>
 		<input type="hidden" name="lunch_idstr" id="lunch_idstr"  value="${pd.lunch_idstr}"/>
 		<input type="hidden" name="lunchnumberstr" id="lunchnumberstr"  value=""/>
-		<div id="zhongxin" style="width: 80%;margin: 5% auto;">
-		<table>
+		<div id="zhongxin" style="width: 90%;margin: 5% auto;">
+		<table style="width:100%">
 			<tr>
-				<td>日期 ：</td>
-				<td>
-					<input class="span10 date-picker" name="day"  id="day" value="${pd.day }" type="text" data-date-format="yyyy-mm-dd"   placeholder="便当日期" style="width:208px;" >
-				</td>
+				<td colspan="3">
+					菜谱日期 ：
+					<input class="span10 date-picker" name="day"  id="day" value="${pd.day}" type="text" data-date-format="yyyy-mm-dd"   placeholder="便当日期" style="width:208px;" >
+ 				</td>
+ 			</tr>
+ 			<tr>
+				<td colspan="3" style="text-align: center;">---------------菜谱列表----------------------</td>
 			</tr>
-			<tr>
-				<td>便当列表 ：</td>
-				<td>
-					<c:forEach items="${lunchList}" var="var">
-						<c:choose>
+			<tr style="background-color: #f3f3f3">
+ 				<td>商品名称</td>
+				<td>库存量</td>
+				<td>所属类别</td>
+			</tr>
+			<c:forEach items="${lunchList}" var="var">
+			
+					<c:choose>
 							<c:when test="${fn:contains(pd.lunch_idstr,var.lunch_id )}">
-								<div style="width:100%;"> 
-									<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" checked />${var.lunch_name }
-									>>>>
-									当前库存： <input type="number" class="lunchnumber" lunch_id="${var.lunch_id}" value="${var.inventory_number}"/>
-								</div>
+								<tr style="background-color: #ffb6b6">
+					 	 			<td>
+						 				<input  checked onclick="changecolor(this)" type="checkbox" name="lunch" class="lunch" value="${var.lunch_id}" style="height: 20px;width: 20px;display: inherit;margin-top: -2px;" />${var.lunch_id}${var.lunch_name }
+						 			</td>
+						 			<td>
+						 				<input type="number" class="lunchnumber" lunch_id="${var.lunch_id}" value="${var.dc_stocknumber}" style="width:48px;"/>&nbsp;<a class="btn btn-mini btn-success" style="font-size: 16px;display: inline-block;margin-top: -12px;" onclick="editStock(this,'${var.lunch_id}');">修改</a>
+					 	 			</td>
+					 	 			<td>
+						 				${var.title}
+					 	 			</td>
+					 			</tr>
  							</c:when>
 							<c:otherwise>
- 								<div style="width:100%;"> 
-									<input type="checkbox" name="lunch" class="lunch" value="${var.lunch_id }" />${var.lunch_name }
-									>>>>
-									当前库存： <input type="number" class="lunchnumber" lunch_id="${var.lunch_id}" value="${var.inventory_number}"/>
-								</div>
+ 								<tr>
+					 	 			<td>
+						 				<input onclick="changecolor(this)" type="checkbox" name="lunch" class="lunch" value="${var.lunch_id}" style="height: 20px;width: 20px;display: inherit;margin-top: -2px;" />${var.lunch_id}${var.lunch_name }
+						 			</td>
+						 			<td>
+						 				<input type="number" class="lunchnumber" lunch_id="${var.lunch_id}" value="${var.dc_stocknumber}" style="width:48px;"/>&nbsp;<a class="btn btn-mini btn-success" style="font-size: 16px;display: inline-block;margin-top: -12px;" onclick="editStock(this,'${var.lunch_id}');">修改</a>
+					 	 			</td>
+					 	 			<td>
+						 				${var.title}
+					 	 			</td>
+					 			</tr>
 							</c:otherwise>
-						</c:choose>
-   	            	</c:forEach>
-				</td>
-			</tr>
-			 
+					</c:choose>
+  			</c:forEach>
  		</table>
 		</div>
 		<div style="width:40%;padding-top:5%;margin:0 auto;">
@@ -93,7 +114,26 @@
 			$('.date-picker').datepicker();
  			
     	});
+		
+		//改变选中得背景颜色
+		function changecolor(obj){
+			if($(obj).is(":checked")){
+				$(obj).parent().parent().css("background-color","#ffb6b6");
+			}else{
+				$(obj).parent().parent().css("background-color","#ffffff");
+			}
+		}
   		 
+		//确认修改库存
+		function editStock(obj,lunch_id){
+			var dc_stocknumber=$(obj).prev().val();
+			var url = "<%=basePath%>/lunch/editStock.do?lunch_id="+lunch_id+"&dc_stocknumber="+dc_stocknumber;
+			$.get(url,function(data){
+				if(data=="success"){
+					//修改成功
+				}
+			});
+		}
 		
 		//保存
 		function save(){
@@ -107,7 +147,7 @@
 				$("#day").focus();
 				return false;
 			}
-			//
+			//选中商品管理
 			var lunch_idstr="";
 			$(".lunch").each(function(n,obj){
 				if($(obj).is(":checked")){
@@ -115,17 +155,12 @@
 				}
 			});
 			$("#lunch_idstr").val(lunch_idstr);
-			//设置库存
-			var lunchnumberstr="";
-			$(".lunchnumber").each(function(n,obj){
-				lunchnumberstr+=$(obj).attr("lunch_id")+"@"+$(obj).val()+",";
- 			});
-  			$("#lunchnumberstr").val(lunchnumberstr);
-  			//======
-			$("#Form").submit();
+ 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
  		}
+		
+		
 		
 		 
 		
