@@ -6,40 +6,51 @@
 	<insert id="save" parameterType="pd">
 		insert into tb_lunch(
 			lunch_id,
- 			lunch_name,
+			lunch_name,
+			show_sale_money,
 			sale_money,
-			product_cover,
-			inside_banner,
-			graphic_description,
+			index_images,
+			dc_images_small,
+			dc_images	 ,
+			yd_images,
 			is_shelves,
-			is_reservation,
-			reservation_number,
-			inventory_number,
-			have_salenumber,
-			lunch_description,
+			yd_stocknumber,
+			dc_stocknumber,
 			sort,
 			send_integral,
+			zhucai_text,
+			peicai_text,
+			shicai_text,
+			notuse_text,
 			createtime,
 			updatetime,
-			category_id
+			category_id,
+			dc_version,
+			yd_version
  		) values (
  			#{lunch_id},
-			#{lunch_name},	
-			#{sale_money},	
-			#{product_cover},	
-			#{inside_banner},	
-			#{graphic_description},	
- 			#{is_shelves},	
-			#{is_reservation},	
-			#{reservation_number},	
-			#{inventory_number},	
-			#{have_salenumber},	
-			#{lunch_description},
-			(select ifnull(max(a.sort),'-1')+1  from tb_lunch a where a.category_id=#{category_id} ) ,	
+			#{lunch_name},
+			#{show_sale_money},
+			#{sale_money},
+			#{index_images},
+			#{dc_images_small},
+			#{dc_images	},
+			#{yd_images},
+			#{is_shelves},
+			#{yd_stocknumber},
+			#{dc_stocknumber},
+			(select ifnull(max(CAST(a.sort AS signed)),'0')  from tb_lunch a where a.lunch_id=#{lunch_id} ) ,	
 			#{send_integral},
-			now(),	
-			now(),	
-			#{category_id} 
+			#{zhucai_text},
+			#{peicai_text},
+			#{shicai_text},
+			#{notuse_text},
+			now(),
+			now(),
+			#{category_id},
+			'0',
+			'0'
+
 		)
 	</insert>
 	
@@ -56,19 +67,20 @@
 			update  tb_lunch
 			set 
 				lunch_name= #{lunch_name},
+				show_sale_money= #{show_sale_money},
 				sale_money= #{sale_money},
-				product_cover= #{product_cover},
-				inside_banner= #{inside_banner},
-				graphic_description= #{graphic_description},
-				is_shelves= #{is_shelves},
-				is_reservation= #{is_reservation},
-				
-				reservation_number= #{reservation_number},
-				inventory_number= #{inventory_number},
- 				lunch_description= #{lunch_description},
+				index_images= #{index_images},
+				dc_images_small= #{dc_images_small},
+				dc_images= #{dc_images},
+				yd_images= #{yd_images},
+ 				is_shelves= #{is_shelves},
+  				send_integral= #{send_integral},
+  				zhucai_text= #{zhucai_text},
+  				peicai_text= #{peicai_text},
+  				shicai_text= #{shicai_text},
+  				notuse_text= #{notuse_text},
  				category_id= #{category_id},
- 				send_integral= #{send_integral},
-  				lunch_id = lunch_id
+   				lunch_id = lunch_id
 			where 
 				lunch_id = #{lunch_id}
 	</update>
@@ -83,13 +95,15 @@
 	<update id="editNumber" parameterType="pd">
 			update tb_lunch 
   			set     
-  					<if test="reservation_number != null">reservation_number= #{reservation_number},</if>
-  					<if test="inventory_number != null">inventory_number= #{inventory_number},</if>
+  					<if test="yd_stocknumber != null">yd_stocknumber= #{yd_stocknumber},</if>
+  					<if test="dc_stocknumber != null">dc_stocknumber= #{dc_stocknumber},</if>
   					<if test="dc_version != null">dc_version= #{dc_version},</if>
   					<if test="yd_version != null">yd_version= #{yd_version},</if>
  					lunch_id=lunch_id
 			where 
 				lunch_id = #{lunch_id}
+				<if test="dc_version != null"> and dc_version= #{dc_version}-1,</if>
+  				<if test="yd_version != null">and yd_version= #{yd_version}-1,</if>
   	</update>
 	
 	
@@ -98,21 +112,21 @@
 		select 
 			lunch_id,
 			lunch_name,
+			show_sale_money,
 			sale_money,
-			product_cover,
-			inside_banner,
-			graphic_description,
+			index_images,
+			dc_images_small,
+			dc_images	 ,
+			yd_images,
 			is_shelves,
-			is_reservation,
-			reservation_number,
-			inventory_number,
-			have_salenumber,
-			lunch_description,
+ 			sort,
 			send_integral,
-			createtime,
-			updatetime,
-			category_id
-		from 
+			zhucai_text,
+			peicai_text,
+			shicai_text,
+			notuse_text,
+  			category_id
+ 		from 
 			tb_lunch
 		where 
 			lunch_id = #{lunch_id}
@@ -124,10 +138,11 @@
 		select 
 			a.lunch_id,
 			a.lunch_name,
+			a.show_sale_money,
 			a.sale_money,
- 			a.inside_banner,
+ 			a.dc_images_small,
  			a.is_shelves,
- 			ifnull(a.have_salenumber, 0 ) as have_salenumber,
+ 			ifnull(a.send_integral, 0 ) as send_integral,
  			b.title
 		from 
 			tb_lunch a 
@@ -139,24 +154,10 @@
   	<!-- 获取最高得id-->
 	<select id="getMaxIdByLunch"  resultType="Integer">
 		select 
-			Max(CAST(lunch_id AS signed))
+			ifnull(Max(CAST(lunch_id AS signed)),0)
 		from 
 			tb_lunch
 	</select>
- 
- 
- 
-	<!-- 获取所有上架并且可预订的商品 -->
-	<select id="listAllUpReservation" parameterType="pd" resultType="pd">
-		select 
-			cast(a.lunch_id as char) as lunch_id,
-			a.lunch_name,
-			ifnull(a.reservation_number,0) as  reservation_number
-		from 
-			tb_lunch a  
-  		where 
- 			a.is_shelves='1' and a.is_reservation='1'
-  	</select>
   	
   	
   	<!-- 获取所有上架商品 -->
@@ -164,7 +165,8 @@
 		select 
 			cast(a.lunch_id as char) as lunch_id,
 			a.lunch_name,
-			ifnull(a.inventory_number,0) as  inventory_number
+			ifnull(a.yd_stocknumber,0) as  yd_stocknumber,
+			ifnull(a.dc_stocknumber,0) as  dc_stocknumber
 		from 
 			tb_lunch a  
   		where 
@@ -176,8 +178,8 @@
 	<select id="findByIdForKunCun" parameterType="pd" resultType="pd">
 		select 
 			lunch_id,
-			cast(reservation_number as char) reservation_number,
-			cast(inventory_number as char) inventory_number,
+			yd_stocknumber,
+			dc_stocknumber,
 			cast(dc_version as char) dc_version,
 			cast(yd_version as char) yd_version 
    		from 
@@ -192,9 +194,13 @@
 		select 
 			lunch_id,
 			lunch_name,
+			show_sale_money,
 			sale_money,
- 			inside_banner,
-			graphic_description
+			index_images,
+ 			yd_images,
+ 			yd_stocknumber,
+			dc_stocknumber,
+			send_integral
  		from 
 			tb_lunch
 		where 
@@ -205,23 +211,19 @@
 		select 
 			a.category_id,
  			a.lunch_id,
-			a.lunch_name,
-			a.product_cover,
-			a.inside_banner,
-			a.graphic_description,
+ 			a.lunch_name,
+			a.show_sale_money,
 			a.sale_money,
-			a.inventory_number,
-			ifnull(a.reservation_number , '0') as reservation_number,
-			IFNULL(a.send_integral,0) as send_integral,
-			(a.sale_money-IFNULL(a.send_integral,0)) as daoshoumoney
+			a.index_images,
+ 			a.yd_images,
+ 			a.yd_stocknumber,
+			a.dc_stocknumber,
+			a.send_integral
 		from 
 			 tb_lunch a  
  		where
  			a.category_id=#{category_id}
  			and a.is_shelves='1'
- 			<if test="orde_type != null and orde_type != '' and order_type =='2'.toString()" >
- 				and a.is_reservation='1'
- 			</if>
   		order by a.sort
   	</select>
 	

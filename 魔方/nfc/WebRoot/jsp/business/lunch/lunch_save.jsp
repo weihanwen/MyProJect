@@ -32,10 +32,10 @@
  		<div id="zhongxin" style="width: 90%;margin: 5% auto;">
 		<table>
 			<tr>
-				<td>便当属性分类 ：</td>
+				<td>商品分类 ：</td>
 				<td>
 					<select class="chzn-select" name="category_id" id="category_id">
-						<option value="">请选择属性分类</option>
+						<option value="">请选择分类</option>
 	            		 <c:forEach items="${cateList}" var="var">
 	            		 	<option value="${var.category_id }">${var.title }</option>
 	            		 </c:forEach>
@@ -43,50 +43,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td>便当名称 ：</td>
+				<td>商品名称 ：</td>
 				<td>
 					<input  type="text" name="lunch_name" id="lunch_name" value="" maxlength="32" placeholder="这里输入便当名称" title="便当名称"  style="width:208px;"/>
-				</td>
-			</tr>
-			<tr>
-				<td>便当摘要 ：</td>
-				<td>
-					<textarea style="height: 120px;" name="lunch_description" id="lunch_description" placeholder="请输入便当摘要"></textarea>
- 				</td>
-			</tr>
-			<tr>
-				<td>便当价格 ：</td>
-				<td>
-					<input  class="chzn-input"  type="radio" name="_money" class="_money" checked onclick="changeSaleMoney('25')"/>25元 
-					<input  class="chzn-input"  type="radio" name="_money"  class="_money"   onclick="changeSaleMoney('28')"/>28元
-					<input  class="chzn-input"  type="radio" name="_money"  class="_money"   onclick="changeSaleMoney('38')" />38元 
-					<input  type="hidden" name="sale_money" id="sale_money" value="25" />
-				</td>
-			</tr>
-			<!-- <tr>
-				<td>赠送积分 ：</td>
-				<td>
-					<input  type="number" name="send_integral" id="send_integral" value="0" maxlength="32" placeholder="这里输入赠送积分" title="赠送积分"  style="width:208px;"/>
-				</td>
-			</tr> -->
-			<tr>
-				<td>设置库存 ：</td>
-				<td>
-					<input  type="number" name="inventory_number" id="inventory_number" value="0"  placeholder="这里输入库存" title="便当名称"  style="width:208px;"/>
-				</td>
-			</tr>
- 			<tr>
-				<td>是否可以预定 ：</td>
-				<td>
-					<input     type="radio" name="_yd"  class="_yd"  checked  onclick="changeReservation('1')"/>当天可以预定 
-					<input     type="radio" name="_yd"  class="_yd"    onclick="changeReservation('99')"/>当天不可预定
- 					<input  type="hidden" name="is_reservation" id="is_reservation" value="1" />
-				</td>
-			</tr>
-			<tr>
-				<td>设置可以预定的数量 ：</td>
-				<td>
-					<input  type="number" name="reservation_number" id="reservation_number" value="0"  placeholder="这里输入预定的数量" title="预定的数量"  style="width:208px;"/>
 				</td>
 			</tr>
 			<tr>
@@ -97,34 +56,87 @@
  					<input  type="hidden" name="is_shelves" id="is_shelves" value="1" />
 				</td>
 			</tr>
-  			<tr>
-				<td>产品封面 ：</td>
+			<tr>
+				<td>价格 ：</td>
 				<td>
-					<span style="display:inline-block;border:1px solid #999;width: 350px;text-align: center;" onclick="upload('product_cover')">
-	 					<img  class="product_cover" src="img/sjht_add.png"  style="width: 100%;">	
-						<input type="hidden" name="product_cover" id="product_cover" value="" style="display:none;width:1px;height:1px;"/>
+					<input  class="chzn-input"  type="text"  id="show_sale_money" name="show_sale_money" class="show_sale_money"  /> 
+   				</td>
+			</tr>
+			<tr>
+				<td>优惠价 ：</td>
+				<td>
+					<input  class="chzn-input"  type="radio" name="_money" class="_money" checked onclick="changeSaleMoney('25')"/>25元 
+					<input  class="chzn-input"  type="radio" name="_money"  class="_money"   onclick="changeSaleMoney('28')"/>28元
+					<input  class="chzn-input"  type="radio" name="_money"  class="_money"   onclick="changeSaleMoney('38')" />38元 
+					<input  type="hidden" name="sale_money" id="sale_money" value="25" />
+				</td>
+			</tr>
+			<tr>
+				<td>赠送积分 ：</td>
+				<td>
+					<input  type="number" name="send_integral" id="send_integral" value="0" maxlength="32" placeholder="这里输入赠送积分" title="赠送积分"  style="width:208px;"/>
+				</td>
+			</tr> 
+			<tr>
+				<td>主菜 ：</td>
+				<td>
+					<input  class="chzn-input"  type="text"  id="zhucai_text" name="zhucai_text" class="zhucai_text"  /> 
+   				</td>
+			</tr>
+			<tr>
+				<td>配菜 ：</td>
+				<td>
+					<input  class="chzn-input"  type="text"  id="peicai_text" name="peicai_text" class="peicai_text"  /> 
+   				</td>
+			</tr>
+			<tr>
+				<td>食材 ：</td>
+				<td>
+					<input  class="chzn-input"  type="text"  id="shicai_text" name="shicai_text" class="shicai_text"  /> 
+   				</td>
+			</tr>
+			<tr>
+				<td>绝不使用 ：</td>
+				<td>
+					<input  class="chzn-input"  type="text"  id="notuse_text" name="notuse_text" class="notuse_text"  /> 
+   				</td>
+			</tr>
+   			<tr>
+				<td>首页分类图 ：</td>
+				<td>
+					<span style="display:inline-block;border:1px solid #999;width: 350px;text-align: center;" onclick="upload('index_images')">
+	 					<img  class="index_images" src="img/sjht_add.png"  style="width: 100%;">	
+						<input type="hidden" name="index_images" id="index_images" value="" />
  					</span>
 				</td>
   			</tr>
   			<tr>
-				<td>内部banner ：</td>
+				<td>产品详情图 ：</td>
 				<td>
-					<span style="display:inline-block;border:1px solid #999;width: 100px;height: 100px;text-align: center;" onclick="upload('inside_banner')">
-	 					<img  class="inside_banner" src="img/sjht_add.png"  style="height: 100%;">	
-						<input type="hidden" name="inside_banner" id="inside_banner" value=""  />
+					<span style="display:inline-block;border:1px solid #999;width: 100px;height: 100px;text-align: center;" onclick="upload('dc_images')">
+	 					<img  class="dc_images" src="img/sjht_add.png"  style="height: 100%;">	
+						<input type="hidden" name="dc_images" id="dc_images" value=""  />
  					</span>
 				</td>
   			</tr>
   			<tr>
-				<td>详细图文介绍 ：</td>
+				<td>产品详情缩略图 ：</td>
 				<td>
-					<span style="display:inline-block;border:1px solid #999;width: 200px;text-align: center;" onclick="upload('graphic_description')">
-	 					<img  class="graphic_description" src="img/sjht_add.png"  style="width: 100%;">	
-						<input type="hidden" name="graphic_description" id="graphic_description" value=""  />
+					<span style="display:inline-block;border:1px solid #999;width: 200px;text-align: center;" onclick="upload('dc_images_small')">
+	 					<img  class="dc_images_small" src="img/sjht_add.png"  style="width: 100%;">	
+						<input type="hidden" name="dc_images_small" id="dc_images_small" value=""  />
  					</span>
 				</td>
   			</tr>
-  			
+  			<tr>
+				<td>预定显示图 ：</td>
+				<td>
+					<span style="display:inline-block;border:1px solid #999;width: 200px;text-align: center;" onclick="upload('yd_images')">
+	 					<img  class="yd_images" src="img/sjht_add.png"  style="width: 100%;">	
+						<input type="hidden" name="yd_images" id="yd_images" value=""  />
+ 					</span>
+				</td>
+  			</tr>
  		</table>
 		</div>
 		<div style="width:40%;padding-top:5%;margin:0 auto;">
@@ -162,14 +174,6 @@
 		function changeSaleMoney(value){
 			$("#sale_money").val(value);
 		}
-		
-		
-		
-		//改变是否可以预定
-		function changeReservation(value){
-			$("#is_reservation").val(value);
-		}
-		
 		
 		//改变是否上架
 		function changeShelves(value){
@@ -242,63 +246,17 @@
 				$("#lunch_name").focus();
 				return false;
 			}
-			if($("#lunch_description").val()==""){
-				$("#lunch_description").tips({
+			if($("#show_sale_money").val()==""){
+				$("#show_sale_money").tips({
 					side:3,
-		            msg:'请输入便当摘要',
+		            msg:'请输入价格',
 		            bg:'#AE81FF',
 		            time:1
 		        });
-				$("#lunch_description").focus();
+				$("#show_sale_money").focus();
 				return false;
 			}
-			if($("#sale_money").val()==""){
-				$("#sale_money").tips({
-					side:3,
-		            msg:'请选择便当价格',
-		            bg:'#AE81FF',
-		            time:1
-		        });
-				$("#sale_money").focus();
-				return false;
-			}
-			if($("#product_cover").val()==""){
-				$(".product_cover").tips({
-					side:3,
-		            msg:'请选择产品封面',
-		            bg:'#AE81FF',
-		            time:1
-		        });
-				$("#product_cover").focus();
-				return false;
-			}
-			if($("#inside_banner").val()==""){
-				$(".inside_banner").tips({
-					side:3,
-		            msg:'请选择内部banner',
-		            bg:'#AE81FF',
-		            time:1
-		        });
-				$("#inside_banner").focus();
-				return false;
-			}
-			if($("#graphic_description").val()==""){
-				$(".graphic_description").tips({
-					side:3,
-		            msg:'请选择图文描述',
-		            bg:'#AE81FF',
-		            time:1
-		        });
-				$("#graphic_description").focus();
-				return false;
-			}
-			if($("#send_integral").val() == ""){
-				$("#send_integral").val("0");
-			}
-			if($("#reservation_number").val() == ""){
-				$("#reservation_number").val("0");
-			}
-			$("#Form").submit();
+ 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
  		}

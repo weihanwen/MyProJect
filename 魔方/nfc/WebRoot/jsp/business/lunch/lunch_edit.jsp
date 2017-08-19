@@ -30,10 +30,10 @@
 <body>
 	<form action="lunch/edit.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="lunch_id" id="lunch_id" value="${pd.lunch_id}"/>
-		<div id="zhongxin" style="width: 60%;margin: 5% auto;">
+		<div id="zhongxin" style="width: 90%;margin: 5% auto;">
 		<table>
 			<tr>
-				<td>便当属性分类 ：</td>
+				<td>商品分类 ：</td>
 				<td>
 					<select class="chzn-select" name="category_id" id="category_id">
 	            		 <c:forEach items="${cateList}" var="var">
@@ -43,53 +43,18 @@
 				</td>
 			</tr>
 			<tr>
-				<td>便当名称 ：</td>
+				<td>商品名称 ：</td>
 				<td>
 					<input  type="text" name="lunch_name" id="lunch_name" value="${pd.lunch_name}" maxlength="32" placeholder="这里输入便当名称" title="便当名称"  style="width:208px;"/>
 				</td>
 			</tr>
- 			<tr>
-				<td>便当摘要 ：</td>
-				<td>
-					<textarea style="height: 120px;" name="lunch_description" id="lunch_description" placeholder="请输入便当摘要">${pd.lunch_description}</textarea>
- 				</td>
-			</tr>
 			<tr>
-				<td>便当价格 ：</td>
+				<td>商品编号 ：</td>
 				<td>
-					<input    type="radio" name="_money" class="_money"   ${pd.sale_money eq '25'?'checked':''} onclick="changeSaleMoney('25')"/>25元 
-					<input    type="radio" name="_money"  class="_money" ${pd.sale_money eq '28'?'checked':''} onclick="changeSaleMoney('28')"/>28元
-					<input     type="radio" name="_money"  class="_money" ${pd.sale_money eq '38'?'checked':''} onclick="changeSaleMoney('38')" />38元 
-					<input  type="hidden" name="sale_money" id="sale_money" value="${pd.sale_money}" />
+					<input  type="text" value="${pd.lunch_id}" disabled="disabled" style="width:208px;"/>
 				</td>
 			</tr>
-			<%-- <tr>
-				<td>赠送积分 ：</td>
-				<td>
-					<input  type="number" name="send_integral" id="send_integral" value="${pd.send_integral}" maxlength="32" placeholder="这里输入赠送积分" title="赠送积分"  style="width:208px;"/>
-				</td>
-			</tr> --%>
- 			<tr>
-				<td>设置库存 ：</td>
-				<td>
-					<input  type="number" name="inventory_number" id="inventory_number" value="${pd.inventory_number}"  placeholder="这里输入库存" title="便当名称"  style="width:208px;"/>
-				</td>
-			</tr>
-			<tr>
-				<td>是否可以预定 ：</td>
-				<td>
-					<input  type="radio" name="_yd"  class="_yd"  ${pd.is_reservation eq '1'?'checked':''} onclick="changeReservation('1')"/>当天可以预定 
-					<input  type="radio" name="_yd"  class="_yd"  ${pd.is_reservation eq '1'?'':'checked'} onclick="changeReservation('99')"/>当天不可预定
- 					<input  type="hidden" name="is_reservation" id="is_reservation" value="${pd.is_reservation eq '1'?'1':'99'}" />
-				</td>
-			</tr>
-			<tr>
-				<td>设置可以预定的数量 ：</td>
-				<td>
-					<input  type="number" name="reservation_number" id="reservation_number" value="${pd.reservation_number}"  placeholder="这里输入预定的数量" title="预定的数量"  style="width:208px;"/>
-				</td>
-			</tr>
-			<tr>
+ 			 <tr>
 				<td>是否上架 ：</td>
 				<td>
 					<input    type="radio" name="_shelves"  class="_shelves"  ${pd.is_shelves eq '1'?'checked':''} onclick="changeShelves('1')"/>是
@@ -97,34 +62,87 @@
  					<input  type="hidden" name="is_shelves" id="is_shelves" value="${pd.is_shelves eq '1'?'1':'99'}" />
 				</td>
 			</tr>
-  			<tr>
-				<td>产品封面 ：</td>
+			<tr>
+				<td>价格 ：</td>
 				<td>
-					<span style="display:inline-block;border:1px solid #999;max-width: 300px;height: 100px;text-align: center;" onclick="upload('product_cover')">
-	 					<img  class="product_cover" src="${empty pd.product_cover ?'img/sjht_add.png':pd.product_cover}"  style="height: 100%;">	
-						<input type="hidden" name="product_cover" id="product_cover" value="${pd.product_cover}" style="display:none;width:1px;height:1px;"/>
+					<input  class="chzn-input" value="${pd.show_sale_money}"  type="number"  id="show_sale_money" name="show_sale_money" class="show_sale_money"  /> 
+   				</td>
+			</tr>
+			<tr>
+				<td>优惠价格 ：</td>
+				<td>
+					<input    type="radio" name="_money" class="_money"   ${pd.sale_money eq '25'?'checked':''} onclick="changeSaleMoney('25')"/>25元 
+					<input    type="radio" name="_money"  class="_money" ${pd.sale_money eq '28'?'checked':''} onclick="changeSaleMoney('28')"/>28元
+					<input     type="radio" name="_money"  class="_money" ${pd.sale_money eq '38'?'checked':''} onclick="changeSaleMoney('38')" />38元 
+					<input  type="hidden" name="sale_money" id="sale_money" value="${pd.sale_money}" />
+				</td>
+			</tr>
+			 <tr>
+				<td>赠送积分 ：</td>
+				<td>
+					<input  type="number" name="send_integral" id="send_integral" value="${pd.send_integral}" maxlength="32" placeholder="这里输入赠送积分" title="赠送积分"  style="width:208px;"/>
+				</td>
+			</tr>  
+ 			 <tr>
+				<td>主菜 ：</td>
+				<td>
+					<input  class="chzn-input" value="${pd.zhucai_text}"  type="text"  id="zhucai_text" name="zhucai_text" class="zhucai_text"  /> 
+   				</td>
+			</tr>
+			<tr>
+				<td>配菜 ：</td>
+				<td>
+					<input  class="chzn-input" value="${pd.peicai_text}"  type="text"  id="peicai_text" name="peicai_text" class="peicai_text"  /> 
+   				</td>
+			</tr>
+			<tr>
+				<td>食材 ：</td>
+				<td>
+					<input  class="chzn-input" value="${pd.shicai_text}"  type="text"  id="shicai_text" name="shicai_text" class="shicai_text"  /> 
+   				</td>
+			</tr>
+			<tr>
+				<td>绝不使用 ：</td>
+				<td>
+					<input  class="chzn-input" value="${pd.notuse_text}"  type="text"  id="notuse_text" name="notuse_text" class="notuse_text"  /> 
+   				</td>
+			</tr>
+			<tr>
+				<td>首页分类图 ：</td>
+				<td>
+					<span style="display:inline-block;border:1px solid #999;width: 350px;text-align: center;" onclick="upload('index_images')">
+	 					<img  class="index_images" src="${empty pd.index_images ?'img/sjht_add.png':pd.index_images}"  style="width: 100%;">	
+						<input type="hidden" name="index_images" id="index_images" value="${pd.index_images}" />
  					</span>
 				</td>
   			</tr>
   			<tr>
-				<td>内部banner ：</td>
+				<td>产品详情图 ：</td>
 				<td>
-					<span style="display:inline-block;border:1px solid #999;max-width: 300px;height: 100px;text-align: center;" onclick="upload('inside_banner')">
-	 					<img  class="inside_banner" src="${empty pd.inside_banner ?'img/sjht_add.png':pd.inside_banner}"  style="height: 100%;">	
-						<input type="hidden" name="inside_banner" id="inside_banner" value="${pd.inside_banner}"  />
+					<span style="display:inline-block;border:1px solid #999;width: 100px;height: 100px;text-align: center;" onclick="upload('dc_images')">
+	 					<img  class="dc_images" src="${empty pd.dc_images ?'img/sjht_add.png':pd.dc_images}"  style="height: 100%;">	
+						<input type="hidden" name="dc_images" id="dc_images"value="${pd.dc_images}"  />
  					</span>
 				</td>
   			</tr>
   			<tr>
-				<td>详细图文介绍 ：</td>
+				<td>产品详情缩略图 ：</td>
 				<td>
-					<span style="display:inline-block;border:1px solid #999;max-width: 300px;height: 100px;text-align: center;" onclick="upload('graphic_description')">
-	 					<img  class="graphic_description" src="${empty pd.graphic_description ?'img/sjht_add.png':pd.graphic_description}"  style="height: 100%;">	
-						<input type="hidden" name="graphic_description" id="graphic_description" value="${pd.graphic_description}"  />
+					<span style="display:inline-block;border:1px solid #999;width: 200px;text-align: center;" onclick="upload('dc_images_small')">
+	 					<img  class="dc_images_small" src="${empty pd.dc_images_small ?'img/sjht_add.png':pd.dc_images_small}"  style="width: 100%;">	
+						<input type="hidden" name="dc_images_small" id="dc_images_small" value="${pd.dc_images_small}"  />
  					</span>
 				</td>
   			</tr>
-  			
+  			<tr>
+				<td>预定显示图 ：</td>
+				<td>
+					<span style="display:inline-block;border:1px solid #999;width: 200px;text-align: center;" onclick="upload('yd_images')">
+	 					<img  class="yd_images" src="${empty pd.yd_images ?'img/sjht_add.png':pd.yd_images}"  style="width: 100%;">	
+						<input type="hidden" name="yd_images" id="yd_images" value="${pd.yd_images}"  />
+ 					</span>
+				</td>
+  			</tr>
  		</table>
 		</div>
 		<div style="width:40%;padding-top:5%;margin:0 auto;">
@@ -162,15 +180,7 @@
 		function changeSaleMoney(value){
 			$("#sale_money").val(value);
 		}
-		
-		
-		
-		//改变是否可以预定
-		function changeReservation(value){
-			$("#is_reservation").val(value);
-		}
-		
-		
+
 		//改变是否上架
 		function changeShelves(value){
 			$("#is_shelves").val(value);
@@ -222,7 +232,7 @@
 		
 		//保存
 		function save(){
-			if($("#category_id").val()==""){
+ 			if($("#category_id").val()==""){
 				$("#category_id").tips({
 					side:3,
 		            msg:'请选择类别',
@@ -242,62 +252,19 @@
 				$("#lunch_name").focus();
 				return false;
 			}
-			if($("#lunch_description").val()==""){
-				$("#lunch_description").tips({
+			if($("#show_sale_money").val()==""){
+				$("#show_sale_money").tips({
 					side:3,
-		            msg:'请输入便当摘要',
+		            msg:'请输入价格',
 		            bg:'#AE81FF',
 		            time:1
 		        });
-				$("#lunch_description").focus();
+				$("#show_sale_money").focus();
 				return false;
 			}
-			if($("#sale_money").val()==""){
-				$("#sale_money").tips({
-					side:3,
-		            msg:'请选择便当价格',
-		            bg:'#AE81FF',
-		            time:1
-		        });
-				$("#sale_money").focus();
-				return false;
-			}
-			if($("#product_cover").val()==""){
-				$(".product_cover").tips({
-					side:3,
-		            msg:'请选择产品封面',
-		            bg:'#AE81FF',
-		            time:1
-		        });
-				$("#product_cover").focus();
-				return false;
-			}
-			if($("#inside_banner").val()==""){
-				$(".inside_banner").tips({
-					side:3,
-		            msg:'请选择内部banner',
-		            bg:'#AE81FF',
-		            time:1
-		        });
-				$("#inside_banner").focus();
-				return false;
-			}
-			if($("#graphic_description").val()==""){
-				$(".graphic_description").tips({
-					side:3,
-		            msg:'请选择图文描述',
-		            bg:'#AE81FF',
-		            time:1
-		        });
-				$("#graphic_description").focus();
-				return false;
-			}
-			if($("#send_integral").val() == ""){
-				$("#send_integral").val("0");
-			}
-			if($("#reservation_number").val() == ""){
-				$("#reservation_number").val("0");
-			}
+			$("#Form").submit();
+			$("#zhongxin").hide();
+			$("#zhongxin2").show();
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

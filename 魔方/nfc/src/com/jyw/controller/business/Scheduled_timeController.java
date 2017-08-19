@@ -173,7 +173,7 @@ public class Scheduled_timeController extends BaseController {
  		try {
  			pd = this.getPageData();
  			//获取便当列表
-			List<PageData> lunchList=ServiceHelper.getLunchService().listAllUpReservation(pd);
+			List<PageData> lunchList=ServiceHelper.getLunchService().listAllUpShelves(pd);
 			mv.addObject("lunchList", lunchList);
 			mv.setViewName("business/scheduled_time/scheduled_time_save");
  			mv.addObject("pd", pd);
@@ -194,7 +194,7 @@ public class Scheduled_timeController extends BaseController {
  		try {
  			pd = this.getPageData();
  			//获取便当列表
-			List<PageData> lunchList=ServiceHelper.getLunchService().listAllUpReservation(pd);
+			List<PageData> lunchList=ServiceHelper.getLunchService().listAllUpShelves(pd);
 			mv.addObject("lunchList", lunchList);
 			pd = scheduled_timeService.findById(pd);	//根据ID读取
 			mv.addObject("pd", pd);

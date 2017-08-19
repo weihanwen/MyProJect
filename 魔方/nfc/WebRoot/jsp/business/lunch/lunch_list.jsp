@@ -21,7 +21,7 @@
 	
 	<ul class="breadcrumb">
 		<li><i class="icon-home"></i> <a href="login_index.do" target="self">首页</a><span class="divider"><i class="icon-angle-right"></i></span></li>
-		<li class="active">便当管理</li>
+		<li class="active">商品管理</li>
 	</ul><!--.breadcrumb-->
 	
 	<div id="nav-search">
@@ -42,11 +42,14 @@
  				<thead>
 					<tr>
 						<th>序号</th>
-						<th>便当名称</th>
-						<th>便当价格</th>
+						<th>商品编号</th>
+						<th>品名</th>
+						<th>缩略图</th>
 						<th>所属类别</th>
-						<th>是否下架</th>
-						<th>总销量</th>
+						<th>是否上架</th>
+						<th>价格</th>
+						<th>优惠价</th>
+						<th>赠送积分</th>
 						<th>调整位置</th>
  						<th class="center">操作</th>
 					</tr>
@@ -60,11 +63,13 @@
 							<tr>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 								<td>
-									<img src="${var.inside_banner}" style="width: 35px;height:35px;"/>
-									${var.lunch_name}
+ 									${var.lunch_id}
 								</td>
 								<td>
-									${var.sale_money}
+ 									${var.lunch_name}
+								</td>
+ 								<td>
+									<img src="${var.dc_images_small}" style="width: 35px;height:35px;"/>
 								</td>
 								<td>
 									${var.title}
@@ -74,7 +79,13 @@
 									<c:if test="${var.is_shelves eq '99'}"><span style="color:red;">已下架</span></c:if>
 								</td>
 								<td>
-									${var.have_salenumber}
+									${var.show_sale_money}
+								</td>
+								<td>
+									${var.sale_money}
+								</td>
+								<td>
+									${var.send_integral}
 								</td>
  								<td lunch_id="${var.lunch_id}">
 									<a style="display: block; float: left; margin-left: 3%;cursor: pointer; " title="上移" onclick="move(this,1)"> <img src="images/up.png" style="width: 18px;"></a>
@@ -86,12 +97,9 @@
 											<span class="label label-large label-grey arrowed-in-right arrowed-in">无权限</span>
 											</c:if>
 											<c:if test="${QX.edit == 1 }">
-												<a   title="编辑" onclick="edit('${var.lunch_id}');"  class="btn btn-mini btn-info"  >编辑</a>
+												<a   title="编辑商品" onclick="edit('${var.lunch_id}');"  class="btn btn-mini btn-info"  >编辑商品</a>
 											</c:if>
-											<%-- <c:if test="${QX.del == 1 }">
-												<a   title="删除" onclick="del('${var.lunch_id}');"  class="btn btn-mini btn-info"  >删除</a>
-											</c:if> --%>
-											</div> 
+										</div> 
  								</td>
 							</tr>
  						</c:forEach>
@@ -118,7 +126,7 @@
 			<tr>
 				<td style="vertical-align:top;">
 					<c:if test="${QX.add == 1 }">
-						<a class="btn btn-small btn-success" onclick="add();">新增类别</a>
+						<a class="btn btn-small btn-success" onclick="add();">新增商品</a>
 					</c:if>
  				</td>
 				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
@@ -226,8 +234,8 @@
 			 diag.Drag=true;
 			 diag.Title ="编辑类别";
 			 diag.URL = '<%=basePath%>/lunch/goEdit.do?lunch_id='+Id;
-			 diag.Width = 600;
-			 diag.Height = 500;
+			 diag.Width = 700;
+			 diag.Height = 800;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 nextPage(${page.currentPage});
