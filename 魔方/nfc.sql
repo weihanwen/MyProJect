@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2017-08-19 18:28:08
+Date: 2017-08-20 00:44:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -60,7 +60,6 @@ INSERT INTO `sys_gl_qx` VALUES ('040c44bcf58745ce951d9b2b7f56be82', '0', '0', '0
 INSERT INTO `sys_gl_qx` VALUES ('1', '2', '1', '1', '1', '1', '1', '1');
 INSERT INTO `sys_gl_qx` VALUES ('2', '1', '0', '1', '1', '1', '1', '1');
 INSERT INTO `sys_gl_qx` VALUES ('767a57ff070a40e3935439d73d6a76cd', '1', '0', '0', '0', '0', '0', '0');
-INSERT INTO `sys_gl_qx` VALUES ('8a87afcba102444dacd90c1151fcf29b', '1', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_gl_qx` VALUES ('92bda15b69024fe0a2ed8e1b4785364a', '7', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_gl_qx` VALUES ('b221d366ba5a45feaa82d3dc49c5f2f4', '040c44bcf58745ce951d9b2b7f56be82', '0', '0', '0', '0', '0', '0');
 
@@ -129,9 +128,8 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', '系统管理员', '536870886', '0', '1', '1', '1', '1', '1');
-INSERT INTO `sys_role` VALUES ('2', '超级管理员', '536870886', '1', '238943974', '238943974', '238943974', '238943974', '2');
-INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '536870886', '1', '536870848', '536870848', '536870848', '536870848', '8a87afcba102444dacd90c1151fcf29b');
+INSERT INTO `sys_role` VALUES ('1', '系统管理员', '530579430', '0', '1', '1', '1', '1', '1');
+INSERT INTO `sys_role` VALUES ('2', '超级管理员', '530579430', '1', '238943974', '238943974', '238943974', '238943974', '2');
 
 -- ----------------------------
 -- Table structure for `sys_user`
@@ -158,8 +156,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-08-19 17:55:23', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15260282340');
-INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '操作员', '', '8a87afcba102444dacd90c1151fcf29b', '2017-08-17 22:12:38', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-08-20 00:19:38', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15260282340');
 
 -- ----------------------------
 -- Table structure for `sys_user_qx`
@@ -185,7 +182,6 @@ INSERT INTO `sys_user_qx` VALUES ('040c44bcf58745ce951d9b2b7f56be82', '0', '0', 
 INSERT INTO `sys_user_qx` VALUES ('1', '1', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_user_qx` VALUES ('2', '1', '1', '1', '1', '1', '1', '1', '1');
 INSERT INTO `sys_user_qx` VALUES ('767a57ff070a40e3935439d73d6a76cd', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `sys_user_qx` VALUES ('8a87afcba102444dacd90c1151fcf29b', '0', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_user_qx` VALUES ('92bda15b69024fe0a2ed8e1b4785364a', '0', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `sys_user_qx` VALUES ('b221d366ba5a45feaa82d3dc49c5f2f4', '0', '0', '0', '0', '0', '0', '0', '0');
 
@@ -355,10 +351,10 @@ CREATE TABLE `tb_lunch` (
   `dc_images` varchar(100) DEFAULT NULL,
   `yd_images` varchar(100) DEFAULT NULL,
   `is_shelves` varchar(4) DEFAULT NULL,
-  `yd_stocknumber` int(11) DEFAULT NULL,
-  `dc_stocknumber` int(11) DEFAULT NULL,
+  `yd_stocknumber` varchar(11) DEFAULT NULL,
+  `dc_stocknumber` varchar(11) DEFAULT NULL,
   `sort` varchar(4) DEFAULT NULL,
-  `send_integral` int(11) DEFAULT NULL,
+  `send_integral` varchar(11) DEFAULT NULL,
   `zhucai_text` text,
   `peicai_text` text,
   `shicai_text` text,
@@ -492,7 +488,7 @@ CREATE TABLE `tb_scheduled_time` (
 -- ----------------------------
 -- Records of tb_scheduled_time
 -- ----------------------------
-INSERT INTO `tb_scheduled_time` VALUES ('3', '2017-08-20', '午餐', '00:00:00', '00:00:00', '2017-08-19 16:45:36', '2017-08-19 16:34:38', '1,', '2017-08-19 16:45:25');
+INSERT INTO `tb_scheduled_time` VALUES ('3', '2017-08-21', '午餐', '00:00:00', '00:00:00', '2017-08-20 00:00:00', '2017-08-20 16:34:38', '1,', '2017-08-20 00:26:27');
 
 -- ----------------------------
 -- Table structure for `tb_shopcart`
@@ -511,7 +507,8 @@ CREATE TABLE `tb_shopcart` (
 -- ----------------------------
 -- Records of tb_shopcart
 -- ----------------------------
-INSERT INTO `tb_shopcart` VALUES ('0206599460', '1', '1', '20170802115849437584', '2017-08-13 16:03:40', '2017-08-13 16:03:40');
+INSERT INTO `tb_shopcart` VALUES ('4908720096', '002', '1', '20170820124232907421', '2017-08-20 00:43:19', '2017-08-20 00:43:19');
+INSERT INTO `tb_shopcart` VALUES ('6560806481', '002', '1', '20170802115849437584', '2017-08-20 00:38:07', '2017-08-20 00:38:07');
 
 -- ----------------------------
 -- Table structure for `tb_w`
@@ -596,7 +593,7 @@ CREATE TABLE `tb_wxmember` (
 -- Records of tb_wxmember
 -- ----------------------------
 INSERT INTO `tb_wxmember` VALUES ('1', '2222', null, '2222', '1', '2123131', null, null, null, null, null, null, '2017-07-31 12:01:09', '2017-07-31 12:01:09');
-INSERT INTO `tb_wxmember` VALUES ('20170802115849437584', '31151802', null, null, null, 'owD2DwsxdygwHXxNV75kjGT7Wvlw', null, null, null, null, null, null, '2017-08-02 11:58:49', '2017-08-02 11:58:49');
+INSERT INTO `tb_wxmember` VALUES ('20170820124232907421', '65862500', null, null, null, 'owD2DwsxdygwHXxNV75kjGT7Wvlw', null, null, null, null, null, null, '2017-08-20 00:42:44', '2017-08-20 00:42:44');
 
 -- ----------------------------
 -- Table structure for `tb_wxmember_address`
@@ -675,12 +672,13 @@ CREATE TABLE `tb_wxmember_wealth` (
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`wxmember_wealth_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_wxmember_wealth
 -- ----------------------------
-INSERT INTO `tb_wxmember_wealth` VALUES ('1', '1', '22', '0', '2017-08-02 11:58:49', '2017-08-19 17:59:47');
+INSERT INTO `tb_wxmember_wealth` VALUES ('1', '1', '22', '0', '2017-08-02 11:58:49', '2017-08-20 00:42:17');
+INSERT INTO `tb_wxmember_wealth` VALUES ('2', '20170820124232907421', '0', '0', '2017-08-20 00:42:44', '2017-08-20 00:42:44');
 
 -- ----------------------------
 -- Table structure for `tb_wxmember_wealthhistory`
