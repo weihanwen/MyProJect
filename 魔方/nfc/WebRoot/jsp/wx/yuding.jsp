@@ -41,10 +41,11 @@
 		 		<c:when test="${!empty daypd}">
 		 			<!--预定说明-->
 				 	 <div class="ydinfor">
-				      	 	<div class="one">预定说明</div>
+				      	 	<!-- <div class="one">预定说明</div> -->
 				      	 	<div class="two">
 				      	 		<span>当前可预定${daypd.day}（${daypd.week}）中午美味便当</span><br>
-				      	 		<span>送餐时段：${daypd.starttime_slot } - ${daypd.endtime_slot } </span>
+				      	 		<span>可预定时间${daypd.yd_starttime}至${daypd.yd_endtime}</span><br>
+				      	 		<span>销售时段：${daypd.sale_starttime } - ${daypd.sale_endtime } </span>
 				      	 	</div>
 				 	</div>
 		  		</c:when>
@@ -109,9 +110,9 @@ function changeShoyLb(category_id,obj){
 				 $(".allgoods").empty();
 				 for (var i = 0; i < lunchList.length; i++) {
 					 var s="<div class='ydgoods' onclick='goDetail(this,2)' lunch_id='"+lunchList[i].lunch_id+"' category_id='"+lunchList[i].category_id+"' >"+
-								 		"<img alt='' src='"+lunchList[i].inside_banner+"'   />"+
+								 		"<img alt='' src='"+lunchList[i].yd_images+"'   />"+
 							 		"<span>"+lunchList[i].lunch_name+"</span>"+
-					 		 		"<span>"+lunchList[i].reservation_number+"份可预订</span><span >"+lunchList[i].sale_money+"元/份</span>"+
+					 		 		"<span>"+lunchList[i].yd_stocknumber+"份可预订</span><span >"+lunchList[i].sale_money+"元/份</span>"+
 							 "</div>";
 					$(".allgoods").append(s);
 				 }  

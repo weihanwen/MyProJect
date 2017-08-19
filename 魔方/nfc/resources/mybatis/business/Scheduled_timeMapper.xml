@@ -103,35 +103,37 @@
 			sale_endtime,
 			date_format(yd_starttime ,'%Y-%m-%d %H:%i:%s') as yd_starttime,
 			date_format(yd_endtime ,'%Y-%m-%d %H:%i:%s') as yd_endtime,
+			unix_timestamp(now())-unix_timestamp(yd_starttime) as b1,
+			unix_timestamp(yd_endtime)-unix_timestamp(now()) as b2,
+			category_idstr,
  			updatetime  
 		from 
 			tb_scheduled_time
 		where 
 			day = #{day}
+		order by updatetime desc
+		limit 1
 	</select>
 	
 	
-	<!-- 今天的便当列表 -->
+	<!-- 今天的预定便当列表 -->
 	<select id="listAllNowDay" parameterType="pd" resultType="pd">
-		<!-- select 
+		select 
 			b.category_id,
  			b.lunch_id,
 			b.lunch_name,
-			b.product_cover,
-			b.inside_banner,
-			b.graphic_description,
+  			b.yd_images,
 			b.sale_money,
-			b.inventory_number,
-			ifnull(b.reservation_number , 0) as reservation_number,
+			b.show_sale_money,
+			ifnull(b.yd_stocknumber,'0') as yd_stocknumber,
 			IFNULL(b.send_integral,0) as send_integral,
 			(b.sale_money-IFNULL(b.send_integral,0)) as daoshoumoney
-  		
-  		from 
-			tb_scheduled_time a  left join tb_lunch b on a.lunch_idstr like concat(concat('%',b.lunch_id),'%')
+   		from 
+			tb_scheduled_time a  left join tb_lunch b on a.category_idstr like concat(concat('%',b.category_id),'%')
  		where
  			a.day=#{day}
  			and b.category_id=#{category_id}
-  	 --></select>
+  	  </select>
  
 	
 </mapper>

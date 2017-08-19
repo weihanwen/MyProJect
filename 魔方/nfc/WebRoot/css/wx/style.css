@@ -47,6 +47,7 @@
 	.onesection{
 		height:91%;
  		margin-top:40px;
+ 		overflow-y: scroll;
 	}
  
 	 /* Ê×Ò³ÂÖ²¥Í¼ */
@@ -106,7 +107,6 @@
 			right: 0;
 			opacity: 0.3;
 			color:#fff;
-			font-size: 15px;
 			text-align: center;
 	}
 	.goodsshow  .two  span{
@@ -128,12 +128,13 @@
 	    float: left;
 	}
 	.ydinfor .two{
- 		    width: 79%;
+ 		    width: 88%;
 		    color: #fff;
 		    font-size: 13px;
-		    padding-top: 3%;
-		    float: left;
-		        line-height: 22px;
+		    /* padding-top: 3%; */
+		    /* float: left; */
+		    line-height: 22px;
+    		margin: auto;
 	}
 	.ydgoods{
  	    width: 40%;
@@ -416,7 +417,7 @@
  	    border-top: 1px solid #ccc;
 	}
 	.twofooter .foot_gm {
-	    width: 70%;
+	    width: 70.5%;
 	    border-left: 1px solid #ccc;
 	    border-top: 1px solid #ccc;
 	    background-color: #fbab2c;

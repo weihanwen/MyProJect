@@ -112,9 +112,9 @@ function changeShoyLb(category_id,obj){
 				 for (var i = 0; i < lunchList.length; i++) {
 					 var s="<div class='goodsshow' onclick='goDetail(this,1)' lunch_id='"+lunchList[i].lunch_id+"' category_id='"+lunchList[i].category_id+"' >"+
 								"<div class='one'>"+
-									"<img src='"+lunchList[i].product_cover+"' />"+
+									"<img src='"+lunchList[i].index_images+"' />"+
 									"<div class='two'>"+
-										""+lunchList[i].sale_money+"元/份 赠送积分"+lunchList[i].send_integral+"分 <span>到手价："+lunchList[i].daoshoumoney+"元</span> 仅剩"+lunchList[i].inventory_number+"份"+
+									"<span style='text-decoration: line-through;'>"+lunchList[i].sale_money+"元</span><span style='font-size:24px;'>"+lunchList[i].sale_money+"</span>元/份 赠送积分"+lunchList[i].send_integral+"分 <span>到手价："+lunchList[i].daoshoumoney+"元</span> 仅剩"+lunchList[i].dc_stocknumber+"份"+
 									"</div>"+
 								"</div>"+
 							"</div>";

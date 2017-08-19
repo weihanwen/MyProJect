@@ -72,16 +72,17 @@
 			b.category_id,
  			b.lunch_id,
 			b.lunch_name,
-			b.product_cover,
-			b.inside_banner,
-			b.graphic_description,
+			b.index_images,
+			b.dc_images_small,
+			b.dc_images,
 			b.sale_money,
-			b.inventory_number,
-			ifnull(b.reservation_number , '0') as reservation_number,
+			b.show_sale_money,
+			b.dc_stocknumber,
 			IFNULL(b.send_integral,0) as send_integral,
 			(b.sale_money-IFNULL(b.send_integral,0)) as daoshoumoney
 		from 
-			tb_daily_menu a  left join tb_lunch b on a.lunch_idstr like concat(concat('%',b.lunch_id),'%')
+			tb_daily_menu a  
+			left join tb_lunch b on a.lunch_idstr like concat(concat('%',b.lunch_id),'%')
  		where
  			a.day=#{day}
   			and b.category_id=#{category_id}

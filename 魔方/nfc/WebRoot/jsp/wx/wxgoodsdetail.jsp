@@ -60,8 +60,8 @@
         <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 800px; height:1135px; overflow: hidden;">
             <c:forEach items="${varList}" var="var">
             	<div data-p="144.50" style="display: none;">
-	                <img data-u="image" src="${var.graphic_description}" />
-	                <img data-u="thumb" src="${var.inside_banner}" lunch_id="${var.lunch_id}"/>
+	                <img data-u="image" src="${var.dc_images}" />
+	                <img data-u="thumb" src="${var.dc_images_small}" lunch_id="${var.lunch_id}"/>
 	            </div>
             </c:forEach>
                  

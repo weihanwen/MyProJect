@@ -21,7 +21,7 @@
 <header class="ui-header ui-header-positive ui-border-b bg_ff0600">
     <i class="ui-icon-return" onclick="goback()"></i><h1 class="col_f">订单详情</h1>
 </header>
-<section class="ui-container">
+<section class="ui-container" style=" overflow-y: scroll;">
     <ul class="ui-list ui-list-text ui-border-tb mg_b_10">
         <li class="ui-border-t">
             <div class="ui-list-info ">

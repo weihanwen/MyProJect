@@ -80,7 +80,7 @@
 			b.sale_money,
 			cast(b.sale_money*a.shop_number as decimal(10,2))  allsale_money,
 			b.lunch_name,
-			b.inside_banner
+			b.dc_images_small
  		from 
 			tb_shopcart a left join tb_lunch b on a.lunch_id=b.lunch_id
 		where 

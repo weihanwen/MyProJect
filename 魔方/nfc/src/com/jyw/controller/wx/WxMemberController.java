@@ -88,8 +88,16 @@ public class WxMemberController extends BaseController {
     			pd.put("day", DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
       			PageData daypd=scheduled_timeService.findByNowDay(pd); 
       			if(daypd != null){
-       	 			List<PageData> ydList=scheduled_timeService.listAllNowDay(pd);
-       				map.put("data", ydList);
+      				long b1=(long) daypd.get("b1");
+      				long b2=(long) daypd.get("b2");
+      				if(b1>0 && b2>0){
+      					List<PageData> ydList=scheduled_timeService.listAllNowDay(pd);
+      					map.put("data", ydList);
+      					map.put("flag", "true");
+      				}else{
+      					map.put("data", new ArrayList<PageData>());
+      					map.put("flag", "false");
+      				}
        			}else{
       				map.put("data", new ArrayList<PageData>());
       			}
@@ -269,9 +277,15 @@ public class WxMemberController extends BaseController {
         			pd.put("day", DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
           			PageData daypd=scheduled_timeService.findByNowDay(pd); 
           			if(daypd != null){
-           	 			List<PageData> ydList=scheduled_timeService.listAllNowDay(daypd);
-           	 			mv.addObject("varList", ydList); 
-           	 			mv.setViewName("wx/wxgoodsdetail");
+          				long b1=(long) daypd.get("b1");
+          				long b2=(long) daypd.get("b2");
+          				if(b1>0 && b2>0){
+          					List<PageData> ydList=scheduled_timeService.listAllNowDay(pd);
+          					mv.addObject("varList", ydList);
+           				}else{
+          					mv.addObject("varList", new ArrayList<PageData>());
+           				}
+            	 		mv.setViewName("wx/wxgoodsdetail");
           			}else{
           				mv.setViewName("redirect:yuding.do");
           			}
@@ -325,8 +339,10 @@ public class WxMemberController extends BaseController {
 				pd.put("wxmember_id", login.getWXMEMBER_ID()) ;
 				pd.put("lunch_id", lunch_id);
 				boolean flag=true;
-				flag=isKunCunOK(lunch_id, number, "1");
-				if(flag){
+				if(number.equals("1")){
+					flag=isKunCunOK(lunch_id, number, "1");
+				}
+ 				if(flag){
 					//判断购物车是否有当前的商品
 					PageData shoppd=wxmemberService.findShopCartById(pd);
 					if(shoppd == null){

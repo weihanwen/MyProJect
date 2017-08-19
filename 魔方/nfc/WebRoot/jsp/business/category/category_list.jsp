@@ -42,9 +42,10 @@
  				<thead>
 					<tr>
 						<th>序号</th>
+						<th>分类图片</th>
 						<th>分类名称</th>
-						<!-- <th>调整位置</th>
- 						<th class="center">操作</th> -->
+						<!-- <th>调整位置</th>-->
+ 						<th class="center">操作</th> 
 					</tr>
 				</thead>
  				<tbody>
@@ -56,10 +57,11 @@
 							<tr>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 								<td>${var.title}</td>
+								<td><img src="${var.image_url}" width="30px"></td>
  								<%-- <td category_id="${var.category_id}">
 									<a style="display: block; float: left; margin-left: 3%;cursor: pointer; " title="上移" onclick="move(this,1)"> <img src="images/up.png" style="width: 18px;"></a>
 									<a style=" display: block; float: left; margin-left: 3%;cursor: pointer; " title="下移" onclick="move(this,-1)"> <img src="images/down.png" style="width: 18px;"></a>
-								</td>
+								</td>--%>
 								<td style="width: 30px;" class="center">
 										 <div class='hidden-phone visible-desktop btn-group'>
 	 										<c:if test="${QX.edit != 1 && QX.del != 1 }">
@@ -68,11 +70,11 @@
 											<c:if test="${QX.edit == 1 }">
 												<a   title="编辑" onclick="edit('${var.category_id}');"  class="btn btn-mini btn-info"  >编辑</a>
 											</c:if>
-											<c:if test="${QX.del == 1 }">
+											<%-- <c:if test="${QX.del == 1 }">
 												<a   title="删除" onclick="del('${var.category_id}');"  class="btn btn-mini btn-info"  >删除</a>
-											</c:if>
+											</c:if> --%>
 											</div> 
- 								</td> --%>
+ 								</td> 
 							</tr>
  						</c:forEach>
 						</c:if>

@@ -32,7 +32,7 @@
 			 			<span  shopcart_id="${var.shopcart_id}" class="iconfont icon-dui" onclick="chose()"></span> 
 			 		</div>
 			 		<div class="sp">
-			 			<div class="sp_chose"> <img src="${var.inside_banner}"> </div>
+			 			<div class="sp_chose"> <img src="${var.dc_images_small}"> </div>
 			 			<div class="sp_cont"> 
 			 				<div class="sp_tit">${var.lunch_name}</div> 
  				 			<div class="sp_spr"> 
