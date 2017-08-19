@@ -90,6 +90,16 @@ public class LunchService {
 		dao.delete("LunchMapper.deleteAll", ArrayDATA_IDS);
 	}
 	
+	
+	/*
+	* 获取最高得id
+	*/
+	public Integer getMaxIdByLunch()throws Exception{
+		return (Integer)dao.findForObject("LunchMapper.getMaxIdByLunch", null);
+	}
+	
+	
+	
 	//微信端开始接口===========================================================================================
 	/*
 	 * 通过ID获取库存以及所对应嘚版本号

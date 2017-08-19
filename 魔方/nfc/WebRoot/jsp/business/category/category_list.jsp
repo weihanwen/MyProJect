@@ -43,8 +43,8 @@
 					<tr>
 						<th>序号</th>
 						<th>分类名称</th>
-						<th>调整位置</th>
- 						<th class="center">操作</th>
+						<!-- <th>调整位置</th>
+ 						<th class="center">操作</th> -->
 					</tr>
 				</thead>
  				<tbody>
@@ -56,7 +56,7 @@
 							<tr>
 								<td class='center' style="width: 30px;">${vs.index+1}</td>
 								<td>${var.title}</td>
- 								<td category_id="${var.category_id}">
+ 								<%-- <td category_id="${var.category_id}">
 									<a style="display: block; float: left; margin-left: 3%;cursor: pointer; " title="上移" onclick="move(this,1)"> <img src="images/up.png" style="width: 18px;"></a>
 									<a style=" display: block; float: left; margin-left: 3%;cursor: pointer; " title="下移" onclick="move(this,-1)"> <img src="images/down.png" style="width: 18px;"></a>
 								</td>
@@ -72,7 +72,7 @@
 												<a   title="删除" onclick="del('${var.category_id}');"  class="btn btn-mini btn-info"  >删除</a>
 											</c:if>
 											</div> 
- 								</td>
+ 								</td> --%>
 							</tr>
  						</c:forEach>
 						</c:if>
@@ -93,7 +93,7 @@
 				</tbody>
 			</table>
 			
-		<div class="page-header position-relative">
+		<%-- <div class="page-header position-relative">
 		<table style="width:100%;">
 			<tr>
 				<td style="vertical-align:top;">
@@ -104,7 +104,7 @@
 				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 			</tr>
 		</table>
-		</div>
+		</div> --%>
 		</form>
 	</div>
 

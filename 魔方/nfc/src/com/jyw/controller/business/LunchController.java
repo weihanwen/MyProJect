@@ -41,6 +41,9 @@ public class LunchController extends BaseController {
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
+			//获取最高得ID，然后转int加1
+			String lunch_id=BaseController.buZeroForNumber(String.valueOf(lunchService.getMaxIdByLunch()+1));
+			pd.put("lunch_id", lunch_id);
 			lunchService.save(pd);
 		} catch (Exception e) {
 			// TODO: handle exception

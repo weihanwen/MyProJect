@@ -5,6 +5,7 @@
 	<!-- 新增-->
 	<insert id="save" parameterType="pd">
 		insert into tb_lunch(
+			lunch_id,
  			lunch_name,
 			sale_money,
 			product_cover,
@@ -22,6 +23,7 @@
 			updatetime,
 			category_id
  		) values (
+ 			#{lunch_id},
 			#{lunch_name},	
 			#{sale_money},	
 			#{product_cover},	
@@ -133,6 +135,14 @@
  
 		order by a.createtime desc
   	</select>
+  	
+  	<!-- 获取最高得id-->
+	<select id="getMaxIdByLunch"  resultType="Integer">
+		select 
+			Max(CAST(lunch_id AS signed))
+		from 
+			tb_lunch
+	</select>
  
  
  

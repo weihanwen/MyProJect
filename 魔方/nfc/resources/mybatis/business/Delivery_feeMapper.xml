@@ -64,7 +64,18 @@
 			tb_delivery_fee
 		order by number 
    	</select>
-   	
+   	<!-- 列表 -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select 
+			number,	
+			money,	
+ 			createtime,
+			updatetime,	
+			delivery_fee_id 
+ 		from 
+			tb_delivery_fee
+		order by number 
+   	</select>
    	
    	
    	

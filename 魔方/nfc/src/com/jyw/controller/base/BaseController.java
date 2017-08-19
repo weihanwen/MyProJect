@@ -58,6 +58,19 @@ public class BaseController {
 		return uuid;
 	}
 	
+	/**
+	 * 三位数补0
+	 */
+	public static String buZeroForNumber(String number){
+			if(number.length() == 1){
+				number="00"+number;
+			}else if(number.length() == 2){
+				number="0"+number;
+			}else{
+				//不处理
+			}
+		return number;
+	}
  	
 	
 	/**

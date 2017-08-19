@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2017-08-13 16:43:37
+Date: 2017-08-19 12:55:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -98,7 +98,7 @@ INSERT INTO `sys_menu` VALUES ('15', '劵/红包管理', '#', '0', '5', 'icon-fi
 INSERT INTO `sys_menu` VALUES ('16', '红包列表', 'redpackage/list.do', '15', '1', null, '');
 INSERT INTO `sys_menu` VALUES ('17', '每日菜谱', 'daily_menu/list.do', '11', '2', null, '');
 INSERT INTO `sys_menu` VALUES ('18', '会员管理 ', '#', '0', '6', 'icon-comments', '2');
-INSERT INTO `sys_menu` VALUES ('19', '会员列表', 'wxmember/list.do', '18', '1', null, '2');
+INSERT INTO `sys_menu` VALUES ('19', '会员列表', 'member/list.do', '18', '1', null, '2');
 INSERT INTO `sys_menu` VALUES ('20', '预定时间以及菜谱列表', 'scheduled_time/list.do', '11', '3', null, '');
 INSERT INTO `sys_menu` VALUES ('21', '周卡列表', 'weekmeal_card/list.do', '15', '2', null, '');
 INSERT INTO `sys_menu` VALUES ('22', '周卡购买记录', 'weekmeal_card_buy_wxmember/list.do', '13', '2', null, '');
@@ -129,7 +129,7 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 INSERT INTO `sys_role` VALUES ('1', '系统管理员', '134217702', '0', '1', '1', '1', '1', '1');
 INSERT INTO `sys_role` VALUES ('2', '超级管理员', '134217702', '1', '238943974', '238943974', '238943974', '238943974', '2');
-INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '134217702', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
+INSERT INTO `sys_role` VALUES ('8a87afcba102444dacd90c1151fcf29b', '基础查看设置', '134217698', '1', '1984', '1984', '1984', '1984', '8a87afcba102444dacd90c1151fcf29b');
 
 -- ----------------------------
 -- Table structure for `sys_user`
@@ -156,8 +156,8 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', 'c4ca4238a0b923820dcc509a6f75849b', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-08-12 13:33:16', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15757164376');
-INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '魏汉文', '', '8a87afcba102444dacd90c1151fcf29b', '2016-05-17 18:02:56', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
+INSERT INTO `sys_user` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '九鱼', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2017-08-19 12:46:24', '127.0.0.1', '0', '超级管理员', 'default', 'admin@main.com', '123', '15260282340');
+INSERT INTO `sys_user` VALUES ('3c5b0fe11652498e9214b025c9c08429', 'root', 'c4ca4238a0b923820dcc509a6f75849b', '操作员', '', '8a87afcba102444dacd90c1151fcf29b', '2017-08-17 22:12:38', '127.0.0.1', '0', '', 'default', '971083603@qq.com', '15', '15260282340');
 
 -- ----------------------------
 -- Table structure for `sys_user_qx`
@@ -273,11 +273,7 @@ CREATE TABLE `tb_category` (
 -- ----------------------------
 -- Records of tb_category
 -- ----------------------------
-INSERT INTO `tb_category` VALUES ('9', '便当', 'http://localhost/FileSave//category/ee14b49321634f20be7995ef4855b518.png', '0', '2017-07-29 11:01:30', '2017-08-02 14:16:37', null);
-INSERT INTO `tb_category` VALUES ('10', '小食', 'http://localhost/FileSave//category/2b5d20c6687e4b1dbc3ac7978cf2d68a.png', '0', '2017-08-02 14:16:52', '2017-08-02 14:16:52', null);
-INSERT INTO `tb_category` VALUES ('11', '咖啡', 'http://localhost/FileSave//category/4d4ed13efdd148bfb31c748f9d2a38ea.png', '0', '2017-08-02 14:17:01', '2017-08-02 14:17:01', null);
-INSERT INTO `tb_category` VALUES ('12', '下午茶', 'http://localhost/FileSave//category/4c530dd12d9f47f88e0254b3d885d434.png', '0', '2017-08-02 14:17:13', '2017-08-02 14:17:13', null);
-INSERT INTO `tb_category` VALUES ('13', '饮品', 'http://localhost/FileSave//category/1018815c021d4122b5be0493606eff6e.png', '0', '2017-08-02 14:17:22', '2017-08-02 14:17:22', null);
+INSERT INTO `tb_category` VALUES ('1', '精品便当', 'http://localhost/FileSave//category/ee14b49321634f20be7995ef4855b518.png', '0', '2017-07-29 11:01:30', '2017-08-19 12:26:04', null);
 
 -- ----------------------------
 -- Table structure for `tb_daily_menu`
@@ -348,7 +344,7 @@ CREATE TABLE `tb_log` (
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_lunch`;
 CREATE TABLE `tb_lunch` (
-  `lunch_id` int(100) NOT NULL AUTO_INCREMENT,
+  `lunch_id` varchar(3) NOT NULL,
   `lunch_name` varchar(100) DEFAULT NULL,
   `sale_money` int(10) DEFAULT NULL,
   `product_cover` varchar(100) DEFAULT NULL,
@@ -368,13 +364,13 @@ CREATE TABLE `tb_lunch` (
   `dc_version` int(4) DEFAULT '0',
   `yd_version` int(4) DEFAULT '0',
   PRIMARY KEY (`lunch_id`,`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_lunch
 -- ----------------------------
-INSERT INTO `tb_lunch` VALUES ('1', '啦啦', '25', 'http://localhost/FileSave//lunch/dd8fe5a782824b629b623232220e953d.jpg', 'http://localhost/FileSave//lunch/b4ca64d3f7204faaa7af44308bc0a9c9.jpg', 'http://localhost/FileSave//lunch/483952b61d474783825b05bc5f2ed29a.jpg', '1', '1', '2', '1', '0', '1', '1', '0', '2017-07-29 16:45:47', '2017-08-13 16:03:40', '9', '7', '0');
-INSERT INTO `tb_lunch` VALUES ('3', '12', '28', 'http://localhost/FileSave//lunch/2397e314d1174463abc016ca0ef01d77.jpg', 'http://localhost/FileSave//lunch/b19fbb20de6942eb9cd0179e98e39c88.jpg', 'http://localhost/FileSave//lunch/fb813af3cbcf4280b936d2b6529b04d7.jpg', '1', '1', '2', '2', '0', '12sda', '0', '5', '2017-07-29 16:28:35', '2017-08-12 15:58:17', '9', '0', '0');
+INSERT INTO `tb_lunch` VALUES ('031', '12', '28', 'http://localhost/FileSave//lunch/2397e314d1174463abc016ca0ef01d77.jpg', 'http://localhost/FileSave//lunch/b19fbb20de6942eb9cd0179e98e39c88.jpg', 'http://localhost/FileSave//lunch/fb813af3cbcf4280b936d2b6529b04d7.jpg', '1', '1', '2', '2', '0', '12sda', '0', '5', '2017-07-29 16:28:35', '2017-08-19 12:13:55', '9', '0', '0');
+INSERT INTO `tb_lunch` VALUES ('042', '啦啦', '25', 'http://localhost/FileSave//lunch/dd8fe5a782824b629b623232220e953d.jpg', 'http://localhost/FileSave//lunch/b4ca64d3f7204faaa7af44308bc0a9c9.jpg', 'http://localhost/FileSave//lunch/483952b61d474783825b05bc5f2ed29a.jpg', '1', '1', '2', '1', '0', '1', '1', '0', '2017-07-29 16:45:47', '2017-08-19 12:13:52', '9', '7', '0');
 
 -- ----------------------------
 -- Table structure for `tb_order`

@@ -34,16 +34,22 @@
   <div class="row-fluid">
 
 	<div class="row-fluid">
-	
 			<!-- 检索  -->
 			<form action="delivery_fee/list.do" method="post" name="Form" id="Form">
+			<table>
+				<tr>
+ 					<td>
+						餐盒费用:${canhefee}
+					</td>
+ 				</tr>
+			</table>
 			<!-- 检索  -->
  			<table id="table_report" class="table table-striped table-bordered table-hover">
  				<thead>
 					<tr>
 						<!-- <th>序号</th> -->
 						<th>数量（份）</th>
-						<th>配送费 （元）</th>
+						<th>配送费+餐盒费 （元）</th>
  						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -90,18 +96,18 @@
 				</tbody>
 			</table>
 			
-		<div class="page-header position-relative">
+		<%-- <div class="page-header position-relative">
 		<table style="width:100%;">
 			<tr>
-				<%-- <td style="vertical-align:top;">
+				<td style="vertical-align:top;">
 					<c:if test="${QX.add == 1 }">
 						<a class="btn btn-small btn-success" onclick="add();">新增配送费</a>
 					</c:if>
- 				</td> --%>
+ 				</td>
 				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${page.pageStr}</div></td>
 			</tr>
 		</table>
-		</div>
+		</div> --%>
 		</form>
 	</div>
 

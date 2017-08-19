@@ -99,17 +99,22 @@ public class Delivery_feeController extends BaseController {
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			page.setPd(pd);
-			List<PageData>	varList = delivery_feeService.list(page);	//列出W列表
+//			page.setPd(pd);
+			List<PageData>	varList = delivery_feeService.listAll(pd);	//列出W列表
 			this.getHC(); //调用权限
 			mv.setViewName("business/delivery_fee/delivery_fee_list");
 			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
-		} catch(Exception e){
+			mv.addObject("canhefee", Const.canhefee);
+ 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
 		return mv;
 	}
+	
+	
+	
+	
 	
 	/**
 	 * 去新增页面
