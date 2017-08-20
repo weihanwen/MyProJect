@@ -19,7 +19,7 @@
 </head>
 <body ontouchstart>
 <header class="ui-header ui-header-positive ui-border-b bg_ff0600">
-    <i class="ui-icon-return" onclick="goback()"></i><h1 class="col_f">订单详情</h1>
+    <i class="ui-icon-return" onclick="history.back()"></i><h1 class="col_f">订单详情</h1>
 </header>
 <section class="ui-container" style=" overflow-y: scroll;">
     <ul class="ui-list ui-list-text ui-border-tb mg_b_10">
@@ -142,18 +142,43 @@
 <script src="js/wx/tongyong.js"></script>
 <script type="text/javascript">
 
+	//判断是从那个界面进来得
+	if("${pd.order_type}" == "1"){ 
+		 document.title='订单详情';
+		  
+	 } else{
+ 		 document.title='预定详情';
+	}
+
 	//判断近期是否充足
 	function isOK(obj){//1-使用余额，2-使用积分
 		$(obj).removeAttr("checked");
  
 	}
+	
+	//前往选择地址页面
+	function redMessage(){
+		window.location.href="wxmember/changeAddress.do?shop_type=${pd.shop_type}&allshopcart_id=${pd.allshopcart_id}&order_type=${pd.order_type}&lunch_idstr=${pd.lunch_idstr}&wxmember_address_id=${pd.wxmember_address_id}&wxmember_redpackage_id=${pd.wxmember_redpackage_id}&wxmember_tihuojuan_idstr=${pd.wxmember_tihuojuan_idstr}";
+	}
+	
+	//前往配送费+餐盒费说明页面
+	function peisong(){
+		window.location.href="wxmember/gouserRed.do?wxmember_address_id=${pd.wxmember_address_id}";
+	}
 
  
 	//前往使用红包页面
 	function redMessage(){
- 		window.location.href=''; 
+		window.location.href="wxmember/gouserRed.do?shop_type=${pd.shop_type}&allshopcart_id=${pd.allshopcart_id}&order_type=${pd.order_type}&lunch_idstr=${pd.lunch_idstr}&wxmember_address_id=${pd.wxmember_address_id}&wxmember_redpackage_id=${pd.wxmember_redpackage_id}&wxmember_tihuojuan_idstr=${pd.wxmember_tihuojuan_idstr}";
+	}
+	
+	//前往使用提货卷页面
+	function payway(){
+		window.location.href="wxmember/gouserTiHuoJuan.do?shop_type=${pd.shop_type}&allshopcart_id=${pd.allshopcart_id}&order_type=${pd.order_type}&lunch_idstr=${pd.lunch_idstr}&wxmember_address_id=${pd.wxmember_address_id}&wxmember_redpackage_id=${pd.wxmember_redpackage_id}&wxmember_tihuojuan_idstr=${pd.wxmember_tihuojuan_idstr}";
 	}
 	 
+	
+	
 	var flag=true;
 	//确认支付
 	function surepay(){

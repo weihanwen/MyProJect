@@ -430,7 +430,7 @@ public class WxMemberController extends BaseController {
 	
 	/**
 	 * 去支付界面
-	 * wxmember/goPayJSP.do?shop_type=1&allshopcart_id=&order_type=1
+	 * wxmember/goPayJSP.do?shop_type=1&allshopcart_id=&order_type=1&lunch_idstr=&wxmember_address_id=&wxmember_redpackage_id=&wxmember_tihuojuan_idstr=
 	 * 
 	 * shop_type 		1-购物车购买，2-直接购买
  	 * allshopcart_id  	购物车结算嘚所有购物车ID
@@ -482,11 +482,11 @@ public class WxMemberController extends BaseController {
     			mv.addObject("allmoney", allmoney);
     			int  discount_money=0;
      			//判断是否使用红包
-     			if(pd.getString("wxmember_redpackage_id") != null){
+     			if(pd.getString("wxmember_redpackage_id") != null && !pd.getString("wxmember_redpackage_id").equals("")){
      				discount_money+=Integer.parseInt(wxmemberService.getRedPackageMoneyById(pd));
     			}
     			//判断是否使用提货卷
-     			if(pd.getString("wxmember_tihuojuan_idstr") != null){
+     			if(pd.getString("wxmember_tihuojuan_idstr") != null &&  !pd.getString("wxmember_tihuojuan_idstr").equals("")){
      				String[] thjstr=pd.getString("wxmember_tihuojuan_idstr").split(",");
      				for (int i = 0; i < thjstr.length; i++) {
 						pd.put("wxmember_tihuojuan_id", thjstr[i]);
@@ -497,7 +497,7 @@ public class WxMemberController extends BaseController {
     			mv.addObject("discount_money", discount_money);
     			mv.addObject("actual_money", allmoney-discount_money);
     			//判断是否有选择地址
-    			if(pd.getString("wxmember_address_id") != null){
+    			if(pd.getString("wxmember_address_id") != null && !pd.getString("wxmember_address_id").equals("") ){
     				mv.addObject("address", wxmemberService.findAddressDetail(pd).getString("address"));
     			}
     			//设置时间
@@ -519,7 +519,154 @@ public class WxMemberController extends BaseController {
   		return mv;
 	}
 	
+
+	/**
+	 * 去选择地址页面
+	 * wxmember/changeAddress.do 
+	 * 
+	 * shop_type 		1-购物车购买，2-直接购买
+ 	 * allshopcart_id  	购物车结算嘚所有购物车ID
+	 * lunch_idstr   	ID@数量
+	 * order_type  		1-点餐，2-预定
+	 * 
+	 * 二次加载可能嘚参数
+	 * wxmember_address_id  		地址id
+	 * wxmember_redpackage_id  		使用红包id
+	 * wxmember_tihuojuan_idstr		使用嘚提货卷ID *  
+ 	 */
+	@RequestMapping(value="/changeAddress")
+	public ModelAndView changeAddress()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		//shiro管理的session
+ 		Subject currentUser = SecurityUtils.getSubject();  
+ 		Session session = currentUser.getSession();
+ 		WxLogin login=(WxLogin) session.getAttribute(Const.WXLOGIN);
+  		PageData pd = new PageData();
+    	try {
+    		pd=this.getPageData();
+    		if(login != null){
+         		pd.put("wxmember_id", login.getWXMEMBER_ID());
+        		List<PageData> addressList=wxmemberService.getMyAddressList(pd);
+        		mv.addObject("addressList", addressList);
+        		pd.remove("wxmember_id");
+         		mv.addObject("pd", pd);
+    			mv.setViewName("wx/usered");
+    		}else{
+    			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
+    		}
+        } catch (Exception e) {
+   			e.printStackTrace();
+ 		}
+  		return mv;
+	}
 	
+
+	/**
+	 * 去餐盒说明界面
+	 * wxmember/canheDetail.do 
+	 * 
+	 * wxmember_address_id  		地址id
+ 	 */
+	@RequestMapping(value="/canheDetail")
+	public ModelAndView canheDetail()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+   		PageData pd = new PageData();
+    	try {
+    		//获取同个地址得正在订餐得同事：根据地址检索，今天正在配送订单得同事
+    		
+    		//获取所有成功订餐得同事：按时间排序，最近得10份订单得，已完成得
+    		
+    		mv.addObject("pd", pd);
+			mv.setViewName("wx/canhedetail");
+        } catch (Exception e) {
+   			e.printStackTrace();
+ 		}
+  		return mv;
+	}
+	
+	
+	
+	/**
+	 * 去使用红包界面
+	 * wxmember/gouserRed.do 
+	 * 
+	 * shop_type 		1-购物车购买，2-直接购买
+ 	 * allshopcart_id  	购物车结算嘚所有购物车ID
+	 * lunch_idstr   	ID@数量
+	 * order_type  		1-点餐，2-预定
+	 * 
+	 * 二次加载可能嘚参数
+	 * wxmember_address_id  		地址id
+	 * wxmember_redpackage_id  		使用红包id
+	 * wxmember_tihuojuan_idstr		使用嘚提货卷ID *  
+ 	 */
+	@RequestMapping(value="/gouserRed")
+	public ModelAndView gouserRed()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		//shiro管理的session
+ 		Subject currentUser = SecurityUtils.getSubject();  
+ 		Session session = currentUser.getSession();
+ 		WxLogin login=(WxLogin) session.getAttribute(Const.WXLOGIN);
+  		PageData pd = new PageData();
+    	try {
+    		pd=this.getPageData();
+    		if(login != null){
+         		pd.put("wxmember_id", login.getWXMEMBER_ID());
+        		List<PageData> redList=wxmemberService.getMyRedList(pd);
+        		mv.addObject("redList", redList);
+        		pd.remove("wxmember_id");
+         		mv.addObject("pd", pd);
+    			mv.setViewName("wx/usered");
+    		}else{
+    			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
+    		}
+        } catch (Exception e) {
+   			e.printStackTrace();
+ 		}
+  		return mv;
+	}
+	
+	
+
+	/**
+	 * 去使用提货卷界面
+	 * wxmember/gouserTiHuoJuan.do 
+	 * 
+	 * shop_type 		1-购物车购买，2-直接购买
+ 	 * allshopcart_id  	购物车结算嘚所有购物车ID
+	 * lunch_idstr   	ID@数量
+	 * order_type  		1-点餐，2-预定
+	 * 
+	 * 二次加载可能嘚参数
+	 * wxmember_address_id  		地址id
+	 * wxmember_redpackage_id  		使用红包id
+	 * wxmember_tihuojuan_idstr		使用嘚提货卷ID *  
+ 	 */
+	@RequestMapping(value="/gouserTiHuoJuan")
+	public ModelAndView gouserTiHuoJuan()throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		//shiro管理的session
+ 		Subject currentUser = SecurityUtils.getSubject();  
+ 		Session session = currentUser.getSession();
+ 		WxLogin login=(WxLogin) session.getAttribute(Const.WXLOGIN);
+  		PageData pd = new PageData();
+    	try {
+    		pd=this.getPageData();
+    		if(login != null){
+         		pd.put("wxmember_id", login.getWXMEMBER_ID());
+        		List<PageData> tihuoredList=wxmemberService.getMyTiHuoList(pd);
+        		mv.addObject("tihuoredList", tihuoredList);
+        		pd.remove("wxmember_id");
+         		mv.addObject("pd", pd);
+    			mv.setViewName("wx/usered");
+    		}else{
+    			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
+    		}
+        } catch (Exception e) {
+   			e.printStackTrace();
+ 		}
+  		return mv;
+	}
 	
 	
 	

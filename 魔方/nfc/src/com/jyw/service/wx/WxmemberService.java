@@ -76,7 +76,9 @@ public class   WxmemberService {
 	public void editRedPackage(PageData pd)throws Exception{
 		dao.update("Wxmember_redpackageMapper.editRedPackage", pd);
 	}
-	
+	public List<PageData>  getMyRedList(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("Wxmember_redpackageMapper.getMyRedList", pd);
+	}
 	
 	
 	
@@ -100,6 +102,9 @@ public class   WxmemberService {
 	}
 	public void editTiHuoJuan(PageData pd)throws Exception{
 		dao.update("Wxmember_tihuojuanMapper.editTiHuoJuan", pd);
+	}
+	public List<PageData>  getMyTiHuoList(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("Wxmember_tihuojuanMapper.getMyTiHuoList", pd);
 	}
 	
 	
@@ -143,6 +148,9 @@ public class   WxmemberService {
 	 */
 	public PageData findAddressDetail(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("WxAddressMapper.findAddressDetail", pd);
+	}
+	public List<PageData> getMyAddressList(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("WxAddressMapper.getMyAddressList", pd);
 	}
 	
 }

@@ -40,6 +40,19 @@
 		where 
 			wxmember_tihuojuan_id = #{wxmember_tihuojuan_id}
   	</select>
+  	
+  	<!--  获取个人提货卷列表 -->
+	<select id="getMyTiHuoList" parameterType="pd" resultType="pd">
+		select 
+			wxmember_tihuojuan_id,
+			money
+		from 
+			tb_wxmember_tihuojuan
+		where 
+			wxmember_id = #{wxmember_id}
+			and isuse='0'
+			and isfrozen='0'
+  	</select>
  	
 	
 </mapper>

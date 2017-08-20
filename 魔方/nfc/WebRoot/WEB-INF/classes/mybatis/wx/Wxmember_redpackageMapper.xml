@@ -37,5 +37,19 @@
 			wxmember_redpackage_id = #{wxmember_redpackage_id}
   	</select>
 	 
+	 
+ 	<!--  获取个人得红包列表 -->
+	<select id="getMyRedList" parameterType="pd" resultType="pd">
+		select 
+			wxmember_redpackage_id,
+			money
+		from 
+			tb_wxmember_redpackage
+		where 
+			wxmember_id = #{wxmember_id}
+			and isuse='0'
+			and isfrozen='0'
+  	</select>
+	 
 	
 </mapper>
