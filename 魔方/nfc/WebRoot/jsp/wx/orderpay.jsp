@@ -59,14 +59,18 @@
         	<c:choose>
         		<c:when test="${pd.shop_type eq '1' }">
         			<c:forEach items="${shopList }" var="var">
-					    <p  class="oneyouhui" style="overflow:hidden;"><span style='color:#999;float:left;'>${var.lunch_name}</span><span style="float:right;">X${var.shop_number}</span></p>
+					    <p  class="oneyouhui" style="overflow:hidden;">
+					    	<span style='float:left;width: 33%;text-align: center;'>${var.lunch_name}</span>
+					    	<span style='float:left;width: 33%;text-align: center;'>X${var.shop_number} </span>
+					    	<span style='float:right;width: 33%;text-align: center;'>￥:${var.allsale_money}</span>
+ 					    </p>
 			 		</c:forEach>
         		</c:when>
         		<c:otherwise>
-        			<p  class="oneyouhui" style="overflow:hidden;"><span style='color:#999;float:left;'>${lunchpd.lunch_name}</span>
-	        			<span style="float:right;">
-	        				X${lunchpd.shop_number}  ￥:${lunchpd.allsale_money}
-	        			</span>
+        			<p  class="oneyouhui" style="overflow:hidden;">
+        					<span style='float:left;width: 33%;text-align: center;'>${lunchpd.lunch_name}</span>
+					    	<span style='float:left;width: 33%;text-align: center;'>X${lunchpd.shop_number} </span>
+					    	<span style='float:right;width: 33%;text-align: center;'>￥:${lunchpd.allsale_money}</span>
         			</p>
         		</c:otherwise>
         	</c:choose>
@@ -112,7 +116,7 @@
     </ul>
     <div class="ui-btn-wrap">
     	<div class="ui-btn-lg actual_money" style='color: block;background: #fff;' >
-            	5
+            	${actual_money}
         </div>
         <button class="ui-btn-lg surepay" style='color: #fff;background: #c90000;' onclick="surepay()">
             	去支付
@@ -156,9 +160,30 @@
 
 	//判断近期是否充足
 	function isOK(obj){//1-使用余额，2-使用积分
-		$(obj).removeAttr("checked");
- 
-	}
+		if($(obj).is(":checked")){
+			$(".actual_money").html("${actual_money}");
+			$(obj).removeAttr("checked");
+		}else{
+			if( parseInt("${actual_money}") >0 ){
+				 if(parseInt("${nowintegral}") >0){
+					  if(parseInt("${actual_money}")  > parseInt("${nowintegral}")){
+						   var n=parseInt("${actual_money}")-parseInt("${nowintegral}");
+						   $(".actual_money").html(n);
+ 						   $("#use_integral").val("${nowintegral}");
+						   $("#use_wx").val(n);
+					  }else{
+						  var n=parseInt("${actual_money}");
+						  $(".actual_money").html(n);
+						  $("#use_integral").val("${actual_money}");
+						  $("#use_wx").val("0");
+					  }
+					 
+					 $(obj).attr("checked","checked");
+				 } 
+			}
+			
+		}
+ 	}
 	
 	//前往选择地址页面
 	function redMessage(){
@@ -192,18 +217,16 @@
 		flag=false;
 		$(".surepay").removeAttr("onclick");
 		$(".surepay").css("background","rgb(192, 192, 192)");
- 		var double_actual_money=parseFloat($("#actual_money").val());
- 		var pay_way="nowpay";
-		if(double_actual_money > 0){
-			pay_way="wx_pub";
-		}
+ 		var use_wx= parseInt($("#use_wx").val());
 	    $("#Form").ajaxSubmit({  
-	    	url : 'html_member/payorder.do',
+	    	url : 'wx/payorder.do',
 	        type: "post",//提交类型  
 	      	data:{ 
-	      		"pay_way":pay_way,
-				"in_jiqi":"5"
-	      	},  
+	      		"pay_way":"wx_pub",
+	      		"shop_type":"${pd.shop_type}",
+	      		"allshopcart_id":"${pd.allshopcart_id}",
+	      		"lunch_idstr":"${pd.lunch_idstr}"
+ 	      	},  
 	      	dataType:"json",
 	   		success:function(data){ 
 	   			if(data.result == "0"){
@@ -214,8 +237,7 @@
 	   				return;
 	   			}
 	   			var map=data.data;
-	   			var order_id = map.order_id;//订单号
-	   			if(double_actual_money > 0){
+	   			if(use_wx > 0){
  					 if(map.return_msg == "OK"){
  						callWxJsPay(map.payment_type,map.appId,map.timeStamp,map.nonceStr,map.package,map.signType,map.sign,map.out_trade_no);
 		        	 }else{

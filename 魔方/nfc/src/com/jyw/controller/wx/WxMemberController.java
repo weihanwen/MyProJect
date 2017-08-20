@@ -458,6 +458,7 @@ public class WxMemberController extends BaseController {
     			mv.addObject("nowintegral", wxmemberService.getNowIntegral(pd));
     			String shop_type=pd.getString("shop_type");
     			int allmoney=0;
+    			int delivery_fee=0;
     			if(shop_type.equals("1")){
     				//获取购买商品列表
         			List<PageData> shopList=wxmemberService.findShopCartList(pd);
@@ -466,7 +467,8 @@ public class WxMemberController extends BaseController {
         			String allpaymoney=wxmemberService.sumShopcartById(pd);
         			allmoney=Integer.parseInt(allpaymoney);
         			//配送费
-    				mv.addObject("delivery_fee", delivery_feeService.getMoneyByNumber(wxmemberService.countShopcartNumber(pd)));
+        			delivery_fee=Integer.parseInt(delivery_feeService.getMoneyByNumber(wxmemberService.countShopcartNumber(pd)) );
+    				mv.addObject("delivery_fee", String.valueOf(delivery_fee));
     			}else{
     				String lunch_id=pd.getString("lunch_idstr").split("@")[0];
     				pd.put("lunch_id", lunch_id);
@@ -474,12 +476,15 @@ public class WxMemberController extends BaseController {
     				//获取商品详情
     				PageData lunchpd=lunchService.findByIdForWx(pd);
     				lunchpd.put("shop_number", shop_number);
+    				allmoney=Integer.parseInt(lunchpd.get("sale_money").toString())*Integer.parseInt(shop_number);
+    				lunchpd.put("allsale_money", String.valueOf(allmoney));
     				mv.addObject("lunchpd", lunchpd);
-    				allmoney=((int) lunchpd.get("sale_money"))*Integer.parseInt(shop_number);
-    				//配送费
-    				mv.addObject("delivery_fee", delivery_feeService.getMoneyByNumber(shop_number));
+     				//配送费
+    				delivery_fee=Integer.parseInt(delivery_feeService.getMoneyByNumber(shop_number));
+    				mv.addObject("delivery_fee", String.valueOf(delivery_fee));
     			}
     			mv.addObject("allmoney", allmoney);
+    			int lesspaymoney=allmoney+delivery_fee;
     			int  discount_money=0;
      			//判断是否使用提货卷
      			if(pd.getString("wxmember_tihuojuan_idstr") != null &&  !pd.getString("wxmember_tihuojuan_idstr").equals("")){
@@ -497,8 +502,9 @@ public class WxMemberController extends BaseController {
          				discount_money+=Integer.parseInt(wxmemberService.getRedPackageMoneyById(pd));
         			}
      			}
+     			lesspaymoney=lesspaymoney-discount_money;
     			mv.addObject("discount_money", discount_money);
-    			mv.addObject("actual_money", allmoney-discount_money);
+    			mv.addObject("actual_money", lesspaymoney);
     			//判断是否有选择地址
     			if(pd.getString("wxmember_address_id") != null && !pd.getString("wxmember_address_id").equals("") ){
     				mv.addObject("address", wxmemberService.findAddressDetail(pd).getString("address"));
@@ -689,9 +695,10 @@ public class WxMemberController extends BaseController {
    	* 方法描述：订单支付接口
    	* html_member/payorder.do
    	* 
-   	* paytype 		1-购物车，2-直接购买
-   	* lunch_type 	1-订餐，2-预定
-   	* lunchstr   	格式：lunch_id@number
+	 * shop_type 		1-购物车购买，2-直接购买
+ 	 * allshopcart_id  	购物车结算嘚所有购物车ID
+	 * lunch_idstr   	ID@数量
+	 * order_type       1-点餐购买，2-预定购买
    	* 
    	 */
 	@RequestMapping(value="/payorder")
@@ -699,22 +706,65 @@ public class WxMemberController extends BaseController {
 	public  Object PayOrder(HttpServletRequest request) throws Exception{
  		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, String> data = new HashMap<String, String>();
+		//shiro管理的session
+ 		Subject currentUser = SecurityUtils.getSubject();  
+ 		Session session = currentUser.getSession();
+ 		WxLogin login=(WxLogin) session.getAttribute(Const.WXLOGIN);
 	  	String result="1";
 		String message="支付成功";
 		PageData pd=new PageData();
 		try{
 			pd = this.getPageData();
+ 			if(login == null){
+ 				map.put("result", "0");
+				map.put("message", "请先前往登录。。。");
+				map.put("data", "");
+				return map;
+			}
+ 			pd.put("wxmember_id", login.getWXMEMBER_ID());
+ 			String now_integral=wxmemberService.getNowIntegral(pd);
+ 			String use_integral=pd.getString("use_integral");
+ 			if(Integer.parseInt(now_integral) < Integer.parseInt(use_integral)){
+ 				map.put("result", "0");
+				map.put("message", "积分不足!");
+				map.put("data", "");
+				return map;
+ 			}
+ 			//设置订单号
+			String order_id=BaseController.get12UID();
 			//如果是直接购买需要判断库存
-			
-			
-			//添加库存嘚定时器-5分钟
-			
-			//获取微信支付嘚信息
-			
-			
-			
-			
-			
+			String shop_type=pd.getString("shop_type");
+			if(shop_type.equals("2")){
+				String lunch_id=pd.getString("lunch_idstr").split("@")[0];
+				String number=pd.getString("lunch_idstr").split("@")[1];
+				boolean flag=isKunCunOK(lunch_id, number, pd.getString("order_type"));
+				if(!flag){
+					map.put("result", "0");
+					map.put("message", "商品正在补给，请稍等。。。");
+					map.put("data", "");
+					return map;
+				}
+				//添加库存嘚定时器-5分钟
+				
+ 			}
+ 			//获取微信支付嘚信息
+			String use_wx=pd.getString("use_wx");
+			if(Integer.parseInt(use_wx) > 0){
+				//新增微支付完成订单
+				
+				
+				data=WxPayOrder(use_wx, "1", order_id, wxmemberService.findById(pd).getString("open_id"));
+				map.put("data", data);
+			}else{
+				//新增已支付完成订单
+				
+				data.put("out_trade_no", order_id);
+				map.put("data", data);
+			}
+			//减少会员使用积分
+			if(Integer.parseInt(use_integral) > 0){
+				
+			}			
 		}catch(Exception e){
 			result="0";
 			message="系统异常";
@@ -722,8 +772,7 @@ public class WxMemberController extends BaseController {
 		}
 		map.put("result", result);
 		map.put("message", message);
-		map.put("data", data);
-		return map;
+ 		return map;
 
 	}
 
@@ -750,14 +799,14 @@ public class WxMemberController extends BaseController {
 				return false;
 			}
 			if(type.equals("1")){
-				String inventory_number=kcpd.getString("inventory_number");
-				if(Integer.parseInt(inventory_number) < Integer.parseInt(number)){
+				String dc_stocknumber=kcpd.getString("dc_stocknumber");
+				if(Integer.parseInt(dc_stocknumber) < Integer.parseInt(number)){
 					return false;
 				}
 				PageData newpd=new PageData();
 				newpd.put("lunch_id", lunch_id);
  				String dc_version=kcpd.getString("dc_version");
- 				newpd.put("inventory_number", String.valueOf(Integer.parseInt(inventory_number)-Integer.parseInt(number)));
+ 				newpd.put("dc_stocknumber", String.valueOf(Integer.parseInt(dc_stocknumber)-Integer.parseInt(number)));
   				if(number.equals("1")){
    					newpd.put("dc_version", String.valueOf(Integer.parseInt(dc_version)+1));
    					if(lunchService.findByIdForKunCun(kcpd).getString("dc_version").equals(newpd.getString("dc_version"))){
@@ -766,21 +815,21 @@ public class WxMemberController extends BaseController {
  				}
  				lunchService.editStock(newpd);
  			}else{
- 				String reservation_number=kcpd.getString("reservation_number");
-				if(Integer.parseInt(reservation_number) < Integer.parseInt(number)){
-					return false;
-				}
-				String yd_version=kcpd.getString("yd_version");
-  				PageData newpd=new PageData();
-				newpd.put("reservation_number", String.valueOf(Integer.parseInt(reservation_number)-Integer.parseInt(number)));
- 				if(number.equals("1")){
-					newpd.put("yd_version", String.valueOf(Integer.parseInt(yd_version)+1));
-					newpd.put("lunch_id", lunch_id);
-					if(lunchService.findByIdForKunCun(kcpd).getString("yd_version").equals(newpd.getString("yd_version"))){
-						return false;
-					}
-				}
- 				lunchService.editStock(newpd);
+// 				String yd_stocknumber=kcpd.getString("yd_stocknumber");
+//				if(Integer.parseInt(yd_stocknumber) < Integer.parseInt(number)){
+//					return false;
+//				}
+//				String yd_version=kcpd.getString("yd_version");
+//  				PageData newpd=new PageData();
+//				newpd.put("yd_stocknumber", String.valueOf(Integer.parseInt(yd_stocknumber)-Integer.parseInt(number)));
+// 				if(number.equals("1")){
+//					newpd.put("yd_version", String.valueOf(Integer.parseInt(yd_version)+1));
+//					newpd.put("lunch_id", lunch_id);
+//					if(lunchService.findByIdForKunCun(kcpd).getString("yd_version").equals(newpd.getString("yd_version"))){
+//						return false;
+//					}
+//				}
+// 				lunchService.editStock(newpd);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -793,7 +842,7 @@ public class WxMemberController extends BaseController {
 	 * html_member/wxpayorder.do?total_fee=0.01&attach=1&body=购买商品
 	 * 
 	 * total_fee  金额
-	 * attach     支付类型  1-优惠买单支付，2-购买提货券商品,3-优选商品,4-充值商品
+	 * attach     支付类型  1-支付，2-充值
 	 * body       商品说明
 	 * out_trade_no   订单ID
 	 */
@@ -804,8 +853,12 @@ public class WxMemberController extends BaseController {
   	    	//开始调用微信支付接口
   			WXPayPath dodo = new WXPayPath("3");
  	    	Map<String, String> reqData=new HashMap<String, String>();
- 	    	reqData.put("body", "九鱼网-充值余额");
- 	    	reqData.put("attach",attach);
+ 	    	if(attach.equals("1")){
+ 	    		reqData.put("body", "支付订单");
+ 	    	}else{
+ 	    		reqData.put("body", "充值积分");
+ 	    	}
+  	    	reqData.put("attach",attach);
  	    	reqData.put("out_trade_no", out_trade_no);
 	    	reqData.put("fee_type", "CNY");
 	    	reqData.put("total_fee", String.valueOf(total_fee.intValue()));

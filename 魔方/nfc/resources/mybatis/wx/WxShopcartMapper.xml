@@ -78,7 +78,7 @@
 			a.lunch_id,
 			a.shop_number,
 			b.sale_money,
-			cast(b.sale_money*a.shop_number as decimal(10,2))  allsale_money,
+			cast(b.sale_money*a.shop_number as decimal(10))  allsale_money,
 			b.lunch_name,
 			b.dc_images_small
  		from 

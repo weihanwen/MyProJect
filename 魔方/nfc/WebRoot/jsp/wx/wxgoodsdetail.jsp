@@ -132,7 +132,7 @@
  	<a href="wxmember/goshopcatList.do"  class="foot_guc">
  	 	<span class="iconfont icon-gouwuche1 icon2"></span><span class="shopcarnumber"  >${pd.shopnumber}</span>
  	</a>
-	<a class="foot_gm"><span>去结算</span></a>
+	<a class="foot_gm" onclick="goPay()"><span>去结算</span></a>
 </footer>
 	<a  href="javascript:void(0)" onclick="location.reload()" class="reflash"></a>	 <!-- 刷新链接 -->
 </body>
@@ -173,6 +173,11 @@ function clikthisLunch(){
 				  }
 			}
 	});  
+}
+//前往支付界面
+function goPay(){
+	var lunch_id=$(".pav").find("img").attr("lunch_id");
+	 window.location.href="wxmember/goPayJSP.do?shop_type=2&lunch_idstr="+lunch_id+"@1&order_type=1";
 }
 
 

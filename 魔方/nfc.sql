@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2017-08-20 00:44:15
+Date: 2017-08-20 20:40:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -370,8 +370,8 @@ CREATE TABLE `tb_lunch` (
 -- ----------------------------
 -- Records of tb_lunch
 -- ----------------------------
-INSERT INTO `tb_lunch` VALUES ('001', '333', '121', '25', 'http://localhost/FileSave//lunch/3aaf4cdbcbf84c2f8a0e33f4f2eb3e6c.jpg', 'http://localhost/FileSave//lunch/76f7dc8e0d6f492296ca1401389990e3.jpg', 'http://localhost/FileSave//lunch/8ad20ce730f94a88826b16998c145d78.jpg', 'http://localhost/FileSave//lunch/4a8844f60da7401481866cb33c31b887.jpg', '1', null, '7', '0', '0', '222', '222', '2222', '222', '2017-08-19 14:23:06', '2017-08-19 15:18:00', '1', '0', '0');
-INSERT INTO `tb_lunch` VALUES ('002', '212', '121', '25', 'http://localhost/FileSave//lunch/d3afc28fede24de18a553d5c115cf41f.jpg', 'http://localhost/FileSave//lunch/cc14589e9c444b039c6a9a1a4c5ec0a2.jpg', 'http://localhost/FileSave//lunch/972309a66d304093803979b231504aad.jpg', 'http://localhost/FileSave//lunch/9a0787a535974e9e968e1f0e40c3b09d.jpg', '1', null, '1', '0', '0', '2112', '323', '12', '412', '2017-08-19 14:57:10', '2017-08-19 15:13:01', '1', '0', '0');
+INSERT INTO `tb_lunch` VALUES ('001', '333', '121', '35', 'http://localhost/FileSave//lunch/3aaf4cdbcbf84c2f8a0e33f4f2eb3e6c.jpg', 'http://localhost/FileSave//lunch/76f7dc8e0d6f492296ca1401389990e3.jpg', 'http://localhost/FileSave//lunch/8ad20ce730f94a88826b16998c145d78.jpg', 'http://localhost/FileSave//lunch/4a8844f60da7401481866cb33c31b887.jpg', '1', null, '7', '0', '0', '222', '222', '2222', '222', '2017-08-19 14:23:06', '2017-08-20 14:55:23', '1', '0', '0');
+INSERT INTO `tb_lunch` VALUES ('002', '212', '121', '35', 'http://localhost/FileSave//lunch/d3afc28fede24de18a553d5c115cf41f.jpg', 'http://localhost/FileSave//lunch/cc14589e9c444b039c6a9a1a4c5ec0a2.jpg', 'http://localhost/FileSave//lunch/972309a66d304093803979b231504aad.jpg', 'http://localhost/FileSave//lunch/9a0787a535974e9e968e1f0e40c3b09d.jpg', '1', null, '1', '0', '0', '2112', '323', '12', '412', '2017-08-19 14:57:10', '2017-08-20 14:55:24', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for `tb_order`
@@ -611,12 +611,15 @@ CREATE TABLE `tb_wxmember_address` (
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`wxmember_address_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_wxmember_address
 -- ----------------------------
-INSERT INTO `tb_wxmember_address` VALUES ('1', '1', '1', '12', '24', '1', '1', '1', '2017-08-01 11:16:49', '2017-08-13 16:26:27');
+INSERT INTO `tb_wxmember_address` VALUES ('1', '1', '1', '1', '1', '1', '1', '20170820124232907421', '2017-08-01 11:16:49', '2017-08-20 12:42:43');
+INSERT INTO `tb_wxmember_address` VALUES ('2', '2', '2', '2', '2', '1', '2', '20170820124232907421', '2017-08-20 12:42:16', '2017-08-20 12:42:44');
+INSERT INTO `tb_wxmember_address` VALUES ('3', '3', '3', '3', '3', '1', '3', '20170820124232907421', '2017-08-20 12:42:18', '2017-08-20 12:42:44');
+INSERT INTO `tb_wxmember_address` VALUES ('4', '4', '4', '4', '4', '1', '4', '20170820124232907421', '2017-08-20 12:42:25', '2017-08-20 12:42:45');
 
 -- ----------------------------
 -- Table structure for `tb_wxmember_redpackage`
@@ -625,7 +628,7 @@ DROP TABLE IF EXISTS `tb_wxmember_redpackage`;
 CREATE TABLE `tb_wxmember_redpackage` (
   `wxmember_redpackage_id` int(11) NOT NULL,
   `wxmember_id` varchar(100) DEFAULT NULL,
-  `money` int(11) DEFAULT NULL,
+  `money` varchar(11) DEFAULT NULL,
   `isuse` varchar(4) DEFAULT '0',
   `redpackage_id` int(11) DEFAULT NULL,
   `createtime` datetime DEFAULT NULL,
@@ -638,6 +641,10 @@ CREATE TABLE `tb_wxmember_redpackage` (
 -- Records of tb_wxmember_redpackage
 -- ----------------------------
 INSERT INTO `tb_wxmember_redpackage` VALUES ('1', '1', '1', '0', '1', '2017-08-19 17:57:13', '2017-08-19 17:58:32', '0');
+INSERT INTO `tb_wxmember_redpackage` VALUES ('2', '20170820124232907421', '2', '0', '1', '2017-08-20 12:39:58', '2017-08-20 12:40:01', '0');
+INSERT INTO `tb_wxmember_redpackage` VALUES ('3', '20170820124232907421', '3', '0', '1', '2017-08-20 12:40:23', '2017-08-20 12:40:25', '0');
+INSERT INTO `tb_wxmember_redpackage` VALUES ('4', '20170820124232907421', '4', '0', '1', '2017-08-20 12:40:25', '2017-08-20 12:40:27', '0');
+INSERT INTO `tb_wxmember_redpackage` VALUES ('5', '20170820124232907421', '5', '0', '1', '2017-08-20 12:40:28', '2017-08-20 12:40:30', '0');
 
 -- ----------------------------
 -- Table structure for `tb_wxmember_tihuojuan`
@@ -647,7 +654,7 @@ CREATE TABLE `tb_wxmember_tihuojuan` (
   `wxmember_tihuojuan_id` int(11) NOT NULL,
   `wxmember_id` varchar(100) DEFAULT NULL,
   `money` int(11) DEFAULT NULL,
-  `isuse` varchar(4) DEFAULT NULL,
+  `isuse` varchar(4) DEFAULT '0',
   `weekmeal_card_id` int(11) DEFAULT NULL,
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -659,6 +666,10 @@ CREATE TABLE `tb_wxmember_tihuojuan` (
 -- Records of tb_wxmember_tihuojuan
 -- ----------------------------
 INSERT INTO `tb_wxmember_tihuojuan` VALUES ('1', '1', '1', '0', '1', '2017-08-19 17:57:29', '2017-08-19 17:58:32', '0');
+INSERT INTO `tb_wxmember_tihuojuan` VALUES ('2', '20170820124232907421', '25', '0', '1', '2017-08-20 12:41:15', '2017-08-20 12:41:17', '0');
+INSERT INTO `tb_wxmember_tihuojuan` VALUES ('3', '20170820124232907421', '28', '0', '1', '2017-08-20 12:41:17', '2017-08-20 12:41:19', '0');
+INSERT INTO `tb_wxmember_tihuojuan` VALUES ('4', '20170820124232907421', '35', '0', '1', '2017-08-20 12:41:19', '2017-08-20 12:41:21', '0');
+INSERT INTO `tb_wxmember_tihuojuan` VALUES ('5', '20170820124232907421', '38', '0', '1', '2017-08-20 12:41:23', '2017-08-20 12:41:24', '0');
 
 -- ----------------------------
 -- Table structure for `tb_wxmember_wealth`
