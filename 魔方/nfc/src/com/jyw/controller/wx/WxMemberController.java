@@ -481,18 +481,21 @@ public class WxMemberController extends BaseController {
     			}
     			mv.addObject("allmoney", allmoney);
     			int  discount_money=0;
-     			//判断是否使用红包
-     			if(pd.getString("wxmember_redpackage_id") != null && !pd.getString("wxmember_redpackage_id").equals("")){
-     				discount_money+=Integer.parseInt(wxmemberService.getRedPackageMoneyById(pd));
-    			}
-    			//判断是否使用提货卷
+     			//判断是否使用提货卷
      			if(pd.getString("wxmember_tihuojuan_idstr") != null &&  !pd.getString("wxmember_tihuojuan_idstr").equals("")){
      				String[] thjstr=pd.getString("wxmember_tihuojuan_idstr").split(",");
-     				for (int i = 0; i < thjstr.length; i++) {
+      				for (int i = 0; i < thjstr.length; i++) {
 						pd.put("wxmember_tihuojuan_id", thjstr[i]);
 						discount_money+=Integer.parseInt(wxmemberService.getTiHuoJuanMoneyById(pd));
 					}
      				pd.remove("wxmember_tihuojuan_id");
+     				pd.put("wxmember_redpackage_id", "");
+      			}else{
+     				//判断是否使用红包
+         			if(pd.getString("wxmember_redpackage_id") != null && !pd.getString("wxmember_redpackage_id").equals("")){
+         				mv.addObject("redmoney", wxmemberService.getRedPackageMoneyById(pd)+"元红包");
+         				discount_money+=Integer.parseInt(wxmemberService.getRedPackageMoneyById(pd));
+        			}
      			}
     			mv.addObject("discount_money", discount_money);
     			mv.addObject("actual_money", allmoney-discount_money);
@@ -650,15 +653,24 @@ public class WxMemberController extends BaseController {
  		Session session = currentUser.getSession();
  		WxLogin login=(WxLogin) session.getAttribute(Const.WXLOGIN);
   		PageData pd = new PageData();
-    	try {
+    	try { 
     		pd=this.getPageData();
     		if(login != null){
          		pd.put("wxmember_id", login.getWXMEMBER_ID());
         		List<PageData> tihuoredList=wxmemberService.getMyTiHuoList(pd);
+        		for (PageData e : tihuoredList) {
+//        			System.out.println(Double.parseDouble(pd.getString("allmoney"))-Double.parseDouble(e.get("money").toString()));
+					if(Double.parseDouble(pd.getString("allmoney"))-Double.parseDouble(e.get("money").toString()) >=0){
+						e.put("isok", "1");
+					}else{
+						e.put("isok", "0");
+					}
+				}
         		mv.addObject("tihuoredList", tihuoredList);
+        		mv.addObject("number", tihuoredList.size()  );
         		pd.remove("wxmember_id");
          		mv.addObject("pd", pd);
-    			mv.setViewName("wx/usered");
+    			mv.setViewName("wx/usetihuojuan");
     		}else{
     			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
     		}

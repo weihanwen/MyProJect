@@ -14,7 +14,7 @@
      <title>选择红包</title>
     <link rel="stylesheet" href="css/wx/labary/predefine.css">
     <link rel="stylesheet" href="css/wx/frozen.css">
-    <link rel="stylesheet" href="css/wx/usered.css">
+    <link rel="stylesheet" href="css/wx/use.css">
 </head>
 <body>
 <header class="ui-header ui-header-positive ui-border-b bg_ff0600">
@@ -26,7 +26,7 @@
 	<c:forEach items="${redList}" var="var">
 		<div class="rp_box clf" onclick="sureThisRed('${var.wxmember_redpackage_id}')">
 	        <div class="cash col_c9">
-	        	<span>￥</span> <span style="font-size:2rem;">  ${var.money}</span>
+	        	<span style="font-size: 0.25rem;;">${var.money}元红包 无条件使用</span>
  	        </div>
 	         <c:if test="${var.wxmember_redpackage_id eq pd.wxmember_redpackage_id}"><div class="hongbao"><span>✔</span>  </div></c:if>
 	        <div class="ball ball_l"></div>

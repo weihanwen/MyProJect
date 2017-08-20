@@ -65,7 +65,7 @@
         		<c:otherwise>
         			<p  class="oneyouhui" style="overflow:hidden;"><span style='color:#999;float:left;'>${lunchpd.lunch_name}</span>
 	        			<span style="float:right;">
-	        				X${lunchpd.shop_number}
+	        				X${lunchpd.shop_number}  ￥:${lunchpd.allsale_money}
 	        			</span>
         			</p>
         		</c:otherwise>
@@ -81,13 +81,17 @@
     <ul class="ui-list ui-list-text ui-list-link ui-border-tb mg_b_10">
         <li class="ui-border-t" onclick="redMessage()">
             <h4 class="ui-nowrap">红包</h4>
-            <div class="ui-txt-info redMessage" >无可用红包</div>
+            <div class="ui-txt-info redMessage" >
+            	${empty pd.wxmember_redpackage_id or pd.wxmember_redpackage_id eq ''?'无可用红包':redmoney}
+             </div>
         </li>
     </ul>
      <ul class="ui-list ui-list-text ui-list-link ui-border-tb mg_b_10">
         <li class="ui-border-t" onclick="payway()">
             <h4 class="ui-nowrap">支付方式</h4>
-            <div class="ui-txt-info pay_way" > 在线支付</div>
+            <div class="ui-txt-info pay_way" > 
+       			${empty pd.wxmember_tihuojuan_idstr or pd.wxmember_tihuojuan_idstr eq ''?' 在线支付':'提货卷支付'}     
+           </div>
         </li>
     </ul>
     <ul class="ui-list ui-list-text ui-border-tb mg_b_10">
@@ -124,7 +128,7 @@
 				<input type="hidden" id="actual_money" value="${actual_money}" name="actual_money"/> 
 				<input type="hidden" id="use_integral" value="0" name="use_integral"/> 
 				<input type="hidden" id="use_wx" value="0" name="use_wx"/> 
-				<input type="hidden" id="pay_type" value="${empty wxmember_tihuojuan_idstr?'1':'2'}" name="pay_type"/> 
+				<input type="hidden" id="pay_type" value="${empty pd.wxmember_tihuojuan_idstr or pd.wxmember_tihuojuan_idstr eq ''?'1':'2'}" name="pay_type"/> 
 				<input type="hidden" id="pay_status" value="0" name="pay_status"/> 
 				<input type="hidden" id="send_integral" value="10" name="send_integral"/> 
 				<input type="hidden" id="serial_number" value="" name="serial_number"/> 
@@ -169,12 +173,12 @@
  
 	//前往使用红包页面
 	function redMessage(){
-		window.location.href="wxmember/gouserRed.do?shop_type=${pd.shop_type}&allshopcart_id=${pd.allshopcart_id}&order_type=${pd.order_type}&lunch_idstr=${pd.lunch_idstr}&wxmember_address_id=${pd.wxmember_address_id}&wxmember_redpackage_id=${pd.wxmember_redpackage_id}&wxmember_tihuojuan_idstr=${pd.wxmember_tihuojuan_idstr}";
+		window.location.href="wxmember/gouserRed.do?allmoney=${allmoney}&shop_type=${pd.shop_type}&allshopcart_id=${pd.allshopcart_id}&order_type=${pd.order_type}&lunch_idstr=${pd.lunch_idstr}&wxmember_address_id=${pd.wxmember_address_id}&wxmember_redpackage_id=${pd.wxmember_redpackage_id}&wxmember_tihuojuan_idstr=${pd.wxmember_tihuojuan_idstr}";
 	}
 	
 	//前往使用提货卷页面
 	function payway(){
-		window.location.href="wxmember/gouserTiHuoJuan.do?shop_type=${pd.shop_type}&allshopcart_id=${pd.allshopcart_id}&order_type=${pd.order_type}&lunch_idstr=${pd.lunch_idstr}&wxmember_address_id=${pd.wxmember_address_id}&wxmember_redpackage_id=${pd.wxmember_redpackage_id}&wxmember_tihuojuan_idstr=${pd.wxmember_tihuojuan_idstr}";
+		window.location.href="wxmember/gouserTiHuoJuan.do?allmoney=${allmoney}&shop_type=${pd.shop_type}&allshopcart_id=${pd.allshopcart_id}&order_type=${pd.order_type}&lunch_idstr=${pd.lunch_idstr}&wxmember_address_id=${pd.wxmember_address_id}&wxmember_redpackage_id=${pd.wxmember_redpackage_id}&wxmember_tihuojuan_idstr=${pd.wxmember_tihuojuan_idstr}";
 	}
 	 
 	

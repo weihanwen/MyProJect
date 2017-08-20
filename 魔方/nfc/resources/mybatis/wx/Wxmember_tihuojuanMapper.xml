@@ -52,6 +52,7 @@
 			wxmember_id = #{wxmember_id}
 			and isuse='0'
 			and isfrozen='0'
+		order by cast(money as signed) 
   	</select>
  	
 	
