@@ -92,6 +92,40 @@
 					wxmember_id = #{wxmember_id}
 	</update>
 	
+	<!-- 新增消费历史纪录  -->
+	<insert id="saveWealthHistory" parameterType="pd">
+		insert into tb_wxmember_wealthhistory(
+ 			wxmember_id,
+			money,
+			isincome,
+			order_id,
+			createtime,
+			updatetime
+   		) values (
+			#{wxmember_id},	
+			#{money},	 
+			#{isincome},	
+			#{order_id},	
+  			now(),	
+			now() 
+		)
+	</insert>
+ 	<!-- 获取当前会员的消费历史纪录-->
+	<select id="getWealthHistoryList" parameterType="pd" resultType="pd">
+		select 
+			wxmember_id,
+			money,
+			isincome,
+			order_id,
+			createtime,
+			updatetime
+		from 
+			tb_wxmember_wealthhistory
+		where 
+			wxmember_id = #{wxmember_id}
+ 	</select>
+	
+	
  
  	
 </mapper>

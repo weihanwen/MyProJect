@@ -2,6 +2,164 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="WxOrderMapper">
 
+
+	<!-- 新增订单-->
+	<insert id="saveOrder" parameterType="pd">
+		insert into tb_order(
+			order_id,
+			looknumber,
+			allmoney,
+			discount_money,
+			wxmember_redpackage_id,
+			wxmember_tihuojuan_idstr,
+			actual_money,
+			use_integral,
+			use_wx,
+			pay_type,
+			order_status,
+			send_integral,
+			serial_number,
+			order_type,
+			reserve_arrival_time,
+			reserve_day,
+			delivery_time,
+			delivery_fee,
+			delivery_type,
+			delivery_status,
+			delivery_operator_name,
+			createtime,
+			jiedantime,
+			overtime,
+			wxmember_id,
+			wxmember_address_id 
+		) values (
+			#{order_id},
+			#{looknumber},
+			#{allmoney},
+			#{discount_money},
+			#{wxmember_redpackage_id},
+			#{wxmember_tihuojuan_idstr},
+			#{actual_money},
+			#{use_integral},
+			#{use_wx},
+			#{pay_type},
+			'0',<!-- #{order_status} -->
+			#{send_integral},
+			#{serial_number},
+			#{order_type},
+			#{reserve_arrival_time},
+			#{reserve_day},
+			#{delivery_time},
+			#{delivery_fee},
+			#{delivery_type},
+			#{delivery_status},
+			#{delivery_operator_name},
+			now(),
+			#{jiedantime},
+			#{overtime},
+			#{wxmember_id},
+			#{wxmember_address_id} 
+		)
+	</insert>
+	<!-- 清空订单定时记录 -->
+	<delete id="deleteOrder">
+		delete from tb_order
+		where  order_status='0'
+ 	</delete>
+	<!-- 新增订单关联下的商品-->
+	<insert id="saveOrderLunch" parameterType="pd">
+		insert into tb_order_lunch(
+			order_id,
+			lunch_id,
+			shop_number
+		) values (
+			#{order_id},
+			#{lunch_id},
+			#{shop_number}
+		)
+	</insert>
+	<!-- 清空订单商品记录 -->
+	<delete id="deleteOrderLunch">
+	delete from tb_order_lunch
+	where  order_id=#{order_id}
+ 	</delete>
+ 	
+ 	
+ 	 <!-- 新增订单定时纪录(用来处理跑腿费用)  -->
+	<insert id="saveOrderTime" parameterType="pd">
+		insert into tb_ordertime(
+ 			order_id,
+ 			createtime 
+   		) values (	
+			#{order_id},	
+			now() 
+		)
+	</insert>
+	<!-- 清空订单定时记录 -->
+	<delete id="deleteOrderTime">
+	delete from tb_ordertime
+ 	</delete>
+	<!-- 判断在十分钟之内相同的地址是有订单 -->
+ 	<select id="isHavingOrderByNow" parameterType="pd" resultType="pd">
+		SELECT 
+			 count(*)
+		FROM 
+			tb_order b on b.order_id=b.order_id
+			left join tb_wxmember_address d on b.wxmember_address_id=d.wxmember_address_id
+			left join tb_address e on d.address_id=e.address_id
+		WHERE
+ 			order_status = '2'
+ 			and round((UNIX_TIMESTAMP(now())-UNIX_TIMESTAMP(b.createtime))/60) &lt;= 10
+		  	and #{content} = CONCAT(e.address_name,d.corporate_name,d.contacts_number)
+    	</select>
+ 	
+ 	
+ 	
+   	 <!-- 获取个人订单列表 -->
+	<select id="listOrderForMember" parameterType="pd" resultType="pd">
+		select 
+ 			a.order_id,
+			a.looknumber,
+			a.allmoney,
+			a.discount_money,
+			a.wxmember_redpackage_id,
+			a.wxmember_tihuojuan_idstr,
+			a.actual_money,
+			a.use_integral,
+			a.use_wx,
+			a.order_status,
+			a.send_integral,
+			a.serial_number,
+			a.order_type,
+			a.reserve_arrival_time,
+			a.reserve_day,
+			a.delivery_time,
+			a.delivery_fee,
+			a.createtime,
+			a.overtime,
+			a.wxmember_id,
+			a.wxmember_address_id,
+			c.contacts,
+ 			c.contacts_number,
+ 			c.corporate_name,
+ 			c.floor_numbe,
+			d.address_name
+  		from 
+			tb_order a  
+			left join tb_wxmember b on a.wxmember_id=b.wxmember_id
+			left join tb_wxmember_address c on a.wxmember_id=c.wxmember_id
+			left join tb_address d on c.address_id=d.address_id
+		where 
+			a.wxmember_id=#{wxmember_id}
+			and order_status != '0'
+		order by createtime desc
+		limit 30
+   	</select>
+ 	
+ 	
+ 	
+ 	
+
    <!-- 查看详情 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
@@ -98,7 +256,29 @@
 	</update>
   	
    
-   	
+   	<!-- 在送餐费说明界面的展示订单 -->
+	<select id="listByStatusOrder" parameterType="pd" resultType="pd">
+		SELECT 
+			a.lunch_id,
+			la.lunch_name,
+			b.order_id,
+			c.`name`, 
+			c.image_url,
+			e.address_name, d.corporate_name , d.contacts_number,
+			round((UNIX_TIMESTAMP('2012-06-09 00:10:11')-UNIX_TIMESTAMP(b.createtime))/60) as time
+		FROM 
+			tb_order_lunch a 
+			LEFT JOIN tb_lunch la on a.lunch_id=la.lunch_id
+		 	LEFT JOIN tb_order b on b.order_id=b.order_id
+			left join tb_wxmember c on b.wxmember_id=c.wxmember_id
+			left join tb_wxmember_address d on b.wxmember_address_id=d.wxmember_address_id
+			left join tb_address e on d.address_id=e.address_id
+
+		WHERE
+			order_status = '2'
+		  	and #{content}= CONCAT(e.address_name,d.corporate_name,d.contacts_number)
+		LIMIT 12
+    	</select>
    
 	
 </mapper>

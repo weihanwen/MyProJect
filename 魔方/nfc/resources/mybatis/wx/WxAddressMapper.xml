@@ -2,7 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="WxAddressMapper">
 
-
+<!-- 新增地址-->
+	<insert id="saveAddress" parameterType="pd">
+		insert into tb_wxmember_address(
+			wxmember_address_id,
+			contacts,
+			sex,
+			contacts_number,
+			corporate_name,
+			address_id,
+			floor_numbe,
+			wxmember_id,
+			createtime,
+			updatetime 
+		) values (
+			#{wxmember_address_id},
+			#{contacts},
+			#{sex},
+			#{contacts_number},
+			#{corporate_name},
+			#{address_id},
+			#{floor_numbe},
+			#{wxmember_id},
+			now(),
+			now()
+		)
+	</insert>
+	
+	
+ <!-- 地址模糊查询 -->
+ 	<select id="findlikeAddressList" parameterType="pd" resultType="pd">
+		select 
+			count(*)
+ 			concat(b.address_name,a.corporate_name,a.floor_numbe) as address
+ 		from 
+			tb_wxmember_address a left join tb_address b on a.address_id=b.address_id
+		where 
+			concat(b.address_name,a.corporate_name,a.floor_numbe) like concat('%',concat(#{content},'%'))
+			
+		group by b.address_name,a.corporate_name,a.floor_numbe
+  	</select>
 
 	
  	

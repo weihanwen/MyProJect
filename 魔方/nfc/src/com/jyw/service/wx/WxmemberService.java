@@ -145,12 +145,29 @@ public class   WxmemberService {
 	
 	/*
 	 * 获取地址详情============================================================================================
+	 * 
 	 */
+	public void saveAddress(PageData pd)throws Exception{
+		dao.save("WxAddressMapper.saveAddress", pd);
+ 	}
 	public PageData findAddressDetail(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("WxAddressMapper.findAddressDetail", pd);
 	}
 	public List<PageData> getMyAddressList(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("WxAddressMapper.getMyAddressList", pd);
+	}
+	public List<PageData> findlikeAddressList(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("WxAddressMapper.findlikeAddressList", pd);
+	}
+	
+	/**
+	 * 消费历史记录========================================================================================
+	 */
+	public void saveWealthHistory(PageData pd)throws Exception{
+		dao.save("WxmemberMapper.saveWealthHistory", pd);
+ 	}
+	public List<PageData> getWealthHistoryList(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("WxmemberMapper.getWealthHistoryList", pd);
 	}
 	
 }
