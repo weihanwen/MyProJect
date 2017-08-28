@@ -586,7 +586,7 @@ public class WxMemberController extends BaseController {
     		//获取所有成功订餐得同事：按时间排序，最近得10份订单得，已完成得
     		
     		mv.addObject("pd", pd);
-			mv.setViewName("wx/canhedetail");
+			mv.setViewName("wx/ptdetail");
         } catch (Exception e) {
    			e.printStackTrace();
  		}

@@ -225,8 +225,8 @@
 	      		"pay_way":"wx_pub",
 	      		"shop_type":"${pd.shop_type}",
 	      		"allshopcart_id":"${pd.allshopcart_id}",
-	      		"lunch_idstr":"${pd.lunch_idstr}"
- 	      	},  
+	      		"lunch_idstr":"${pd.lunch_idstr}" 
+   	      	},  
 	      	dataType:"json",
 	   		success:function(data){ 
 	   			if(data.result == "0"){

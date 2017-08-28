@@ -41,6 +41,45 @@
    	</select>
    	
    	
+   	<!-- 获取根据地址获取所有购买的商品 -->
+	<select id="selectListOrder" parameterType="pd" resultType="pd">
+		select 
+ 			a.order_id,
+			a.looknumber,
+			a.allmoney,
+			a.discount_money,
+			a.wxmember_redpackage_id,
+			a.wxmember_tihuojuan_idstr,
+			a.actual_money,
+			a.use_integral,
+			a.use_wx,
+			a.order_status,
+			a.send_integral,
+			a.serial_number,
+			a.order_type,
+			a.reserve_arrival_time,
+			a.reserve_day,
+			a.delivery_time,
+			a.delivery_fee,
+			a.createtime,
+			a.overtime,
+			a.wxmember_id,
+			a.wxmember_address_id,
+			c.contacts,
+ 			c.contacts_number,
+ 			c.corporate_name,
+ 			c.floor_numbe,
+			d.address_name
+  		from 
+			tb_order a  
+			left join tb_wxmember b on a.wxmember_id=b.wxmember_id
+			left join tb_wxmember_address c on a.wxmember_id=c.wxmember_id
+			left join tb_address d on c.address_id=d.address_id
+		where 
+			a.order_id=#{order_id}
+   	</select>
+   	
+   	
    	<!-- 修改提货卷使用状态 -->
 	<update id="changeStatus" parameterType="pd" >
 			update  tb_order
