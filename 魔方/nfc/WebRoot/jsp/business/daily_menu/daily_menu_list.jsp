@@ -178,7 +178,7 @@
 			 window.parent.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="编辑";
+			 diag.Title ="编辑菜谱";
 			 diag.URL = '<%=basePath%>/daily_menu/goEdit.do?daily_menu_id='+Id;
 			 diag.Width = 800;
 			 diag.Height = 600;

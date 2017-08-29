@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Wxmember_tihuojuanMapper">
+ 
+	
+	<!-- 修改提货卷使用状态 -->
+	<update id="editTiHuoJuan" parameterType="pd">
+			update  tb_wxmember_tihuojuan
+			set 
+					<if test="isuse != null and isuse != ''">isuse = #{isuse},</if>
+					<if test="isfrozen != null and isfrozen != ''">isfrozen = #{isfrozen},</if>
+					wxmember_tihuojuan_id=wxmember_tihuojuan_id
+ 			where 
+ 					<choose>
+ 						<when test="wxmember_tihuojuan_idstr !=null and wxmember_tihuojuan_idstr != ''">
+ 							#{wxmember_tihuojuan_idstr} like concat(concat('%',wxmember_tihuojuan_id),'%')
+ 						</when>
+ 						<otherwise>wxmember_tihuojuan_id=#{wxmember_tihuojuan_id}</otherwise>
+ 					</choose>
+ 	</update>
+	 
+	<!-- 获取当前会员的提货券个数*未使用 -->
+	<select id="getTiHuoJuanNumber" parameterType="pd" resultType="String">
+		select 
+			cast( count(*) as char) as number
+		from 
+			tb_wxmember_tihuojuan
+		where 
+			wxmember_id = #{wxmember_id}
+ 			and isuse=#{isuse}
+ 			and isfrozen=#{isfrozen}
+ 	</select>
+ 	
+ 	<!-- 获取红包金额 -->
+	<select id="getTiHuoJuanMoneyById" parameterType="pd" resultType="String">
+		select 
+			ifnull(money,0)
+		from 
+			tb_wxmember_tihuojuan
+		where 
+			wxmember_tihuojuan_id = #{wxmember_tihuojuan_id}
+  	</select>
+  	
+  	<!--  获取个人提货卷列表 -->
+	<select id="getMyTiHuoList" parameterType="pd" resultType="pd">
+		select 
+			wxmember_tihuojuan_id,
+			money
+		from 
+			tb_wxmember_tihuojuan
+		where 
+			wxmember_id = #{wxmember_id}
+			and isuse='0'
+			and isfrozen='0'
+		order by cast(money as signed) 
+  	</select>
+ 	
+	
+</mapper>

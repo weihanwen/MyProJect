@@ -6,12 +6,14 @@
 	<insert id="save" parameterType="pd">
 		insert into tb_delivery_fee(
 			number,	
-			money,	
+			ptmoney,
+			chmoney,	
   			createtime,
 			updatetime 
 		) values (
 			#{number},	
-			#{money},	
+			#{ptmoney},	
+			#{chmoney},
   			now(),	
 			now() 
 		)
@@ -30,7 +32,8 @@
 			update  tb_delivery_fee
 			set 
 				number = #{number},
-				money = #{money},
+				ptmoney = #{ptmoney},
+				chmoney = #{chmoney},
    				delivery_fee_id = delivery_fee_id
 			where 
 				delivery_fee_id = #{delivery_fee_id}
@@ -41,7 +44,8 @@
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 
 			number,	
-			money,	
+			ptmoney,	
+			chmoney,
  			createtime,
 			updatetime,	
 			delivery_fee_id  
@@ -56,7 +60,8 @@
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select 
 			number,	
-			money,	
+			ptmoney,	
+			chmoney,	
  			createtime,
 			updatetime,	
 			delivery_fee_id 
@@ -68,7 +73,8 @@
 	<select id="listAll" parameterType="pd" resultType="pd">
 		select 
 			number,	
-			money,	
+			ptmoney,	
+			chmoney,
  			createtime,
 			updatetime,	
 			delivery_fee_id 
@@ -82,7 +88,7 @@
 	<!-- 通过份数获取配送金额 -->
 	<select id="getMoneyByNumber" parameterType="String" resultType="String">
 		select 
- 			money
+ 			cast(ptmoney+chmoney as decimal(10,2) ) as money
  		from 
 			tb_delivery_fee
 		where 

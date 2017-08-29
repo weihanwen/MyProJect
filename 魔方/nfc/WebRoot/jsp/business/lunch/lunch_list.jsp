@@ -172,7 +172,7 @@
 			 window.parent.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="新增便当";
+			 diag.Title ="新增商品";
 			 diag.URL = '<%=basePath%>/lunch/goAdd.do';
 			 diag.Width = 700;
 			 diag.Height = 800;
@@ -232,7 +232,7 @@
 			 window.parent.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="编辑类别";
+			 diag.Title ="编辑商品";
 			 diag.URL = '<%=basePath%>/lunch/goEdit.do?lunch_id='+Id;
 			 diag.Width = 700;
 			 diag.Height = 800;

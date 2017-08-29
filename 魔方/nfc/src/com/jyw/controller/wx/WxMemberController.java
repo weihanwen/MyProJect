@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jyw.controller.base.BaseController;
+import com.jyw.entity.wx.OrderShop;
 import com.jyw.entity.wx.WxLogin;
 import com.jyw.service.business.Carousel_figureService;
 import com.jyw.service.business.CategoryService;
@@ -273,22 +275,22 @@ public class WxMemberController extends BaseController {
         		pd.put("category_id", category_id);
         		pd.put("order_type", order_type);
         		if(order_type.equals("2")){
-        			//判断今天是否设有预定时间
-        			pd.put("day", DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
-          			PageData daypd=scheduled_timeService.findByNowDay(pd); 
-          			if(daypd != null){
-          				long b1=(long) daypd.get("b1");
-          				long b2=(long) daypd.get("b2");
-          				if(b1>0 && b2>0){
-          					List<PageData> ydList=scheduled_timeService.listAllNowDay(pd);
-          					mv.addObject("varList", ydList);
-           				}else{
-          					mv.addObject("varList", new ArrayList<PageData>());
-           				}
-            	 		mv.setViewName("wx/wxgoodsdetail");
-          			}else{
-          				mv.setViewName("redirect:yuding.do");
-          			}
+//        			//判断今天是否设有预定时间（进不了直接购买）
+//        			pd.put("day", DateUtil.getAfterDayDate(DateUtil.getDay(), "1"));
+//          			PageData daypd=scheduled_timeService.findByNowDay(pd); 
+//          			if(daypd != null){
+//          				long b1=(long) daypd.get("b1");
+//          				long b2=(long) daypd.get("b2");
+//          				if(b1>0 && b2>0){
+//          					List<PageData> ydList=scheduled_timeService.listAllNowDay(pd);
+//          					mv.addObject("varList", ydList);
+//           				}else{
+//          					mv.addObject("varList", new ArrayList<PageData>());
+//           				}
+//            	 		mv.setViewName("wx/wxgoodsdetail");
+//          			}else{
+//          				mv.setViewName("redirect:yuding.do");
+//          			}
         		}else{
          			//3默认获取当日便当类别的所有
          			pd.put("day", DateUtil.getDay());
@@ -515,8 +517,6 @@ public class WxMemberController extends BaseController {
     			}else{
     				
     			}
-     			
-    			
      			mv.setViewName("wx/orderpay");
      		}else{
     			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
@@ -559,7 +559,7 @@ public class WxMemberController extends BaseController {
         		mv.addObject("addressList", addressList);
         		pd.remove("wxmember_id");
          		mv.addObject("pd", pd);
-    			mv.setViewName("wx/usered");
+    			mv.setViewName("wx/address");
     		}else{
     			mv.setViewName("redirect:../wxlogin/toLoginWx.do");
     		}
@@ -744,8 +744,10 @@ public class WxMemberController extends BaseController {
 					map.put("data", "");
 					return map;
 				}
-				//添加库存嘚定时器-5分钟
-				
+				//添加库存嘚定时器-5分钟订单未支付退还到账户
+ 			 	 OrderShop op=new OrderShop(order_id);
+				 Timer tt=new Timer();
+				 tt.schedule(op, 1000*60*5);
  			}
  			//获取微信支付嘚信息
 			String use_wx=pd.getString("use_wx");
@@ -760,6 +762,8 @@ public class WxMemberController extends BaseController {
 				
 				data.put("out_trade_no", order_id);
 				map.put("data", data);
+				//添加倒计时十分钟的时间存入session
+				
 			}
 			//减少会员使用积分
 			if(Integer.parseInt(use_integral) > 0){

@@ -28,7 +28,8 @@
  		<!-- 引入 -->
 		<script type="text/javascript" src="js/jquery-1.7.2.js"></script>
 		<style type="text/css">
-		td{
+ 		table{border:1px solid #ccc; border-collapse:collapse} th,td{border:1px solid #ccc}
+ 		td{
 			text-align: center;
 			width:30%;
 		}
@@ -41,25 +42,29 @@
 		<input type="hidden" name="lunchnumberstr" id="lunchnumberstr"  value=""/>
 		<div id="zhongxin" style="width: 90%;margin: 5% auto;">
 		<table style="width:100%">
-			<tr>
-				<td colspan="3">
-					菜谱日期 ：
-					<input class="span10 date-picker" name="day"  id="day" value="${pd.day}" type="text" data-date-format="yyyy-mm-dd"   placeholder="便当日期" style="width:208px;" >
- 				</td>
- 			</tr>
- 			<tr>
-				<td colspan="3" style="text-align: center;">---------------菜谱列表----------------------</td>
-			</tr>
-			<tr style="background-color: #f3f3f3">
- 				<td>商品名称</td>
-				<td>库存量</td>
-				<td>所属类别</td>
-			</tr>
+			<thead>
+ 				<tr>
+					<td colspan="4">
+						菜谱日期 ：
+						<input class="span10 date-picker" name="day"  id="day" value="${pd.day}" type="text" data-date-format="yyyy-mm-dd"   placeholder="便当日期" style="width:208px;" >
+	 				</td>
+	 			</tr>
+	 			<tr>
+					<td colspan="4" style="text-align: center;">---------------菜谱列表----------------------</td>
+				</tr>
+				<tr style="background-color: #f3f3f3">
+	 				<td>商品名称</td>
+					<td>库存量</td>
+					<td>所属类别</td>
+					<td>操作</td>
+				</tr>
+				
+			</thead>
+			<tbody>
 			<c:forEach items="${lunchList}" var="var">
-			
-					<c:choose>
+ 					<c:choose>
 							<c:when test="${fn:contains(pd.lunch_idstr,var.lunch_id )}">
-								<tr style="background-color: #ffb6b6">
+								<tr >
 					 	 			<td>
 						 				<input  checked onclick="changecolor(this)" type="checkbox" name="lunch" class="lunch" value="${var.lunch_id}" style="height: 20px;width: 20px;display: inherit;margin-top: -2px;" />${var.lunch_id}${var.lunch_name }
 						 			</td>
@@ -69,6 +74,10 @@
 					 	 			<td>
 						 				${var.title}
 					 	 			</td>
+					 	 			<td lunch_id="${var.lunch_id}">
+										<a style="display: block; float: left; margin-left: 16%;cursor: pointer; " title="上移" onclick="move(this,1)"> <img src="images/up.png" style="width: 25px;"></a>
+										<a style=" display: block; float: left; margin-left: 11%;cursor: pointer; " title="下移" onclick="move(this,-1)"> <img src="images/down.png" style="width: 25px;"></a>
+									</td>
 					 			</tr>
  							</c:when>
 							<c:otherwise>
@@ -82,10 +91,16 @@
 					 	 			<td>
 						 				${var.title}
 					 	 			</td>
+					 	 			<td lunch_id="${var.lunch_id}">
+										<a style="display: block; float: left; margin-left: 3%;cursor: pointer; " title="上移" onclick="move(this,1)"> <img src="images/up.png" style="width: 18px;"></a>
+										<a style=" display: block; float: left; margin-left: 3%;cursor: pointer; " title="下移" onclick="move(this,-1)"> <img src="images/down.png" style="width: 18px;"></a>
+									</td>
 					 			</tr>
 							</c:otherwise>
 					</c:choose>
   			</c:forEach>
+			</tbody>
+			
  		</table>
 		</div>
 		<div style="width:40%;padding-top:5%;margin:0 auto;">
@@ -159,6 +174,41 @@
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
  		}
+		
+		//修改排序
+		function move(obj,number){
+			var lunch_id_one=$(obj).parent().attr("lunch_id");
+			var lunch_id_two="";
+ 			var m;
+			var h="1";
+ 			if(number == "1"){
+				if($(obj).parent().parent().prev() == null ){
+					return;
+				}
+ 				m=$(obj).parent().parent().prev().html();
+ 				lunch_id_two=$(obj).parent().parent().prev().children("td").eq(3).attr("lunch_id");
+			}else{
+				if( $(obj).parent().parent().next() == null ){
+					return;
+				}
+				h="2";
+ 				m=$(obj).parent().parent().next().html();
+ 				lunch_id_two=$(obj).parent().parent().next().children("td").eq(3).attr("lunch_id");
+			}
+			var url = "<%=basePath%>/lunch/editSort.do?lunch_id_one="+lunch_id_one+"&lunch_id_two="+lunch_id_two;
+			$.get(url,function(data){
+				if(data=="success"){
+					if(h=="2"){
+						$(obj).parent().parent().next().remove();
+						$(obj).parent().parent().before("<tr>"+m+"</tr>");
+					}else{
+						$(obj).parent().parent().prev().remove();
+						$(obj).parent().parent().after("<tr>"+m+"</tr>");
+
+					}
+				}
+			});
+		}
 		
 		
 		

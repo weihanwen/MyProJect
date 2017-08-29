@@ -18,11 +18,12 @@ public class   WxOrderService {
 	private DaoSupport dao;
 	 
 	
+	
 	/*
 	 *在送餐费说明界面的展示订单 
 	 */
-	public List<PageData> listByStatusOrder(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("WxOrderMapper.listByStatusOrder", pd);
+	public List<PageData> getStatusIszero(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("WxOrderMapper.getStatusIszero", pd);
 	}
 	/*
 	 *获取个人订单列表
@@ -65,9 +66,13 @@ public class   WxOrderService {
 	public void saveOrderLunch(PageData pd)throws Exception{
 		dao.save("WxOrderMapper.savesaveOrderLunchOrder", pd);
 	}
-	
-	
 	/*
+	 *获取所有订单状态为0的订单
+	 */
+	public List<PageData> listByStatusOrder(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("WxOrderMapper.listByStatusOrder", pd);
+	}
+ 	/*
 	 * 情况订单历史记录order_status=0
 	 */
 	public void deleteOrder(PageData pd)throws Exception{
@@ -94,10 +99,10 @@ public class   WxOrderService {
 		dao.save("WxOrderMapper.tb_ordertime", pd);
 	}
   	/*
-	*判断在十分钟之内相同的地址是有订单
+	*判断在十分钟之内相同的地址是所有订单
 	*/
-	public Integer isHavingOrderByNow(PageData pd)throws Exception{
-		return (Integer)dao.findForObject("WxOrderMapper.isHavingOrderByNow", pd);
+	public  List<PageData>  isHavingOrderByNow(PageData pd)throws Exception{
+		return ( List<PageData> )dao.findForList("WxOrderMapper.isHavingOrderByNow", pd);
 	}
 	 
 	

@@ -36,20 +36,14 @@
 	<div class="row-fluid">
 			<!-- 检索  -->
 			<form action="delivery_fee/list.do" method="post" name="Form" id="Form">
-			<table>
-				<tr>
- 					<td>
-						餐盒费用:${canhefee}
-					</td>
- 				</tr>
-			</table>
-			<!-- 检索  -->
+ 			<!-- 检索  -->
  			<table id="table_report" class="table table-striped table-bordered table-hover">
  				<thead>
 					<tr>
 						<!-- <th>序号</th> -->
 						<th>数量（份）</th>
-						<th>配送费+餐盒费 （元）</th>
+						<th>配送费（元）</th>
+						<th>餐盒费（元）</th>
  						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -62,7 +56,8 @@
 							<tr>
 								<%-- <td class='center' style="width: 30px;">${vs.index+1}</td> --%>
 								<td>${var.number}</td>
-								<td>${var.money}</td>
+								<td>${var.ptmoney}</td>
+								<td>${var.chmoney}</td>
  								<td style="width: 30px;" class="center">
 										 <div class='hidden-phone visible-desktop btn-group'>
 	 										<c:if test="${QX.edit != 1 && QX.del != 1 }">
@@ -186,7 +181,7 @@
 			 window.parent.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
-			 diag.Title ="编辑配送费";
+			 diag.Title ="编辑配送费+餐盒费";
 			 diag.URL = '<%=basePath%>/delivery_fee/goEdit.do?delivery_fee_id='+Id;
 			 diag.Width = 600;
 			 diag.Height = 500;

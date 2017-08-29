@@ -18,8 +18,8 @@
   	<div style="width:100%;height:100%;margin:0;padding:0;" >
   		<img alt="" src="images/sy.jpg" style="width:100%;">
   	</div>
-    <%-- <script type="text/javascript">
+    <script type="text/javascript">
     	document.location = "<%=path%>/login_toLogin.do";
-    </script> --%>
+    </script>  
   </body>
 </html>

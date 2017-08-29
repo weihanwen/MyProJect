@@ -70,11 +70,8 @@
 			</tr>
 			<tr>
 				<td>优惠价格 ：</td>
-				<td>
-					<input    type="radio" name="_money" class="_money"   ${pd.sale_money eq '25'?'checked':''} onclick="changeSaleMoney('25')"/>25元 
-					<input    type="radio" name="_money"  class="_money" ${pd.sale_money eq '28'?'checked':''} onclick="changeSaleMoney('28')"/>28元
-					<input     type="radio" name="_money"  class="_money" ${pd.sale_money eq '38'?'checked':''} onclick="changeSaleMoney('38')" />38元 
-					<input  type="hidden" name="sale_money" id="sale_money" value="${pd.sale_money}" />
+				<td> 
+				<input  class="chzn-input"  type="number" name="sale_money" id="sale_money" value="${pd.sale_money}" />
 				</td>
 			</tr>
 			 <tr>
@@ -175,11 +172,7 @@
 			 
      	});
 		
-		
-		//改变出售价格
-		function changeSaleMoney(value){
-			$("#sale_money").val(value);
-		}
+		 
 
 		//改变是否上架
 		function changeShelves(value){
@@ -260,6 +253,16 @@
 		            time:1
 		        });
 				$("#show_sale_money").focus();
+				return false;
+			}
+			if($("#sale_money").val()==""){
+				$("#sale_money").tips({
+					side:3,
+		            msg:'请输入实际价格',
+		            bg:'#AE81FF',
+		            time:1
+		        });
+				$("#sale_money").focus();
 				return false;
 			}
 			$("#Form").submit();

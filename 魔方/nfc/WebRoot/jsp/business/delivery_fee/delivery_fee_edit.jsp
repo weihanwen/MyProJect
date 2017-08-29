@@ -38,10 +38,13 @@
 				<td><input  type="text" name="number" id="number" value="${pd.number }" maxlength="32" placeholder="这里输入量（份） "    style="width:208px;" readonly="readonly"/></td>
 			</tr>
 			<tr>
-				<td>金额（元）：</td>
-				<td><input  type="text" name="money" id="money" value="${pd.money }" maxlength="32" placeholder="这里输入金额（元） "   style="width:208px;"/></td>
+				<td>跑腿金额（元）：</td>
+				<td><input  type="text" name="ptmoney" id="ptmoney" value="${pd.ptmoney }" maxlength="32" placeholder="这里输入金额（元） "   style="width:208px;"/></td>
 			</tr>
-			 
+			 <tr>
+				<td>餐盒金额（元）：</td>
+				<td><input  type="text" name="chmoney" id="chmoney" value="${pd.chmoney }" maxlength="32" placeholder="这里输入金额（元） "   style="width:208px;"/></td>
+			</tr>
  		</table>
 		</div>
 		<div style="width:40%;padding-top:5%;margin:0 auto;">
@@ -84,14 +87,24 @@
 				$("#number").focus();
 				return false;
 			}
-			if($("#money").val()==""){
-				$("#money").tips({
+			if($("#pcmoney").val()==""){
+				$("#pcmoney").tips({
 					side:3,
-		            msg:'请输入金额',
+		            msg:'请输入跑腿金额',
 		            bg:'#AE81FF',
 		            time:1
 		        });
-				$("#money").focus();
+				$("#pcmoney").focus();
+				return false;
+			}
+			if($("#chmoney").val()==""){
+				$("#chmoney").tips({
+					side:3,
+		            msg:'请输入餐盒金额',
+		            bg:'#AE81FF',
+		            time:1
+		        });
+				$("#chmoney").focus();
 				return false;
 			}
 			$("#Form").submit();
