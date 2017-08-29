@@ -581,11 +581,25 @@ public class WxMemberController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
    		PageData pd = new PageData();
     	try {
-    		//获取同个地址得正在订餐得同事：根据地址检索，今天正在配送订单得同事
-    		
-    		//获取所有成功订餐得同事：按时间排序，最近得10份订单得，已完成得
-    		
-    		mv.addObject("pd", pd);
+    		pd=this.getPageData();
+    		PageData addresspd=wxmemberService.findAddressDetail(pd);
+    		if(addresspd !=null){
+    			addresspd.put("order_status", "2");
+    			//获取同个地址得正在订餐得同事：根据地址检索，今天正在配送订单得同事
+        		List<PageData>  timeList=WxOrderService.listByStatusOrder(addresspd);
+        		mv.addObject("timeList", timeList);
+        		String time="0";
+        		if(timeList.size() >0 ){
+        			time=timeList.get(timeList.size()-1).get("time").toString();
+        		}
+        		mv.addObject("time", time);
+        		//获取所有成功订餐得同事：按时间排序，最近得10份订单得，已完成得
+        		addresspd.put("order_status", "3");
+        		List<PageData> overList=WxOrderService.listByStatusOrder(addresspd);
+        		mv.addObject("overList", overList);
+        		mv.addObject("overnumber", overList.size());
+     		}
+     		mv.addObject("pd", pd);
 			mv.setViewName("wx/ptdetail");
         } catch (Exception e) {
    			e.printStackTrace();

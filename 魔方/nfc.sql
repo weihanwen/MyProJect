@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50173
 File Encoding         : 65001
 
-Date: 2017-08-20 20:40:58
+Date: 2017-08-30 00:20:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -290,7 +290,7 @@ CREATE TABLE `tb_daily_menu` (
 -- Records of tb_daily_menu
 -- ----------------------------
 INSERT INTO `tb_daily_menu` VALUES ('3', '2017-08-19', '001,', null, '2017-08-19 15:17:53');
-INSERT INTO `tb_daily_menu` VALUES ('4', '2017-08-20', '002,001,', null, '2017-08-19 15:18:28');
+INSERT INTO `tb_daily_menu` VALUES ('4', '2017-08-20', '001,002,', null, '2017-08-29 23:54:07');
 
 -- ----------------------------
 -- Table structure for `tb_delivery_fee`
@@ -299,7 +299,8 @@ DROP TABLE IF EXISTS `tb_delivery_fee`;
 CREATE TABLE `tb_delivery_fee` (
   `delivery_fee_id` int(11) NOT NULL AUTO_INCREMENT,
   `number` int(11) DEFAULT NULL,
-  `money` int(11) DEFAULT NULL,
+  `ptmoney` varchar(100) DEFAULT NULL,
+  `chmoney` varchar(100) DEFAULT '0',
   `createtime` datetime DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`delivery_fee_id`)
@@ -308,17 +309,17 @@ CREATE TABLE `tb_delivery_fee` (
 -- ----------------------------
 -- Records of tb_delivery_fee
 -- ----------------------------
-INSERT INTO `tb_delivery_fee` VALUES ('1', '1', '5', '2017-07-29 14:09:52', '2017-07-29 14:12:53');
-INSERT INTO `tb_delivery_fee` VALUES ('2', '2', '6', '2017-07-29 14:09:57', '2017-07-29 14:12:55');
-INSERT INTO `tb_delivery_fee` VALUES ('3', '3', '7', '2017-07-29 14:09:52', '2017-07-29 14:12:56');
-INSERT INTO `tb_delivery_fee` VALUES ('4', '4', '8', '2017-07-29 14:09:52', '2017-07-29 14:12:56');
-INSERT INTO `tb_delivery_fee` VALUES ('5', '5', '9', '2017-07-29 14:09:52', '2017-07-29 14:12:59');
-INSERT INTO `tb_delivery_fee` VALUES ('6', '6', '8', '2017-07-29 14:09:52', '2017-07-29 14:13:00');
-INSERT INTO `tb_delivery_fee` VALUES ('7', '7', '7', '2017-07-29 14:09:52', '2017-07-29 14:13:01');
-INSERT INTO `tb_delivery_fee` VALUES ('8', '8', '6', '2017-07-29 14:09:52', '2017-07-29 14:13:02');
-INSERT INTO `tb_delivery_fee` VALUES ('9', '9', '5', '2017-07-29 14:09:52', '2017-07-29 14:13:03');
-INSERT INTO `tb_delivery_fee` VALUES ('10', '10', '4', '2017-07-29 14:09:52', '2017-07-29 14:13:04');
-INSERT INTO `tb_delivery_fee` VALUES ('11', null, null, '2017-07-31 16:30:23', '2017-07-31 16:30:23');
+INSERT INTO `tb_delivery_fee` VALUES ('1', '1', '5', '0', '2017-07-29 14:09:52', '2017-07-29 14:12:53');
+INSERT INTO `tb_delivery_fee` VALUES ('2', '2', '6', '0', '2017-07-29 14:09:57', '2017-07-29 14:12:55');
+INSERT INTO `tb_delivery_fee` VALUES ('3', '3', '7', '0', '2017-07-29 14:09:52', '2017-07-29 14:12:56');
+INSERT INTO `tb_delivery_fee` VALUES ('4', '4', '8', '0', '2017-07-29 14:09:52', '2017-07-29 14:12:56');
+INSERT INTO `tb_delivery_fee` VALUES ('5', '5', '9', '0', '2017-07-29 14:09:52', '2017-07-29 14:12:59');
+INSERT INTO `tb_delivery_fee` VALUES ('6', '6', '8', '0', '2017-07-29 14:09:52', '2017-07-29 14:13:00');
+INSERT INTO `tb_delivery_fee` VALUES ('7', '7', '7', '0', '2017-07-29 14:09:52', '2017-07-29 14:13:01');
+INSERT INTO `tb_delivery_fee` VALUES ('8', '8', '6', '0', '2017-07-29 14:09:52', '2017-07-29 14:13:02');
+INSERT INTO `tb_delivery_fee` VALUES ('9', '9', '5', '0', '2017-07-29 14:09:52', '2017-07-29 14:13:03');
+INSERT INTO `tb_delivery_fee` VALUES ('10', '10', '4', '0', '2017-07-29 14:09:52', '2017-07-29 14:13:04');
+INSERT INTO `tb_delivery_fee` VALUES ('11', null, null, '0', '2017-07-31 16:30:23', '2017-07-31 16:30:23');
 
 -- ----------------------------
 -- Table structure for `tb_log`
@@ -370,8 +371,8 @@ CREATE TABLE `tb_lunch` (
 -- ----------------------------
 -- Records of tb_lunch
 -- ----------------------------
-INSERT INTO `tb_lunch` VALUES ('001', '333', '121', '35', 'http://localhost/FileSave//lunch/3aaf4cdbcbf84c2f8a0e33f4f2eb3e6c.jpg', 'http://localhost/FileSave//lunch/76f7dc8e0d6f492296ca1401389990e3.jpg', 'http://localhost/FileSave//lunch/8ad20ce730f94a88826b16998c145d78.jpg', 'http://localhost/FileSave//lunch/4a8844f60da7401481866cb33c31b887.jpg', '1', null, '7', '0', '0', '222', '222', '2222', '222', '2017-08-19 14:23:06', '2017-08-20 14:55:23', '1', '0', '0');
-INSERT INTO `tb_lunch` VALUES ('002', '212', '121', '35', 'http://localhost/FileSave//lunch/d3afc28fede24de18a553d5c115cf41f.jpg', 'http://localhost/FileSave//lunch/cc14589e9c444b039c6a9a1a4c5ec0a2.jpg', 'http://localhost/FileSave//lunch/972309a66d304093803979b231504aad.jpg', 'http://localhost/FileSave//lunch/9a0787a535974e9e968e1f0e40c3b09d.jpg', '1', null, '1', '0', '0', '2112', '323', '12', '412', '2017-08-19 14:57:10', '2017-08-20 14:55:24', '1', '0', '0');
+INSERT INTO `tb_lunch` VALUES ('001', '333', '121', '35', 'http://localhost/FileSave//lunch/3aaf4cdbcbf84c2f8a0e33f4f2eb3e6c.jpg', 'http://localhost/FileSave//lunch/76f7dc8e0d6f492296ca1401389990e3.jpg', 'http://localhost/FileSave//lunch/8ad20ce730f94a88826b16998c145d78.jpg', 'http://localhost/FileSave//lunch/4a8844f60da7401481866cb33c31b887.jpg', '1', null, '7', '1', '0', '222', '222', '2222', '222', '2017-08-19 14:23:06', '2017-08-29 23:54:06', '1', '0', '0');
+INSERT INTO `tb_lunch` VALUES ('002', '212', '121', '44', 'http://localhost/FileSave//lunch/d3afc28fede24de18a553d5c115cf41f.jpg', 'http://localhost/FileSave//lunch/cc14589e9c444b039c6a9a1a4c5ec0a2.jpg', 'http://localhost/FileSave//lunch/972309a66d304093803979b231504aad.jpg', 'http://localhost/FileSave//lunch/9a0787a535974e9e968e1f0e40c3b09d.jpg', '1', null, '1', '2', '0', '2112', '323', '12', '412', '2017-08-19 14:57:10', '2017-08-29 23:54:06', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for `tb_order`
@@ -412,6 +413,21 @@ CREATE TABLE `tb_order` (
 -- ----------------------------
 INSERT INTO `tb_order` VALUES ('1', '1', '1', '1', '1', '1', '22', '1', '1', null, '99', '1', '1', '1', '00:00:00', '2017-08-01', '10:07:33', '1', '2', '0', null, '2017-08-01 10:07:30', null, '2017-08-19 18:06:31', '1', '1');
 INSERT INTO `tb_order` VALUES ('22', '2', '2', '2', '2', '2', '2', '2', '2', null, '4', '2', '2', '2', '10:09:02', '2017-08-01', '10:09:08', '2', '1', '0', null, '2017-08-01 10:09:13', null, '2017-08-19 18:06:29', '1', '1');
+
+-- ----------------------------
+-- Table structure for `tb_ordertime`
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_ordertime`;
+CREATE TABLE `tb_ordertime` (
+  `ordertime_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` varchar(100) DEFAULT NULL,
+  `createtime` datetime DEFAULT NULL,
+  PRIMARY KEY (`ordertime_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_ordertime
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `tb_order_lunch`

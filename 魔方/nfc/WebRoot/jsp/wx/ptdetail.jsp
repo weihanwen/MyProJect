@@ -90,84 +90,42 @@
 		</header>
  		<section>
 		    <div class="one">
-                <span>1.计算机并发并非知识多个处理器都参与进来计算就可以了，会牵扯到一些列硬件的问题，最直接的就是要和内存做交互。但计算机的存储设备与处理器的预算速度相差太大，完全不能满足处理器的处理速度，怎么办，这就是后续加入的一层读写速度接近处理器运算速度的告诉缓存来作为处理器和内存之间的缓冲。</span>
-                <span>2.高速缓存一边把使用的数据，从内存复制搬入，方便处理器快速运算，一边把运算后的数据，再同步到主内存中，如此处理器就无需等待了。</span>
-                <span>3.高速缓存虽然解决了处理器和内存的矛盾，但也为计算机带来了另一个问题：缓存一致性。特别是当多个处理器都涉及到同一块主内存区域的时候，将可能会导致各自的缓存数据不一致。</span>
+                 <span> 1、配送费+餐盒费每份费用5元，五份及五份以上免配送费+餐盒费；</span>
+                <span>2、同一公司同一地址十分钟内下单达到5份全免费用；以该时段内第一个人下单时间为准；该批订单送出后重新计时；</span>
+                <span>3、已支付的配送费根据该时段内订餐数量进行返还；返还方式为积分，积分1分=1元，可在下次订餐时抵现金使用。
+				例：李先生11:30成功订餐1份（以支付时间为准），支付配送费和餐盒费共5元，同公司的赵小姐、钱先生、孙小姐、李先生分别在11:32、11:33、11:38、11:39分成功订餐，各支付配送费和餐盒费5元，到11:40时，共订餐5份，免配送费和餐盒费，则五位同事每人帐户返积分5分（价值5元）；
+				 </span>
             </div>
             <div class="two">
                  <div class="titlediv">
                     <span class="span1"> 标题1</span>
-                     <span class="span2"> 22:22</span>
+                     <span class="span2"> ${time}</span>
                  </div>
                  <ul>
-                     <li>
-                         <img  src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                         <span >11:11预定</span>
-                     </li>
-                     <li>
-                         <img  src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                         <span >11:11预定</span>
-                     </li>
-                     <li>
-                         <img src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                         <span>11:11预定</span>
-                     </li>
-                     <li>
-                         <img src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                         <span>11:11预定</span>
-                     </li>
-                     <li>
-                         <img src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                         <span>11:11预定</span>
-                     </li>
+                   <c:forEach items="${timeList}" var="var" varStatus="vs">
+                    	<c:if test="${vs.index+1 <=6 }">
+	                    	 <li>
+		                         <img  src="${var.image_url}" />
+		                         <span >${var.time}前预定</span>
+		                     </li>
+                    	</c:if>
+                   </c:forEach>
                  </ul>
             </div>
             <div class="three">
                 <div class="titlediv">
                     <span class="span1"> 标题2</span>
-                    <span class="span2"> 22:22</span>
+                    <span class="span2"> 已完成${overnumber}</span>
                 </div>
                 <ul>
-                    <li>
-                        <img src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                        <span >11:11预定</span>
-                    </li>
-                    <li>
-                        <img height="50px" src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                        <span >11:11预定</span>
-                    </li>
-                    <li>
-                        <img src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                        <span>11:11预定</span>
-                    </li>
-                    <li>
-                        <img src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                        <span>11:11预定</span>
-                    </li>
-                    <li>
-                        <img src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                        <span>11:11预定</span>
-                    </li>
-                    <li>
-                        <img src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                        <span>11:11预定</span>
-                    </li>
-                    <li>
-                        <img src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                        <span>11:11预定</span>
-                    </li>
-                    <li>
-                        <img src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                        <span>11:11预定</span>
-                    </li>
-                    <li>
-                        <img src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                        <span>11:11预定</span>
-                    </li>
-                    <li>
-                        <img src="http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg" />
-                        <span>11:11预定</span>
-                    </li>
+                    <c:forEach items="${overList}" var="var" varStatus="vs">
+                    	<c:if test="${vs.index+1 <= 12 }">
+	                    	 <li>
+		                         <img  src="${var.image_url}" />
+		                         <span >${var.time}前预定</span>
+		                     </li>
+                    	</c:if>
+                   </c:forEach>
                 </ul>
             </div>
 		</section>
